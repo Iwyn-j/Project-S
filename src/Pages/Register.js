@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
-import './Register.css';
-import { auth } from '../firebase-config';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import React, { useState } from "react";
+import "./Register.css";
+import { auth, db } from "../firebase-config";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    username: '',
-    email: '',
-    gender: '',
-    password: '',
-    confirmPassword: '',
+    firstName: "",
+    lastName: "",
+    username: "",
+    email: "",
+    gender: "",
+    password: "",
+    confirmPassword: "",
   });
 
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -24,17 +27,35 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    // Password validation
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match.');
+      setError("Passwords do not match.");
       return;
     }
 
     try {
-      // Firebase registration using email and password
-      await createUserWithEmailAndPassword(auth, formData.email, formData.password);
-      alert('Registration successful!');
-      setError('');
+      // Register user with email and password
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+
+      // Save additional user data to Firestore
+      const user = userCredential.user;
+      await setDoc(doc(db, "users", user.uid), {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        username: formData.username,
+        email: formData.email,
+        gender: formData.gender,
+        createdAt: new Date(),
+      });
+
+      alert("Registration successful!");
+      setError("");
+
+      // Redirect to Login page
+      navigate("/login");
     } catch (err) {
       setError(err.message);
     }
@@ -42,11 +63,9 @@ const Register = () => {
 
   return (
     <div className="register-container">
-      {/* Floating Background Shapes */}
       <div className="floating-shape shape-blue"></div>
       <div className="floating-shape shape-orange"></div>
 
-      {/* Registration Form */}
       <form className="register-form" onSubmit={handleRegister}>
         <h3>Registration Form</h3>
 
@@ -96,7 +115,7 @@ const Register = () => {
           />
         </div>
 
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
 
         <button type="submit" className="register-button">
           Register
