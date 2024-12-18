@@ -60,19 +60,68 @@
 
 // export default App;
 
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+// import React from 'react';
+// import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+// import './App.css'; // App styles
+// import './Pages/Login.css'; // Login styles
+// import Login from './Pages/Login'; // Login component
+// import './Pages/Register.css'; // Login styles
+// import Register from './Pages/Register';
+// import ChatBot from "./Pages/Chatbot";
+
+// function App() {
+//   return (
+//     <Router>
+//       <Routes>
+//         {/* Route for the Home Page */}
+//         <Route
+//           path="/"
+//           element={
+//             <div className="App">
+//               <header className="App-header">
+//                 <img src="./logo.png" alt="Logo" className="App-logo" />
+//                 <h1>Welcome to Project S</h1>
+//                 <p>This is Project S, and Yash and Iwyn are going to be working on this form.</p>
+
+//                 <div className="button-container">
+//                   {/* <button onClick={() => alert('Welcome!')}>Register</button> */}
+
+//                   {/* Register button navigates to Login */}
+//                   <Link to="/login">
+//                     <button>Login</button>
+//                   </Link>
+//                   <Link to="/register">
+//                     <button>Register</button>
+//                   </Link>
+//                 </div>
+//               </header>
+//             </div>
+//           }
+//         />
+
+//         {/* Route for the Login Page */}
+//         <Route path="/login" element={<Login />} />
+//         <Route path="/chatbot" element={<Chatbot />} />
+        
+//         <Route path="/register" element={<Register />} />
+//       </Routes>
+//     </Router>
+//   );
+// }
+
+// export default App;
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import './App.css'; // App styles
-import './Pages/Login.css'; // Login styles
 import Login from './Pages/Login'; // Login component
-import './Pages/Register.css'; // Login styles
-import Register from './Pages/Register';
+import Register from './Pages/Register'; // Register component
+import ChatBot from './Pages/ChatBot'; // ChatBot component
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Route for the Home Page */}
+        {/* Home Page */}
         <Route
           path="/"
           element={
@@ -83,9 +132,7 @@ function App() {
                 <p>This is Project S, and Yash and Iwyn are going to be working on this form.</p>
 
                 <div className="button-container">
-                  {/* <button onClick={() => alert('Welcome!')}>Register</button> */}
-
-                  {/* Register button navigates to Login */}
+                  {/* Home page buttons */}
                   <Link to="/login">
                     <button>Login</button>
                   </Link>
@@ -98,10 +145,14 @@ function App() {
           }
         />
 
-        {/* Route for the Login Page */}
+        {/* Login Page */}
         <Route path="/login" element={<Login />} />
-        
+
+        {/* Register Page */}
         <Route path="/register" element={<Register />} />
+
+        {/* ChatBot Page */}
+        <Route path="/chatbot" element={<ChatBot />} />
       </Routes>
     </Router>
   );

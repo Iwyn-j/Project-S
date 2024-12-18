@@ -1,0 +1,80 @@
+/* General Page Styling */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #000; /* Black Background */
+    color: #fff;
+    text-align: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    font-size: 8rem;
+    margin: 0;
+    color: #ff4d6d; /* Bright Red */
+    text-shadow: 0 0 10px #ff4d6d, 0 0 20px #ff4d6d;
+}
+
+p {
+    font-size: 1.5rem;
+    margin: 1em 0;
+    color: #c8c8c8; /* Light Grey */
+}
+
+/* Redirect Button */
+button {
+    background: linear-gradient(90deg, #ff4d6d, #ffafcc);
+    color: #000;
+    border: none;
+    padding: 1em 2.5em;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(255, 77, 109, 0.4);
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(255, 77, 109, 0.6);
+}
+
+/* Minimal Character Styling */
+.character {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    background: #ff4d6d; /* Bright Red */
+    border-radius: 50%;
+    box-shadow: 0 0 10px #ff4d6d;
+    margin: 20px auto;
+}
+
+.character::before, .character::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 60px;
+    background: #ffafcc; /* Light Red */
+    border-radius: 10px;
+    top: 50px;
+}
+
+.character::before {
+    left: -30px;
+}
+
+.character::after {
+    right: -30px;
+}
