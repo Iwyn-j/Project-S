@@ -110,11 +110,61 @@
 // }
 
 // export default App;
+// import React from "react";
+// import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+// import './App.css'; // App styles
+// import Login from './Pages/Login'; // Login component
+// import Register from './Pages/Register'; // Register component
+// import ChatBot from './Pages/ChatBot'; // ChatBot component
+
+// function App() {
+//   return (
+//     <Router>
+//       <Routes>
+//         {/* Home Page */}
+//         <Route
+//           path="/"
+//           element={
+//             <div className="App">
+//               <header className="App-header">
+//                 <img src="./logo.png" alt="Logo" className="App-logo" />
+//                 <h1>Welcome to Project S</h1>
+//                 <p>This is Project S, and Yash and Iwyn are going to be working on this form.</p>
+
+//                 <div className="button-container">
+//                   {/* Home page buttons */}
+//                   <Link to="/login">
+//                     <button>Login</button>
+//                   </Link>
+//                   <Link to="/register">
+//                     <button>Register</button>
+//                   </Link>
+//                 </div>
+//               </header>
+//             </div>
+//           }
+//         />
+
+//         {/* Login Page */}
+//         <Route path="/login" element={<Login />} />
+
+//         {/* Register Page */}
+//         <Route path="/register" element={<Register />} />
+
+//         {/* ChatBot Page */}
+//         <Route path="/chatbot" element={<ChatBot />} />
+//       </Routes>
+//     </Router>
+//   );
+// }
+
+// export default App;
+
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import './App.css'; // App styles
-import Login from './Pages/Login'; // Login component
-import Register from './Pages/Register'; // Register component
+import "./App.css"; // Import CSS file
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
 import ChatBot from './Pages/ChatBot'; // ChatBot component
 
 function App() {
@@ -125,33 +175,47 @@ function App() {
         <Route
           path="/"
           element={
-            <div className="App">
-              <header className="App-header">
-                <img src="./logo.png" alt="Logo" className="App-logo" />
-                <h1>Welcome to Project S</h1>
-                <p>This is Project S, and Yash and Iwyn are going to be working on this form.</p>
+            <div className="landing-page">
+              {/* Navigation Bar */}
+              <nav className="navbar">
+                <div className="logo">Project S</div>
+                <ul className="nav-links">
+                  <li>
+                    <Link to="/login">Login</Link>
+                  </li>
+                  <li>
+                    <Link to="/register">Register</Link>
+                  </li>
+                </ul>
+              </nav>
 
-                <div className="button-container">
-                  {/* Home page buttons */}
-                  <Link to="/login">
-                    <button>Login</button>
-                  </Link>
-                  <Link to="/register">
-                    <button>Register</button>
-                  </Link>
+              {/* Main Section */}
+              <main className="main-section">
+                <div className="content">
+                  <h1>Welcome.</h1>
+                  <p>
+                    Explore Project S: crafted to bring intuitive and seamless
+                    experiences. Let Yash and Iwyn guide you through this
+                    journey.
+                  </p>
+                  <div className="buttons">
+                    <Link to="/register">
+                      <button className="get-started-btn">Get Started</button>
+                    </Link>
+                  </div>
                 </div>
-              </header>
+
+                {/* Visual Design Elements */}
+                <div className="visuals">
+                  <div className="abstract-shape shape-1"></div>
+                  <div className="abstract-shape shape-2"></div>
+                </div>
+              </main>
             </div>
           }
         />
-
-        {/* Login Page */}
         <Route path="/login" element={<Login />} />
-
-        {/* Register Page */}
         <Route path="/register" element={<Register />} />
-
-        {/* ChatBot Page */}
         <Route path="/chatbot" element={<ChatBot />} />
       </Routes>
     </Router>
@@ -159,6 +223,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
