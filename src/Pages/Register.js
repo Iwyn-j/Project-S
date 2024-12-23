@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Register.css";
 import { auth, db } from "../firebase-config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const Register = () => {
@@ -42,14 +42,17 @@ const Register = () => {
 
       // Save additional user data to Firestore
       const user = userCredential.user;
-      await setDoc(doc(db, "users", user.uid), {
+      const userDetails = {
+        uid: user.uid, // Unique user ID
         firstName: formData.firstName,
         lastName: formData.lastName,
         username: formData.username,
         email: formData.email,
         gender: formData.gender,
-        createdAt: new Date(),
-      });
+        createdAt: serverTimestamp(),
+      };
+
+      await setDoc(doc(db, "users", user.uid), userDetails);
 
       alert("Registration successful!");
       setError("");
@@ -57,7 +60,7 @@ const Register = () => {
       // Redirect to Login page
       navigate("/login");
     } catch (err) {
-      setError(err.message);
+      setError(`Registration failed: ${err.message}`);
     }
   };
 
@@ -72,27 +75,27 @@ const Register = () => {
         <div className="form-row">
           <div className="form-group">
             <label htmlFor="firstName">First Name</label>
-            <input type="text" id="firstName" placeholder="First Name" onChange={handleChange} />
+            <input type="text" id="firstName" placeholder="First Name" onChange={handleChange} required />
           </div>
           <div className="form-group">
             <label htmlFor="lastName">Last Name</label>
-            <input type="text" id="lastName" placeholder="Last Name" onChange={handleChange} />
+            <input type="text" id="lastName" placeholder="Last Name" onChange={handleChange} required />
           </div>
         </div>
 
         <div className="form-group">
           <label htmlFor="username">Username</label>
-          <input type="text" id="username" placeholder="Username" onChange={handleChange} />
+          <input type="text" id="username" placeholder="Username" onChange={handleChange} required />
         </div>
 
         <div className="form-group">
           <label htmlFor="email">Email Address</label>
-          <input type="email" id="email" placeholder="Email Address" onChange={handleChange} />
+          <input type="email" id="email" placeholder="Email Address" onChange={handleChange} required />
         </div>
 
         <div className="form-group">
           <label htmlFor="gender">Gender</label>
-          <select id="gender" onChange={handleChange}>
+          <select id="gender" onChange={handleChange} required>
             <option value="">Select Gender</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
@@ -102,7 +105,7 @@ const Register = () => {
 
         <div className="form-group">
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" placeholder="Password" onChange={handleChange} />
+          <input type="password" id="password" placeholder="Password" onChange={handleChange} required />
         </div>
 
         <div className="form-group">
@@ -112,6 +115,7 @@ const Register = () => {
             id="confirmPassword"
             placeholder="Confirm Password"
             onChange={handleChange}
+            required
           />
         </div>
 

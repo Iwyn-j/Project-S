@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./Login.css";
-import { auth } from "../firebase-config";
+import { auth, db } from "../firebase-config";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { doc, collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const Login = () => {
@@ -15,7 +16,14 @@ const Login = () => {
 
     try {
       // Perform Firebase authentication
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Log the session into Firestore
+      const sessionRef = collection(db, "users", user.uid, "sessions");
+      await addDoc(sessionRef, {
+        loggedInAt: serverTimestamp(),
+      });
 
       // Alert user of successful login
       alert("Login successful!");
