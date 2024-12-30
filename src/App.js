@@ -162,10 +162,11 @@
 
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import "./App.css"; // Import CSS file
+import "./App.css";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
-import ChatBot from './Pages/ChatBot'; // ChatBot component
+import ChatBot from "./Pages/ChatBot";
+import Guideline from "./Pages/Guideline"; // Correct import of the Guideline component
 
 function App() {
   return (
@@ -176,7 +177,6 @@ function App() {
           path="/"
           element={
             <div className="landing-page">
-              {/* Navigation Bar */}
               <nav className="navbar">
                 <div className="logo">Project S</div>
                 <ul className="nav-links">
@@ -188,27 +188,18 @@ function App() {
                   </li>
                 </ul>
               </nav>
-
-              {/* Main Section */}
               <main className="main-section">
                 <div className="content">
                   <h1>Welcome.</h1>
                   <p>
                     Explore Project S: crafted to bring intuitive and seamless
-                    experiences. Let Yash and Iwyn guide you through this
-                    journey.
+                    experiences. Let Yash and Iwyn guide you through this journey.
                   </p>
                   <div className="buttons">
                     <Link to="/register">
                       <button className="get-started-btn">Get Started</button>
                     </Link>
                   </div>
-                </div>
-
-                {/* Visual Design Elements */}
-                <div className="visuals">
-                  <div className="abstract-shape shape-1"></div>
-                  <div className="abstract-shape shape-2"></div>
                 </div>
               </main>
             </div>
@@ -217,13 +208,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/chatbot" element={<ChatBot />} />
+        <Route path="/guideline" element={<Guideline />} /> {/* Correct Route */}
       </Routes>
     </Router>
   );
 }
 
 export default App;
-
-
-
-

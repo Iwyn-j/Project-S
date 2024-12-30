@@ -313,8 +313,9 @@ const ChatBot = () => {
   const [isCompleted, setIsCompleted] = useState(false); // Flag to indicate completion
   const navigate = useNavigate();
 
+  // Fetch user name and create a new session
   useEffect(() => {
-    const fetchUserNameAndCreateSession = async () => {
+    const fetchUserDataAndCreateSession = async () => {
       try {
         const user = auth.currentUser;
 
@@ -343,7 +344,7 @@ const ChatBot = () => {
       }
     };
 
-    fetchUserNameAndCreateSession();
+    fetchUserDataAndCreateSession();
   }, [navigate]);
 
   const handleNext = async () => {
@@ -351,7 +352,10 @@ const ChatBot = () => {
 
     const currentQuestion = questions[currentQuestionIndex];
 
-    if (inputValue.trim() === "") return;
+    if (inputValue.trim() === "") {
+      alert("Please provide an answer before proceeding.");
+      return;
+    }
 
     setResponses((prev) => ({ ...prev, [currentQuestion.question]: inputValue }));
 
@@ -360,11 +364,11 @@ const ChatBot = () => {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
       setIsCompleted(true); // Mark as completed
-      await saveToFirebase();
+      await saveResponsesToFirebase(); // Save responses and navigate to guideline
     }
   };
 
-  const saveToFirebase = async () => {
+  const saveResponsesToFirebase = async () => {
     try {
       const user = auth.currentUser;
 
@@ -386,9 +390,9 @@ const ChatBot = () => {
         completedAt: serverTimestamp(),
       });
 
-      alert("Responses saved successfully!");
-      navigate("/");
+      navigate("/guideline"); // Navigate to the Guideline page
     } catch (error) {
+      console.error("Error saving responses:", error.message);
       alert(`Failed to save responses: ${error.message}`);
     }
   };
@@ -407,7 +411,7 @@ const ChatBot = () => {
         <ChatContent>
           {userName && currentQuestionIndex === 0 && (
             <ChatBubble>
-              <p>Hi {userName}, how are you doing today? Let's start with some questions to know you better!</p>
+              <p>Hi {userName}, how are you today? Let's answer a few questions to get started!</p>
             </ChatBubble>
           )}
           {Object.keys(responses).map((key, index) => (
@@ -423,14 +427,14 @@ const ChatBot = () => {
           )}
           {isCompleted && (
             <ChatBubble>
-              <p>Thank you for your responses! You can close the chatbot now.</p>
+              <p>Thank you for your responses! Redirecting to your personalized recommendations...</p>
             </ChatBubble>
           )}
         </ChatContent>
         {!isCompleted && (
           <InputBox>
             <input
-              type="text"
+              type={currentQuestion?.type || "text"}
               value={inputValue}
               placeholder="Type your answer..."
               onChange={(e) => setInputValue(e.target.value)}
