@@ -389,7 +389,7 @@ const ChatBot = () => {
         responses,
         completedAt: serverTimestamp(),
       });
-
+//check
       navigate("/guideline"); // Navigate to the Guideline page
     } catch (error) {
       console.error("Error saving responses:", error.message);
