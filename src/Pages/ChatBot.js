@@ -313,6 +313,15 @@ const ChatBot = () => {
   const [isCompleted, setIsCompleted] = useState(false); // Flag to indicate completion
   const navigate = useNavigate();
 
+  // Function to map the chatbot responses to the structure expected by `Guideline.js`
+  const mapResponsesToUserInput = (responses) => {
+    return {
+      occupation: responses["What is your current occupation?"] || "",
+      careerGoal: responses["What are your career goals?"] || "",
+      industry: responses["What skills would you like to improve?"] || "",
+    };
+  };
+
   // Fetch user name and create a new session
   useEffect(() => {
     const fetchUserDataAndCreateSession = async () => {
@@ -384,13 +393,15 @@ const ChatBot = () => {
       }
 
       const sessionRef = doc(db, "users", user.uid, "sessions", sessionId);
+      const mappedUserInput = mapResponsesToUserInput(responses);
 
       await setDoc(sessionRef, {
         responses,
         completedAt: serverTimestamp(),
+        mappedUserInput,
       });
-//check
-      navigate("/guideline"); // Navigate to the Guideline page
+
+      navigate("/guideline", { state: { userInput: mappedUserInput } });
     } catch (error) {
       console.error("Error saving responses:", error.message);
       alert(`Failed to save responses: ${error.message}`);

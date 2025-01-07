@@ -162,11 +162,11 @@
 
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import "./App.css";
+import "./App.css"; // Import CSS file
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
-import ChatBot from "./Pages/ChatBot";
-import Guideline from "./Pages/Guideline"; // Correct import of the Guideline component
+import ChatBot from "./Pages/ChatBot"; // ChatBot component
+import Guideline from "./Pages/Guideline"; // Guideline component
 
 function App() {
   return (
