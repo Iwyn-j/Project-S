@@ -1,17 +1,17 @@
-/* General Page Styles */
+/* Scoped Dashboard Page Styles */
 .dashboard-page {
     background-color: #ffffff; /* White background for a clean look */
     min-height: 100vh;
     display: flex;
   }
   
-  .dashboard-container {
+  .dashboard-page .dashboard-container {
     display: flex;
     width: 100%;
   }
   
   /* Sidebar Styles */
-  .sidebar {
+  .dashboard-page .sidebar {
     width: 250px;
     background-color: #f7f7f7; /* Subtle gray for contrast */
     padding: 40px 20px; /* Added padding for more spacing */
@@ -21,28 +21,28 @@
     border-right: 1px solid #e0e0e0;
   }
   
-  .logo-container {
+  .dashboard-page .logo-container {
     margin-bottom: 30px;
   }
   
-  .logo {
+  .dashboard-page .logo {
     width: 100px;
     height: auto;
     margin-bottom: 20px;
   }
   
-  .sidebar-links {
+  .dashboard-page .sidebar-links {
     list-style: none;
     padding: 0;
     width: 100%;
   }
   
-  .sidebar-links li {
+  .dashboard-page .sidebar-links li {
     margin: 20px 0;
     text-align: center;
   }
   
-  .sidebar-links a {
+  .dashboard-page .sidebar-links a {
     text-decoration: none;
     font-size: 18px;
     font-weight: 600;
@@ -50,11 +50,11 @@
     display: block;
   }
   
-  .sidebar-links a:hover {
+  .dashboard-page .sidebar-links a:hover {
     color: #007bff; /* Subtle blue hover effect */
   }
   
-  .signout-button {
+  .dashboard-page .signout-button {
     background-color: #fff;
     border: 1px solid #333333;
     border-radius: 8px;
@@ -64,39 +64,39 @@
     cursor: pointer;
   }
   
-  .signout-button:hover {
+  .dashboard-page .signout-button:hover {
     background-color: #e0e0e0;
   }
   
   /* Main Content Styles */
-  .main-content {
+  .dashboard-page .main-content {
     flex: 1;
     padding: 60px;
   }
   
-  .welcome-header {
+  .dashboard-page .welcome-header {
     text-align: center;
     margin-bottom: 60px;
   }
   
-  .welcome-title {
-    font-size: 32px;
+  .dashboard-page .welcome-title {
+    font-size: 28px; /* Slightly smaller for better readability */
     font-weight: bold;
     color: #333333;
     margin-bottom: 15px;
   }
   
-  .welcome-subtitle {
+  .dashboard-page .welcome-subtitle {
     font-size: 20px;
     color: #666666;
     margin-bottom: 40px;
   }
   
-  .start-now {
+  .dashboard-page .start-now {
     margin-top: 20px;
   }
   
-  .start-now-button {
+  .dashboard-page .start-now-button {
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -107,18 +107,18 @@
     cursor: pointer;
   }
   
-  .start-now-button:hover {
+  .dashboard-page .start-now-button:hover {
     background-color: #0056b3;
   }
   
   /* Dashboard Cards Section */
-  .dashboard-cards {
+  .dashboard-page .dashboard-cards {
     display: flex;
     justify-content: space-around;
     gap: 30px;
   }
   
-  .card {
+  .dashboard-page .card {
     background-color: #f0f8ff;
     border-radius: 10px;
     padding: 40px 30px;
@@ -127,19 +127,19 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
   
-  .card h3 {
+  .dashboard-page .card h3 {
     font-size: 22px;
     color: #333333;
     margin-bottom: 15px;
   }
   
-  .card p {
+  .dashboard-page .card p {
     font-size: 16px;
     color: #666666;
     margin-bottom: 20px;
   }
   
-  .card-button {
+  .dashboard-page .card-button {
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -150,26 +150,26 @@
     cursor: pointer;
   }
   
-  .card-button:hover {
+  .dashboard-page .card-button:hover {
     background-color: #0056b3;
   }
   
   /* Responsive Design */
   @media (max-width: 768px) {
-    .dashboard-cards {
+    .dashboard-page .dashboard-cards {
       flex-direction: column;
       gap: 20px;
     }
   
-    .card {
+    .dashboard-page .card {
       width: 100%;
     }
   
-    .sidebar {
+    .dashboard-page .sidebar {
       width: 200px;
     }
   
-    .start-now-button {
+    .dashboard-page .start-now-button {
       width: 100%;
     }
   }
