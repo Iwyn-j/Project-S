@@ -401,7 +401,7 @@ const ChatBot = () => {
         mappedUserInput,
       });
 
-      navigate("/guideline", { state: { userInput: mappedUserInput } });
+      navigate("/dashboard", { state: { userInput: mappedUserInput } });
     } catch (error) {
       console.error("Error saving responses:", error.message);
       alert(`Failed to save responses: ${error.message}`);

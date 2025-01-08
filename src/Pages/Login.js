@@ -30,7 +30,7 @@ const Login = () => {
       setError("");
 
       // Redirect to Chatbot page
-      navigate("/chatbot");
+      navigate("/dashboard");
     } catch (err) {
       // Set error message for invalid login
       setError("Invalid email or password.");
