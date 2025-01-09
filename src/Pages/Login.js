@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Login.css";
 import { auth, db } from "../firebase-config";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { doc, collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { doc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const Login = () => {
@@ -19,17 +19,17 @@ const Login = () => {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Log the session into Firestore
-      const sessionRef = collection(db, "users", user.uid, "sessions");
-      await addDoc(sessionRef, {
-        loggedInAt: serverTimestamp(),
+      // Update the last logged in time in the user's document
+      const userDocRef = doc(db, "users", user.uid);
+      await updateDoc(userDocRef, {
+        lastLoginAt: serverTimestamp(),
       });
 
       // Alert user of successful login
       alert("Login successful!");
       setError("");
 
-      // Redirect to Chatbot page
+      // Redirect to Dashboard page
       navigate("/dashboard");
     } catch (err) {
       // Set error message for invalid login

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { auth, db } from "../firebase-config";
+import { doc, getDoc } from "firebase/firestore";
 import "./Guideline.css";
 
 const decisionTree = [
@@ -230,28 +232,62 @@ const decisionTree = [
 ];
 
 const Guideline = () => {
-  const location = useLocation();
-  const userInput = location.state?.userInput || {};
+  const navigate = useNavigate();
   const [recommendations, setRecommendations] = useState(null);
 
   useEffect(() => {
-    console.log("User Input Received:", userInput);
+    const fetchData = async () => {
+      const user = auth.currentUser;
+      if (!user) {
+        console.error("No user authenticated.");
+        navigate("/login"); // Redirects to login if not authenticated
+        return;
+      }
 
-    if (!userInput || Object.keys(userInput).length === 0) {
-      console.error("User input is undefined or empty.");
-      return;
-    }
+      const userDocRef = doc(db, "users", user.uid);
+      try {
+        const docSnap = await getDoc(userDocRef);
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
+          const lastInteraction = userData.chatbotInteractions?.slice(-1)[0]?.responses;
+          console.log("Fetched last interaction:", lastInteraction); // Logging the fetched data
 
-    const matchedNode = decisionTree.find((node) => node.condition(userInput));
+          if (lastInteraction) {
+            // Ensure these keys match exactly with how they are stored in Firestore
+            const occupation = lastInteraction['What is your current occupation?'];
+            const careerGoal = lastInteraction['What are your career goals?'];
+            const industry = lastInteraction['What skills would you like to improve?'];
 
-    if (matchedNode) {
-      console.log("Matched Recommendations:", matchedNode.recommendations);
-      setRecommendations(matchedNode.recommendations);
-    } else {
-      console.warn("No matching condition found for user input:", userInput);
-      setRecommendations(null);
-    }
-  }, [userInput]);
+            console.log("Extracted Inputs:", { occupation, careerGoal, industry }); // Log extracted values
+
+            const userInput = {
+              occupation: occupation.toLowerCase(),
+              careerGoal: careerGoal.toLowerCase(),
+              industry: industry.toLowerCase(),
+            };
+
+            const matchedNode = decisionTree.find((node) => node.condition(userInput));
+            if (matchedNode) {
+              console.log("Matched Node:", matchedNode); // Log the matched decision node
+              setRecommendations(matchedNode.recommendations);
+            } else {
+              console.warn("No matching condition found for user input:", userInput);
+              setRecommendations(null);
+            }
+          } else {
+            console.warn("No recent interactions found.");
+            setRecommendations(null);
+          }
+        } else {
+          console.error("User document does not exist.");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchData();
+  }, [navigate]);
 
   if (!recommendations) {
     return (

@@ -574,7 +574,7 @@ const Dashboard = () => {
                 <Link to="/dashboard">Home</Link>
               </li>
               <li>
-                <Link to="/skills">Skills</Link>
+                <Link to="/guideline">Guideline</Link>
               </li>
               <li>
                 <Link to="/topics">Topics</Link>
@@ -583,7 +583,7 @@ const Dashboard = () => {
                 <Link to="/certifications">Certifications</Link>
               </li>
               <li>
-                <Link to="/settings">Settings</Link>
+                <Link to="/skills">Skills</Link>
               </li>
               <li>
                 <button onClick={handleSignOut} className="signout-button">
@@ -608,7 +608,12 @@ const Dashboard = () => {
           <div className="dashboard-cards">
             <div className="card">
               <h3>Your Progress</h3>
-              <p>50% of your courses completed.</p>
+              <p>0% of your courses completed.
+                Update your progresss now!
+              </p>
+              <Link to="/topics">
+                <button className="card-button">Update now!</button>
+              </Link>
             </div>
             <div className="card">
               <h3>New Topics Available</h3>
