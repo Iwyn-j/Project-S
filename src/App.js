@@ -170,6 +170,7 @@ import Guideline from "./Pages/Guideline"; // Guideline component
 import Dashboard from "./Pages/Dashboard"; // Dashboard component
 import SkillsPage from "./Pages/SkillsPage"; // Skills Page
 import TopicsPage from "./Pages/TopicsPage"; // Topics Page
+import Model from "./Pages/Model"; // Topics Page
 import CertificationsPage from "./Pages/CertificationsPage"; // Certifications Page
 import PrivateRoute from "./Pages/PrivateRoute"; // PrivateRoute for protected routes
 import { AuthProvider } from "./Pages/AuthProvider"; // AuthProvider for user context
@@ -258,6 +259,15 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route
+            path="/Model"
+            element={
+              <PrivateRoute>
+                <Model />
+           </PrivateRoute>
+           }
+          />
+
           <Route
             path="/guideline"
             element={

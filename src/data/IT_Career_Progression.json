@@ -1,0 +1,282 @@
+[
+    {
+        "Current Occupation":"Data Analyst",
+        "Career Goal":"Chief Data Officer",
+        "Field of Skills You Want to Achieve":"Data Science",
+        "Certificate":"Advanced Data Analysis, Tableau Certification",
+        "Skills":"Python, R, SQL, Machine Learning",
+        "Topics to be Learnt":"Machine Learning Algorithms, Deep Learning, Big Data Analysis"
+    },
+    {
+        "Current Occupation":"Marketing Specialist",
+        "Career Goal":"Marketing Director",
+        "Field of Skills You Want to Achieve":"Digital Marketing",
+        "Certificate":"Google Analytics Cert, Facebook Blueprint Cert",
+        "Skills":"SEO, SEM, Content Creation, Video Marketing",
+        "Topics to be Learnt":"Social Media Strategies, Google AdWords, Consumer Behavior"
+    },
+    {
+        "Current Occupation":"Sales Executive",
+        "Career Goal":"Regional Sales Manager",
+        "Field of Skills You Want to Achieve":"Sales Leadership",
+        "Certificate":"Sales Management, Strategic Selling Cert",
+        "Skills":"Negotiation, CRM, Lead Generation, Public Speaking",
+        "Topics to be Learnt":"Strategic Sales Planning, Customer Retention Strategies"
+    },
+    {
+        "Current Occupation":"HR Coordinator",
+        "Career Goal":"HR Director",
+        "Field of Skills You Want to Achieve":"Human Resources Management",
+        "Certificate":"SHRM Certification, Talent Management Cert",
+        "Skills":"Employee Relations, Benefits, Recruitment",
+        "Topics to be Learnt":"Talent Acquisition Strategies, Workforce Planning"
+    },
+    {
+        "Current Occupation":"Customer Service Rep",
+        "Career Goal":"Customer Service Manager",
+        "Field of Skills You Want to Achieve":"Customer Experience Management",
+        "Certificate":"Customer Service Pro, Conflict Resolution Cert",
+        "Skills":"Communication, Empathy, Problem Solving",
+        "Topics to be Learnt":"Conflict Resolution Techniques, Customer Engagement"
+    },
+    {
+        "Current Occupation":"Software Developer",
+        "Career Goal":"Software Architect",
+        "Field of Skills You Want to Achieve":"Software Engineering",
+        "Certificate":"Certified Scrum Master, AWS Developer Associate",
+        "Skills":"Java, C#, Docker, API Development",
+        "Topics to be Learnt":"Microservices Architecture, Cloud Solutions, System Design"
+    },
+    {
+        "Current Occupation":"Project Manager",
+        "Career Goal":"Senior Project Manager",
+        "Field of Skills You Want to Achieve":"Project Leadership",
+        "Certificate":"PMP, Agile Certified Practitioner",
+        "Skills":"Agile, Waterfall, Risk Management, Budgeting",
+        "Topics to be Learnt":"Risk Management, Agile Methodologies, Time Management"
+    },
+    {
+        "Current Occupation":"Accountant",
+        "Career Goal":"Chief Financial Officer",
+        "Field of Skills You Want to Achieve":"Financial Planning",
+        "Certificate":"CPA, CFA Level 1",
+        "Skills":"Financial Reporting, Auditing, Budgeting",
+        "Topics to be Learnt":"Corporate Finance, Tax Planning, Investment Strategies"
+    },
+    {
+        "Current Occupation":"Teacher",
+        "Career Goal":"School Principal",
+        "Field of Skills You Want to Achieve":"Educational Leadership",
+        "Certificate":"Ed.D, Curriculum Development Cert",
+        "Skills":"Curriculum Development, Classroom Management",
+        "Topics to be Learnt":"Educational Policy, Leadership in Education, Student Assessment"
+    },
+    {
+        "Current Occupation":"Nurse",
+        "Career Goal":"Nurse Practitioner",
+        "Field of Skills You Want to Achieve":"Advanced Nursing Practices",
+        "Certificate":"MSN, Critical Care Certification",
+        "Skills":"Patient Care, Administration, Critical Care",
+        "Topics to be Learnt":"Healthcare Informatics, Emergency Medicine, Patient Advocacy"
+    },
+    {
+        "Current Occupation":"Bank Teller",
+        "Career Goal":"Bank Manager",
+        "Field of Skills You Want to Achieve":"Banking Operations",
+        "Certificate":"Banking Fundamentals, Investment Banking Cert",
+        "Skills":"Customer Service, Loans, Risk Assessment",
+        "Topics to be Learnt":"Financial Analysis, Anti-Money Laundering, Compliance"
+    },
+    {
+        "Current Occupation":"Graphic Designer",
+        "Career Goal":"Creative Director",
+        "Field of Skills You Want to Achieve":"Visual Communication",
+        "Certificate":"Adobe Certified Expert, UX Design Cert",
+        "Skills":"Photoshop, Illustrator, UX\/UI Design",
+        "Topics to be Learnt":"Branding and Identity, Web Design, Print Media"
+    },
+    {
+        "Current Occupation":"Research Assistant",
+        "Career Goal":"Research Director",
+        "Field of Skills You Want to Achieve":"Scientific Research",
+        "Certificate":"Ph.D. in Biology, Grant Writing Cert",
+        "Skills":"Data Collection, Analysis, Scientific Writing",
+        "Topics to be Learnt":"Grant Writing, Experimental Design, Data Analysis Techniques"
+    },
+    {
+        "Current Occupation":"Pharmacist",
+        "Career Goal":"Pharmacy Owner",
+        "Field of Skills You Want to Achieve":"Pharmacy Operations",
+        "Certificate":"Doctor of Pharmacy, Clinical Pharmacology Cert",
+        "Skills":"Drug Safety, Dispensing, Medication Therapy Management",
+        "Topics to be Learnt":"Pharmaceutical Care, Pharmacy Law, Patient Counseling"
+    },
+    {
+        "Current Occupation":"IT Support Technician",
+        "Career Goal":"IT Manager",
+        "Field of Skills You Want to Achieve":"Information Technology Management",
+        "Certificate":"CompTIA A+, Network+ Cert",
+        "Skills":"Network Security, Help Desk, System Administration",
+        "Topics to be Learnt":"IT Infrastructure Library (ITIL), Cybersecurity Fundamentals"
+    },
+    {
+        "Current Occupation":"Web Developer",
+        "Career Goal":"Senior Web Developer",
+        "Field of Skills You Want to Achieve":"Full Stack Development",
+        "Certificate":"AWS Certification, React Developer Cert",
+        "Skills":"JavaScript, React, HTML\/CSS, Node.js",
+        "Topics to be Learnt":"Progressive Web Apps, Serverless Architecture, Database Management"
+    },
+    {
+        "Current Occupation":"Logistics Coordinator",
+        "Career Goal":"Logistics Manager",
+        "Field of Skills You Want to Achieve":"Supply Chain Management",
+        "Certificate":"APICS Certification, Lean Six Sigma Green Belt",
+        "Skills":"Inventory Management, Supply Chain Planning",
+        "Topics to be Learnt":"Global Logistics, Supply Chain Risk Management, Procurement Strategies"
+    },
+    {
+        "Current Occupation":"Paralegal",
+        "Career Goal":"Lawyer",
+        "Field of Skills You Want to Achieve":"Legal Services",
+        "Certificate":"LSAT Preparation, Contract Law Cert",
+        "Skills":"Legal Research, Writing, Case Management",
+        "Topics to be Learnt":"Contract Law, Intellectual Property, Legal Writing"
+    },
+    {
+        "Current Occupation":"Editorial Assistant",
+        "Career Goal":"Editor-in-Chief",
+        "Field of Skills You Want to Achieve":"Publishing",
+        "Certificate":"Editing Certificate, Digital Publishing Cert",
+        "Skills":"Proofreading, Editing, Content Management",
+        "Topics to be Learnt":"Digital Publishing, Editorial Strategy, Content Marketing"
+    },
+    {
+        "Current Occupation":"Fitness Trainer",
+        "Career Goal":"Gym Owner",
+        "Field of Skills You Want to Achieve":"Fitness Management",
+        "Certificate":"Certified Personal Trainer, Nutrition Specialist Cert",
+        "Skills":"Exercise Prescription, Group Fitness, Personal Training",
+        "Topics to be Learnt":"Nutrition and Diet Planning, Exercise Physiology, Fitness Business Management"
+    },
+    {
+        "Current Occupation":"Chef",
+        "Career Goal":"Restaurant Owner",
+        "Field of Skills You Want to Achieve":"Culinary Arts",
+        "Certificate":"Culinary Arts Degree, Food Safety Manager Cert",
+        "Skills":"Menu Design, Food Safety, Cooking Techniques",
+        "Topics to be Learnt":"Restaurant Management, Food Preparation, Menu Design"
+    },
+    {
+        "Current Occupation":"Mechanical Engineer",
+        "Career Goal":"Engineering Manager",
+        "Field of Skills You Want to Achieve":"Mechanical Design",
+        "Certificate":"P.Eng, Six Sigma Black Belt",
+        "Skills":"CAD, Simulation, Product Development",
+        "Topics to be Learnt":"Product Lifecycle Management, Quality Control, Automation"
+    },
+    {
+        "Current Occupation":"Electrician",
+        "Career Goal":"Electrical Contractor",
+        "Field of Skills You Want to Achieve":"Electrical Systems",
+        "Certificate":"Licensed Electrician, Electrical Safety Cert",
+        "Skills":"Wiring, PLCs, Electrical Maintenance",
+        "Topics to be Learnt":"Electrical Safety Standards, Energy Management, Electrical Code"
+    },
+    {
+        "Current Occupation":"Real Estate Agent",
+        "Career Goal":"Real Estate Broker",
+        "Field of Skills You Want to Achieve":"Property Management",
+        "Certificate":"Real Estate License, Property Management Cert",
+        "Skills":"Negotiation, Marketing, Property Valuation",
+        "Topics to be Learnt":"Real Estate Investment, Property Development, Market Analysis"
+    },
+    {
+        "Current Occupation":"Dental Assistant",
+        "Career Goal":"Dentist",
+        "Field of Skills You Want to Achieve":"Dentistry",
+        "Certificate":"DDS Preparation, Oral Hygiene Cert",
+        "Skills":"Patient Management, X-rays, Dental Procedures",
+        "Topics to be Learnt":"Oral Pathology, Orthodontics, Preventive Dentistry"
+    },
+    {
+        "Current Occupation":"Network Administrator",
+        "Career Goal":"Chief Information Officer",
+        "Field of Skills You Want to Achieve":"Network Management",
+        "Certificate":"Cisco CCNA, CompTIA Network+",
+        "Skills":"Network Configuration, Troubleshooting, Security",
+        "Topics to be Learnt":"Network Optimization, Cybersecurity Threats"
+    },
+    {
+        "Current Occupation":"Cybersecurity Analyst",
+        "Career Goal":"Cybersecurity Director",
+        "Field of Skills You Want to Achieve":"Cybersecurity",
+        "Certificate":"Certified Information Systems Security Professional (CISSP)",
+        "Skills":"Penetration Testing, Vulnerability Assessment",
+        "Topics to be Learnt":"Ethical Hacking, Cryptography"
+    },
+    {
+        "Current Occupation":"Database Administrator",
+        "Career Goal":"Database Architect",
+        "Field of Skills You Want to Achieve":"Database Technologies",
+        "Certificate":"Oracle Database Cert, SQL Server Cert",
+        "Skills":"SQL, Database Optimization, Backup Procedures",
+        "Topics to be Learnt":"Data Warehousing, Database Security"
+    },
+    {
+        "Current Occupation":"Cloud Solutions Architect",
+        "Career Goal":"Cloud Services Director",
+        "Field of Skills You Want to Achieve":"Cloud Computing",
+        "Certificate":"AWS Certified Solutions Architect, Google Cloud Certified",
+        "Skills":"Cloud Migration, Serverless Computing",
+        "Topics to be Learnt":"Cloud Security, Cost Management"
+    },
+    {
+        "Current Occupation":"AI Developer",
+        "Career Goal":"AI Research Scientist",
+        "Field of Skills You Want to Achieve":"Artificial Intelligence",
+        "Certificate":"TensorFlow Developer, Machine Learning Cert",
+        "Skills":"Python, TensorFlow, Neural Networks",
+        "Topics to be Learnt":"Deep Learning Techniques, AI in Business"
+    },
+    {
+        "Current Occupation":"IT Consultant",
+        "Career Goal":"IT Strategy Consultant",
+        "Field of Skills You Want to Achieve":"Information Technology Consulting",
+        "Certificate":"ITIL Foundation, Management of Risk",
+        "Skills":"Strategic Planning, Business Analysis",
+        "Topics to be Learnt":"IT Governance, Digital Transformation"
+    },
+    {
+        "Current Occupation":"Frontend Developer",
+        "Career Goal":"Frontend Engineering Manager",
+        "Field of Skills You Want to Achieve":"Frontend Development",
+        "Certificate":"React Developer Cert, Angular Cert",
+        "Skills":"HTML5, CSS3, JavaScript, React",
+        "Topics to be Learnt":"Progressive Web Apps, Accessibility Standards"
+    },
+    {
+        "Current Occupation":"Backend Developer",
+        "Career Goal":"Chief Technology Officer",
+        "Field of Skills You Want to Achieve":"Backend Development",
+        "Certificate":"Node.js Cert, Django Developer Cert",
+        "Skills":"Python, Java, API Development, Database Management",
+        "Topics to be Learnt":"Microservices, High-Performance Computing"
+    },
+    {
+        "Current Occupation":"Systems Analyst",
+        "Career Goal":"Systems Integration Manager",
+        "Field of Skills You Want to Achieve":"Systems Engineering",
+        "Certificate":"Certified Systems Engineering Professional",
+        "Skills":"Systems Design, Analysis, Integration",
+        "Topics to be Learnt":"Systems Lifecycle Management, User Requirements"
+    },
+    {
+        "Current Occupation":"DevOps Engineer",
+        "Career Goal":"DevOps Manager",
+        "Field of Skills You Want to Achieve":"DevOps Practices",
+        "Certificate":"Docker Certified Associate, Kubernetes Cert",
+        "Skills":"CI\/CD Pipelines, Automation Tools, Docker",
+        "Topics to be Learnt":"Infrastructure as Code, Continuous Monitoring"
+    }
+]

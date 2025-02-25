@@ -1,0 +1,518 @@
+[
+    {
+        "Career Goal": "Data Scientist",
+        "Skills": "Python, R, SQL, Machine Learning",
+        "Expected Salary": "$90,000 - $120,000",
+        "Topics To Learn": "Machine Learning, Deep Learning, AI",
+        "Certification Name": "Data Science Certification",
+        "Certification Links": [
+            "https://www.coursera.org/professional-certificates/ibm-data-science",
+            "https://www.datacamp.com/certificates",
+            "https://www.simplilearn.com/big-data-and-analytics/senior-data-scientist-masters-program-training"
+        ]
+    },
+    {
+        "Career Goal": "Web Developer",
+        "Skills": "HTML, CSS, JavaScript, React",
+        "Expected Salary": "$70,000 - $100,000",
+        "Topics To Learn": "Responsive Design, Front-End Frameworks",
+        "Certification Name": "Front-End Developer",
+        "Certification Links": [
+            "https://www.udacity.com/course/front-end-web-developer-nanodegree--nd0011",
+            "https://www.coursera.org/professional-certificates/google-ux-design",
+            "https://www.freecodecamp.org/learn"
+        ]
+    },
+    {
+        "Career Goal": "Project Manager",
+        "Skills": "Agile methodologies, Risk management",
+        "Expected Salary": "$80,000 - $110,000",
+        "Topics To Learn": "Agile Management, Scrum",
+        "Certification Name": "Project Management Professional",
+        "Certification Links": [
+            "https://www.pmi.org/certifications/project-management-pmp",
+            "https://www.scrumalliance.org/get-certified/scrum-master-track/certified-scrummaster",
+            "https://www.axelos.com/certifications/prince2-certifications"
+        ]
+    },
+    {
+        "Career Goal": "UX/UI Designer",
+        "Skills": "User research, Sketch, Adobe XD",
+        "Expected Salary": "$85,000 - $105,000",
+        "Topics To Learn": "Interaction Design, User Psychology",
+        "Certification Name": "Certified UX Designer",
+        "Certification Links": [
+            "https://learning.adobe.com/certification.html",
+            "https://www.nngroup.com/ux-certification/",
+            "https://www.interaction-design.org/courses"
+        ]
+    },
+    {
+        "Career Goal": "Network Engineer",
+        "Skills": "Cisco networks, Troubleshooting",
+        "Expected Salary": "$75,000 - $95,000",
+        "Topics To Learn": "Network Security, Cloud Networking",
+        "Certification Name": "Cisco Certified Network Associate",
+        "Certification Links": [
+            "https://www.cisco.com/c/en/us/training-events/training-certifications/certifications/associate/ccna.html",
+            "https://www.comptia.org/certifications/network",
+            "https://learningportal.juniper.net/juniper/user_activity_info.aspx?id=7690"
+        ]
+    },
+    {
+        "Career Goal": "Cybersecurity Analyst",
+        "Skills": "Security protocols, Ethical hacking",
+        "Expected Salary": "$90,000 - $115,000",
+        "Topics To Learn": "Cryptography, Penetration Testing",
+        "Certification Name": "Certified Ethical Hacker",
+        "Certification Links": [
+            "https://www.eccouncil.org/programs/certified-ethical-hacker-ceh/",
+            "https://www.comptia.org/certifications/security",
+            "https://www.giac.org/"
+        ]
+    },
+    {
+        "Career Goal": "Digital Marketer",
+        "Skills": "SEO, SEM, Content marketing",
+        "Expected Salary": "$60,000 - $85,000",
+        "Topics To Learn": "Digital Advertising, Analytics",
+        "Certification Name": "Digital Marketing Specialist Certification",
+        "Certification Links": [
+            "https://digitalmarketinginstitute.com/students/courses",
+            "https://learndigital.withgoogle.com/digitalgarage/certification",
+            "https://academy.hubspot.com/certifications"
+        ]
+    },
+    {
+        "Career Goal": "Financial Analyst",
+        "Skills": "Financial modeling, Excel",
+        "Expected Salary": "$70,000 - $90,000",
+        "Topics To Learn": "Investment Strategies, Corporate Finance",
+        "Certification Name": "Chartered Financial Analyst",
+        "Certification Links": [
+            "https://www.cfainstitute.org/en/programs/cfa",
+            "https://corporatefinanceinstitute.com/certifications/financial-modeling-valuation-analyst-fmva-program/",
+            "https://fminstitute.com/"
+        ]
+    },
+    {
+        "Career Goal": "HR Manager",
+        "Skills": "Employee relations, Recruitment",
+        "Expected Salary": "$80,000 - $100,000",
+        "Topics To Learn": "Organizational Development, Labor Laws",
+        "Certification Name": "SHRM Certified Professional",
+        "Certification Links": [
+            "https://www.shrm.org/certification/pages/default.aspx",
+            "https://www.hrci.org/",
+            "https://www.worldatwork.org/certification"
+        ]
+    },
+    {
+        "Career Goal": "Product Manager",
+        "Skills": "Product lifecycle management, Roadmapping",
+        "Expected Salary": "$100,000 - $120,000",
+        "Topics To Learn": "Product Strategy, User-Centered Design",
+        "Certification Name": "Certified Product Manager",
+        "Certification Links": [
+            "https://www.aipmm.com/html/certification/cpmcertifiedproductmanager.php",
+            "https://www.pragmaticinstitute.com/courses/product-management-certification",
+            "https://280group.com/product-management-certification/"
+        ]
+    },
+    {
+        "Career Goal": "Cloud Architect",
+        "Skills": "AWS, Azure, Google Cloud",
+        "Expected Salary": "$120,000 - $150,000",
+        "Topics To Learn": "Cloud Security, Machine Learning in Cloud",
+        "Certification Name": "Google Cloud Certified - Professional Cloud Architect",
+        "Certification Links": [
+            "https://cloud.google.com/certification/cloud-architect",
+            "https://aws.amazon.com/certification/certified-solutions-architect-associate/",
+            "https://docs.microsoft.com/en-us/learn/certifications/azure-solutions-architect/"
+        ]
+    },
+    {
+        "Career Goal": "Software Engineer",
+        "Skills": "C++, Java, Software design patterns",
+        "Expected Salary": "$100,000 - $130,000",
+        "Topics To Learn": "Software Architecture, Cloud Applications",
+        "Certification Name": "Oracle Certified Associate Java SE Programmer",
+        "Certification Links": [
+            "https://education.oracle.com/java-se-programmer-i/pexam_1Z0-808",
+            "https://www.computer.org/education/certifications",
+            "https://www.thesoftwareguild.com/"
+        ]
+    },
+    {
+        "Career Goal": "Business Analyst",
+        "Skills": "Data Analysis, Statistical analysis",
+        "Expected Salary": "$75,000 - $95,000",
+        "Topics To Learn": "Data Visualization, Business Intelligence",
+        "Certification Name": "Certified Business Analysis Professional",
+        "Certification Links": [
+            "https://www.iiba.org/certification/iiba-certifications/cbap-designation/",
+            "https://www.pmi.org/certifications/business-analysis-pba",
+            "https://iqbba.org/certifications/foundation-level/"
+        ]
+    },
+    {
+        "Career Goal": "Content Creator",
+        "Skills": "Video editing, Copywriting",
+        "Expected Salary": "$50,000 - $70,000",
+        "Topics To Learn": "SEO, Social Media Marketing",
+        "Certification Name": "YouTube Certified",
+        "Certification Links": [
+            "https://creatoracademy.youtube.com/page/certification",
+            "https://academy.hubspot.com/certifications/content-marketing",
+            "https://vidiq.com/academy/"
+        ]
+    },
+    {
+        "Career Goal": "Sustainability Manager",
+        "Skills": "Environmental law, Corporate sustainability",
+        "Expected Salary": "$90,000 - $110,000",
+        "Topics To Learn": "Renewable Energy, Waste Management",
+        "Certification Name": "LEED Green Associate",
+        "Certification Links": [
+            "https://www.usgbc.org/credentials",
+            "https://www.gbci.org/",
+            "https://www.sustainabilityprofessionals.org/certification"
+        ]
+    },
+    {
+        "Career Goal": "Clinical Research Coordinator",
+        "Skills": "Clinical trials, Regulatory knowledge",
+        "Expected Salary": "$70,000 - $95,000",
+        "Topics To Learn": "Drug Development, GCP Compliance",
+        "Certification Name": "Certified Clinical Research Coordinator",
+        "Certification Links": [
+            "https://acrpnet.org/certifications/certified-clinical-research-coordinator-ccrc/",
+            "https://www.socra.org/certification/certified-clinical-research-professional-ccrp-certification-program/",
+            "https://www.barnettinternational.com/"
+        ]
+    },
+    {
+        "Career Goal": "AI Developer",
+        "Skills": "Machine Learning, TensorFlow, PyTorch",
+        "Expected Salary": "$95,000 - $135,000",
+        "Topics To Learn": "Neural Networks, AI Ethics",
+        "Certification Name": "TensorFlow Developer Certificate",
+        "Certification Links": [
+            "https://www.tensorflow.org/certificate",
+            "https://www.deeplearning.ai/program/ai-for-everyone/",
+            "https://www.coursera.org/professional-certificates/ibm-ai-engineer"
+        ]
+    },
+    {
+        "Career Goal": "Real Estate Agent",
+        "Skills": "Negotiation, Local Property Laws",
+        "Expected Salary": "$50,000 - $85,000",
+        "Topics To Learn": "Property Management, Real Estate Finance",
+        "Certification Name": "Certified Residential Specialist",
+        "Certification Links": [
+            "https://www.nar.realtor/education/designations-and-certifications/crs",
+            "https://rebac.net/",
+            "https://www.theceshop.com/"
+        ]
+    },
+    {
+        "Career Goal": "Corporate Trainer",
+        "Skills": "Presentation skills, Instructional Design",
+        "Expected Salary": "$60,000 - $85,000",
+        "Topics To Learn": "Adult Learning Theory, Course Development",
+        "Certification Name": "Certified Professional in Training Management",
+        "Certification Links": [
+            "https://www.td.org/certification",
+            "https://www.td.org/certification/cplp",
+            "https://trainingindustry.com/"
+        ]
+    },
+    {
+        "Career Goal": "Biomedical Engineer",
+        "Skills": "Medical device design, Biocompatibility",
+        "Expected Salary": "$75,000 - $105,000",
+        "Topics To Learn": "Tissue Engineering, Regulatory Affairs",
+        "Certification Name": "Certified Biomedical Auditor",
+        "Certification Links": [
+            "https://asq.org/cert/biomedical-auditor",
+            "https://www.bmes.org/content.asp?contentid=139",
+            "https://accenet.org/"
+        ]
+    },
+    {
+        "Career Goal": "Mobile App Developer",
+        "Skills": "Android, iOS, Flutter",
+        "Expected Salary": "$80,000 - $110,000",
+        "Topics To Learn": "Cross-platform Development, Mobile UX",
+        "Certification Name": "Certified Mobile Developer",
+        "Certification Links": [
+            "https://developers.google.com/certification",
+            "https://www.udacity.com/course/android-developer-nanodegree-by-google--nd801",
+            "https://www.appcoda.com/ios-programming-course/"
+        ]
+    },
+    {
+        "Career Goal": "Industrial Designer",
+        "Skills": "CAD, Sketching, Material knowledge",
+        "Expected Salary": "$70,000 - $95,000",
+        "Topics To Learn": "Product Prototyping, Ergonomics",
+        "Certification Name": "Certified Industrial Designer",
+        "Certification Links": [
+            "https://www.idsa.org/education/certifications",
+            "https://www.autodesk.com/certification",
+            "https://www.solidworks.com/sw/support/mcad-certification-programs.htm"
+        ]
+    },
+    {
+        "Career Goal": "Pharmacist",
+        "Skills": "Medication Therapy Management, Pharmacology",
+        "Expected Salary": "$95,000 - $120,000",
+        "Topics To Learn": "Patient Counseling, Drug Interactions",
+        "Certification Name": "Board Certified Pharmacotherapy Specialist",
+        "Certification Links": [
+            "https://www.bpsweb.org/",
+            "https://www.pharmacist.com/education",
+            "https://www.ashp.org/professional-development"
+        ]
+    },
+    {
+        "Career Goal": "Veterinarian",
+        "Skills": "Animal Healthcare, Surgery",
+        "Expected Salary": "$85,000 - $110,000",
+        "Topics To Learn": "Veterinary Pathology, Animal Nutrition",
+        "Certification Name": "Certified Veterinary Surgeon",
+        "Certification Links": [
+            "https://www.acvs.org/",
+            "https://www.navta.net/",
+            "https://www.aaha.org/"
+        ]
+    },
+    {
+        "Career Goal": "Environmental Engineer",
+        "Skills": "Waste management, Environmental impact assessments",
+        "Expected Salary": "$75,000 - $100,000",
+        "Topics To Learn": "Environmental Remediation, Sustainability",
+        "Certification Name": "Certified Environmental Engineer",
+        "Certification Links": [
+            "https://www.abet.org",
+            "https://www.aiche.org/community/credentials",
+            "https://ncees.org/engineering/"
+        ]
+    },
+    {
+        "Career Goal": "Graphic Designer",
+        "Skills": "Adobe Creative Suite, Typography",
+        "Expected Salary": "$50,000 - $75,000",
+        "Topics To Learn": "Branding, Digital Illustration",
+        "Certification Name": "Adobe Certified Expert",
+        "Certification Links": [
+            "https://learning.adobe.com/certification.html",
+            "https://www.aiga.org/professional-development",
+            "https://gdusa.com/"
+        ]
+    },
+    {
+        "Career Goal": "Actuary",
+        "Skills": "Statistical analysis, Risk assessment",
+        "Expected Salary": "$100,000 - $130,000",
+        "Topics To Learn": "Actuarial Science, Financial Modelling",
+        "Certification Name": "Certified Actuarial Analyst",
+        "Certification Links": [
+            "https://www.soa.org/education/exam-req/education-req/",
+            "https://www.casact.org/",
+            "https://www.actuaries.org.uk/"
+        ]
+    },
+    {
+        "Career Goal": "Medical Laboratory Scientist",
+        "Skills": "Clinical laboratory skills, Microbiology",
+        "Expected Salary": "$60,000 - $85,000",
+        "Topics To Learn": "Hematology, Molecular Diagnostics",
+        "Certification Name": "Medical Laboratory Scientist Certification",
+        "Certification Links": [
+            "https://www.ascp.org/content/board-of-certification/get-credentialed",
+            "https://www.aab.org/aab/MLS.asp",
+            "https://www.americanmedtech.org/"
+        ]
+    },
+    {
+        "Career Goal": "Event Planner",
+        "Skills": "Vendor Management, Event Coordination",
+        "Expected Salary": "$45,000 - $70,000",
+        "Topics To Learn": "Wedding Planning, Corporate Event Management",
+        "Certification Name": "Certified Meeting Professional",
+        "Certification Links": [
+            "https://www.eventscouncil.org/CMP/About-CMP",
+            "https://www.mpi.org/",
+            "https://www.ises.com/"
+        ]
+    },
+    {
+        "Career Goal": "Chef",
+        "Skills": "Culinary Skills, Menu Planning",
+        "Expected Salary": "$50,000 - $80,000",
+        "Topics To Learn": "Gastronomy, Food Safety",
+        "Certification Name": "Certified Master Chef",
+        "Certification Links": [
+            "https://www.acfchefs.org/ACF/Education/Certification/ACF/Education/Certification/",
+            "https://www.ciachef.edu/",
+            "http://www.worldchefs.org/"
+        ]
+    },
+    {
+        "Career Goal": "Civil Engineer",
+        "Skills": "Structural Analysis, Project Management",
+        "Expected Salary": "$80,000 - $110,000",
+        "Topics To Learn": "Urban Planning, Construction Management",
+        "Certification Name": "Professional Engineer License",
+        "Certification Links": [
+            "https://ncees.org/engineering/",
+            "https://www.asce.org/",
+            "https://www.concrete.org/"
+        ]
+    },
+    {
+        "Career Goal": "Sales Manager",
+        "Skills": "Sales Techniques, Customer Relationship Management",
+        "Expected Salary": "$75,000 - $100,000",
+        "Topics To Learn": "Sales Forecasting, Negotiation",
+        "Certification Name": "Certified Sales Executive",
+        "Certification Links": [
+            "https://www.salesmanagement.org/",
+            "https://www.nasp.com/",
+            "https://www.smei.org/"
+        ]
+    },
+    {
+        "Career Goal": "Interior Designer",
+        "Skills": "Space Planning, Color Theory",
+        "Expected Salary": "$60,000 - $85,000",
+        "Topics To Learn": "Interior Decoration, Sustainable Design",
+        "Certification Name": "Certified Interior Designer",
+        "Certification Links": [
+            "https://www.cidq.org/ncidq-certification",
+            "https://www.iida.org/",
+            "https://www.asid.org/"
+        ]
+    },
+    {
+        "Career Goal": "Nutritionist",
+        "Skills": "Diet Planning, Nutritional Science",
+        "Expected Salary": "$55,000 - $80,000",
+        "Topics To Learn": "Sports Nutrition, Clinical Nutrition",
+        "Certification Name": "Certified Nutrition Specialist",
+        "Certification Links": [
+            "https://nutritionspecialists.org/",
+            "https://www.eatrightpro.org/acend",
+            "https://nutritionspecialists.org/"
+        ]
+    },
+    {
+        "Career Goal": "Compliance Officer",
+        "Skills": "Regulatory Compliance, Audit Skills",
+        "Expected Salary": "$70,000 - $95,000",
+        "Topics To Learn": "Corporate Governance, Risk Management",
+        "Certification Name": "Certified Compliance & Ethics Professional",
+        "Certification Links": [
+            "https://www.corporatecompliance.org/",
+            "https://compliancecertification.org/",
+            "https://thegrcinstitute.org/"
+        ]
+    },
+    {
+        "Career Goal": "Advertising Executive",
+        "Skills": "Campaign Management, Market Analysis",
+        "Expected Salary": "$85,000 - $110,000",
+        "Topics To Learn": "Consumer Behavior, Digital Media",
+        "Certification Name": "Certified Advertising Specialist",
+        "Certification Links": [
+            "https://www.aaf.org/",
+            "https://www.iab.com/",
+            "https://www.aaaa.org/"
+        ]
+    },
+    {
+        "Career Goal": "Journalist",
+        "Skills": "Investigative Reporting, Editing",
+        "Expected Salary": "$45,000 - $70,000",
+        "Topics To Learn": "Multimedia Journalism, Ethical Reporting",
+        "Certification Name": "Certified Journalist",
+        "Certification Links": [
+            "https://www.spj.org/",
+            "https://www.poynter.org/",
+            "https://journalism.columbia.edu/"
+        ]
+    },
+    {
+        "Career Goal": "Statistician",
+        "Skills": "Data Collection, Statistical Software",
+        "Expected Salary": "$75,000 - $100,000",
+        "Topics To Learn": "Data Mining, Statistical Theory",
+        "Certification Name": "Certified Professional Statistician",
+        "Certification Links": [
+            "https://www.amstat.org/ASA/Your-Career/Certification.aspx",
+            "https://www.rss.org.uk/",
+            "https://isi-web.org/"
+        ]
+    },
+    {
+        "Career Goal": "Forensic Scientist",
+        "Skills": "Crime Scene Analysis, DNA Analysis",
+        "Expected Salary": "$60,000 - $85,000",
+        "Topics To Learn": "Forensic Chemistry, Ballistics",
+        "Certification Name": "Certified Forensic Scientist",
+        "Certification Links": [
+            "http://criminalistics.com/",
+            "https://www.abfo.org/",
+            "https://www.theiai.org/"
+        ]
+    },
+    {
+        "Career Goal": "Speech-Language Pathologist",
+        "Skills": "Speech Disorders, Therapy Techniques",
+        "Expected Salary": "$75,000 - $100,000",
+        "Topics To Learn": "Language Development, Neurogenic Disorders",
+        "Certification Name": "Certificate of Clinical Competence in Speech-Language Pathology",
+        "Certification Links": [
+            "https://www.asha.org/Certification/",
+            "https://www.speechpathologyaustralia.org.au/SPAA/Certification_and_Training/SPAA/Professional_Development/Certification_and_Training.aspx",
+            "https://www.csha.org/"
+        ]
+    },
+    {
+        "Career Goal": "Optometrist",
+        "Skills": "Vision Therapy, Eye Care",
+        "Expected Salary": "$95,000 - $120,000",
+        "Topics To Learn": "Pediatric Eye Care, Contact Lenses",
+        "Certification Name": "Doctor of Optometry",
+        "Certification Links": [
+            "https://www.optometry.org/",
+            "https://www.aoa.org/",
+            "https://www.covd.org/"
+        ]
+    },
+    {
+        "Career Goal": "Archaeologist",
+        "Skills": "Excavation, Historical Research",
+        "Expected Salary": "$60,000 - $85,000",
+        "Topics To Learn": "Cultural Resource Management, Paleoanthropology",
+        "Certification Name": "Certified Professional Archaeologist",
+        "Certification Links": [
+            "https://rpanet.org/",
+            "https://www.saa.org/",
+            "https://www.archaeological.org/"
+        ]
+    },
+    {
+        "Career Goal": "Zoologist",
+        "Skills": "Wildlife Conservation, Ecological Surveys",
+        "Expected Salary": "$60,000 - $85,000",
+        "Topics To Learn": "Endangered Species, Ecological Behavior",
+        "Certification Name": "Certified Wildlife Biologist",
+        "Certification Links": [
+            "https://wildlife.org/",
+            "https://www.zsl.org/",
+            "https://www.aza.org/"
+        ]
+    }
+]

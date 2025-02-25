@@ -574,7 +574,7 @@ const Dashboard = () => {
                 <Link to="/dashboard">Home</Link>
               </li>
               <li>
-                <Link to="/guideline">Guideline</Link>
+                <Link to="/Model">Model</Link>
               </li>
               <li>
                 <Link to="/topics">Topics</Link>

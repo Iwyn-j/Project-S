@@ -293,7 +293,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FiSend } from "react-icons/fi";
 import { auth, db } from "../firebase-config";
-import { doc, updateDoc, getDoc } from "firebase/firestore";  
+import { doc, collection, setDoc, addDoc, getDoc, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 const questions = [
@@ -308,32 +308,52 @@ const ChatBot = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [responses, setResponses] = useState({});
   const [inputValue, setInputValue] = useState("");
+  const [sessionId, setSessionId] = useState(null);
   const [userName, setUserName] = useState("");
   const [isCompleted, setIsCompleted] = useState(false); // Flag to indicate completion
   const navigate = useNavigate();
 
+  // Function to map the chatbot responses to the structure expected by `Guideline.js`
+  const mapResponsesToUserInput = (responses) => {
+    return {
+      occupation: responses["What is your current occupation?"] || "",
+      careerGoal: responses["What are your career goals?"] || "",
+      industry: responses["What skills would you like to improve?"] || "",
+    };
+  };
+
+  // Fetch user name and create a new session
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchUserDataAndCreateSession = async () => {
       try {
         const user = auth.currentUser;
+
         if (!user) {
           alert("User not authenticated. Please log in.");
           navigate("/login");
           return;
         }
+
         const userDoc = await getDoc(doc(db, "users", user.uid));
         if (userDoc.exists()) {
           setUserName(userDoc.data().firstName || "there");
         } else {
           console.error("User document does not exist.");
         }
+
+        const sessionsRef = collection(db, "users", user.uid, "sessions");
+        const sessionDoc = await addDoc(sessionsRef, {
+          startedAt: serverTimestamp(),
+        });
+
+        setSessionId(sessionDoc.id);
       } catch (error) {
-        console.error("Error fetching user:", error.message);
+        console.error("Error fetching user or creating session:", error.message);
         alert("Failed to initialize. Please try again.");
       }
     };
 
-    fetchUserData();
+    fetchUserDataAndCreateSession();
   }, [navigate]);
 
   const handleNext = async () => {
@@ -357,89 +377,36 @@ const ChatBot = () => {
     }
   };
 
-  // const saveResponsesToFirebase = async () => {
-  //   try {
-  //     const user = auth.currentUser;
-  
-  //     if (!user) {
-  //       alert("User not authenticated. Please log in.");
-  //       navigate("/login");
-  //       return;
-  //     }
-  
-  //     const userDocRef = doc(db, "users", user.uid);
-  
-  //     // Create a new interaction object with the responses and a timestamp
-  //     const newInteraction = {
-  //       responses: { ...responses, [questions[currentQuestionIndex].question]: inputValue },
-  //       completedAt: serverTimestamp(), // Add timestamp directly in the object
-  //     };
-  
-  //     // Fetch existing interactions from Firestore
-  //     const docSnapshot = await getDoc(userDocRef);
-  //     if (docSnapshot.exists()) {
-  //       const userData = docSnapshot.data();
-  //       const existingInteractions = userData.chatbotInteractions || [];
-  
-  //       // Append new interaction to existing interactions
-  //       const updatedInteractions = [...existingInteractions, newInteraction];
-  
-  //       // Update the document with the new interactions array
-  //       await updateDoc(userDocRef, {
-  //         chatbotInteractions: updatedInteractions
-  //       });
-  
-  //       navigate("/dashboard");
-  //     } else {
-  //       console.error("User document does not exist.");
-  //       alert("User data not found. Please try again.");
-  //     }
-  
-  //   } catch (error) {
-  //     console.error("Error saving responses:", error.message);
-  //     alert(`Failed to save responses: ${error.message}`);
-  //   }
-  // };
   const saveResponsesToFirebase = async () => {
     try {
       const user = auth.currentUser;
-  
+
       if (!user) {
         alert("User not authenticated. Please log in.");
         navigate("/login");
         return;
       }
-  
-      const userDocRef = doc(db, "users", user.uid);
-  
-      // Retrieve the current document to update the interactions
-      const docSnapshot = await getDoc(userDocRef);
-      if (!docSnapshot.exists()) {
-        console.error("User document does not exist.");
-        alert("User data not found. Please try again.");
+
+      if (!sessionId) {
+        alert("Session not initialized. Please try again.");
         return;
       }
-  
-      const userData = docSnapshot.data();
-      const existingInteractions = userData.chatbotInteractions || [];
-      const newInteraction = {
-        responses: { ...responses, [questions[currentQuestionIndex].question]: inputValue },
-        completedAt: new Date()  // JavaScript Date object for timestamp
-      };
-  
-      // Update the user document with new interaction array
-      await updateDoc(userDocRef, {
-        chatbotInteractions: [...existingInteractions, newInteraction]
+
+      const sessionRef = doc(db, "users", user.uid, "sessions", sessionId);
+      const mappedUserInput = mapResponsesToUserInput(responses);
+
+      await setDoc(sessionRef, {
+        responses,
+        completedAt: serverTimestamp(),
+        mappedUserInput,
       });
-  
-      navigate("/dashboard");
+
+      navigate("/dashboard", { state: { userInput: mappedUserInput } });
     } catch (error) {
       console.error("Error saving responses:", error.message);
       alert(`Failed to save responses: ${error.message}`);
     }
   };
-  
-  
 
   const currentQuestion = questions[currentQuestionIndex];
 
@@ -517,13 +484,13 @@ const BackgroundShapes = styled.div`
   }
 
   .shape-blue {
-    background: linear-gradient to bottom right, #00d4ff, #0066ff);
+    background: linear-gradient(to bottom right, #00d4ff, #0066ff);
     top: 10%;
     left: 10%;
   }
 
   .shape-orange {
-    background: linear-gradient to bottom right, #ff7b00, #ff4e00);
+    background: linear-gradient(to bottom right, #ff7b00, #ff4e00);
     bottom: 10%;
     right: 10%;
   }
