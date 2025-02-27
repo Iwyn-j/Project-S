@@ -1,478 +1,512 @@
-// import React, { useState, useEffect } from "react";
-// import styled, { keyframes } from "styled-components";
-// import { FiSend } from "react-icons/fi";
-// import { auth, db } from "../firebase-config";
-// import { doc, collection, setDoc, addDoc, serverTimestamp } from "firebase/firestore";
-// import { useNavigate } from "react-router-dom";
-
-// // Questions Array
-// const questions = [
-//   { id: 1, question: "What is your full name?", type: "text" },
-//   { id: 2, question: "What is your age?", type: "number" },
-//   { id: 3, question: "What is your educational background?", type: "dropdown", options: ["High School", "Diploma", "Degree", "Master's", "PhD"] },
-//   { id: 4, question: "What is your current occupation?", type: "text" },
-//   { id: 5, question: "What are your career goals?", type: "text" },
-//   { id: 6, question: "What industry are you most interested in working in?", type: "dropdown", options: ["Technology", "Finance", "Healthcare", "Education", "Creative Arts", "Others"] },
-//   { id: 7, question: "What skills do you possess that are relevant to your career goals?", type: "text" },
-//   { id: 8, question: "What is your dream job title?", type: "text" },
-//   { id: 9, question: "What motivates you the most in your career?", type: "text" },
-//   { id: 10, question: "How many years of work experience do you have?", type: "number" },
-//   { id: 11, question: "What kind of work environment do you prefer?", type: "dropdown", options: ["Corporate", "Startup", "Remote", "Hybrid", "Others"] },
-//   { id: 12, question: "What are your expectations for work-life balance?", type: "text" },
-//   { id: 13, question: "What is your preferred salary range?", type: "text" },
-//   { id: 14, question: "What additional skills or certifications would you like to acquire?", type: "text" },
-//   { id: 15, question: "Do you have any specific companies in mind you'd like to work for?", type: "text" },
-//   { id: 16, question: "What is your biggest professional achievement so far?", type: "text" },
-//   { id: 17, question: "What is your biggest professional challenge so far?", type: "text" },
-//   { id: 18, question: "Are you open to relocating for your career?", type: "dropdown", options: ["Yes", "No", "Maybe"] },
-//   { id: 19, question: "What do you consider your biggest strength?", type: "text" },
-//   { id: 20, question: "What do you consider your biggest weakness?", type: "text" },
-//   { id: 21, question: "Do you prefer working independently or in a team?", type: "dropdown", options: ["Independently", "In a Team", "Both"] },
-//   { id: 22, question: "What role do you usually take in a team setting?", type: "text" },
-//   { id: 23, question: "How do you usually handle work-related stress?", type: "text" },
-//   { id: 24, question: "What steps are you taking to achieve your career goals?", type: "text" },
-//   { id: 25, question: "What are your short-term career goals (1-3 years)?", type: "text" },
-//   { id: 26, question: "What are your long-term career goals (5+ years)?", type: "text" },
-// ];
-
-// const ChatBot = () => {
-//   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-//   const [responses, setResponses] = useState({});
-//   const [inputValue, setInputValue] = useState("");
-//   const [sessionId, setSessionId] = useState(null);
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     const createSession = async () => {
-//       try {
-//         const user = auth.currentUser;
-
-//         if (!user) {
-//           console.error("No authenticated user found.");
-//           alert("User not authenticated. Please log in.");
-//           navigate("/login");
-//           return;
-//         }
-
-//         // Create a new session in Firestore
-//         const sessionsRef = collection(db, "users", user.uid, "sessions");
-//         const sessionDoc = await addDoc(sessionsRef, {
-//           startedAt: serverTimestamp(),
-//         });
-
-//         console.log("New session created with ID:", sessionDoc.id);
-//         setSessionId(sessionDoc.id); // Store session ID
-//       } catch (error) {
-//         console.error("Error initializing session:", error.message);
-//         alert("Failed to initialize session. Please try again.");
-//       }
-//     };
-
-//     createSession();
-//   }, [navigate]);
-
-//   const handleNext = async () => {
-//     const currentQuestion = questions[currentQuestionIndex];
-
-//     if (inputValue.trim() === "") {
-//       console.warn("Empty input value, skipping.");
-//       return;
-//     }
-
-//     // Save the current answer
-//     setResponses((prev) => ({ ...prev, [currentQuestion.question]: inputValue }));
-
-//     if (currentQuestionIndex < questions.length - 1) {
-//       // Move to the next question
-//       setInputValue("");
-//       setCurrentQuestionIndex(currentQuestionIndex + 1);
-//     } else {
-//       // Final step: Save all answers to Firestore
-//       await saveToFirebase();
-//     }
-//   };
-
-//   const saveToFirebase = async () => {
-//     try {
-//       const user = auth.currentUser;
-
-//       if (!user) {
-//         console.error("No authenticated user found.");
-//         alert("User not authenticated. Please log in.");
-//         navigate("/login");
-//         return;
-//       }
-
-//       if (!sessionId) {
-//         console.error("Session ID not found.");
-//         alert("Session not initialized. Please try again.");
-//         return;
-//       }
-
-//       // Reference to the current session document
-//       const sessionRef = doc(db, "users", user.uid, "sessions", sessionId);
-
-//       // Save responses to Firestore
-//       await setDoc(sessionRef, {
-//         responses,
-//         completedAt: serverTimestamp(),
-//       });
-
-//       console.log("Responses saved successfully.");
-//       alert("Responses saved successfully!");
-//       navigate("/"); // Redirect to home
-//     } catch (error) {
-//       console.error("Firestore save error:", error.code, error.message);
-//       alert(`Failed to save responses: ${error.message}`);
-//     }
-//   };
-
-//   const currentQuestion = questions[currentQuestionIndex];
-
-//   return (
-//     <ChatContainer>
-//       {/* Animated Background */}
-//       <AnimatedBackground>
-//         {[...Array(30)].map((_, i) => (
-//           <Bubble
-//             key={i}
-//             style={{
-//               left: `${Math.random() * 100}%`,
-//               animationDuration: `${3 + Math.random() * 5}s`,
-//               animationDelay: `${Math.random() * 3}s`,
-//             }}
-//           />
-//         ))}
-//       </AnimatedBackground>
-
-//       {/* Chatbox */}
-//       <ChatBox>
-//         <h2>🤖 Smart ChatBot</h2>
-//         <ChatBubble>
-//           <p>{currentQuestion.question}</p>
-//         </ChatBubble>
-
-//         {currentQuestion.type === "dropdown" ? (
-//           <Dropdown
-//             value={inputValue}
-//             onChange={(e) => setInputValue(e.target.value)}
-//             onBlur={handleNext} // Auto-submit dropdown
-//           >
-//             <option value="">Select an option</option>
-//             {currentQuestion.options.map((option, idx) => (
-//               <option key={idx} value={option}>
-//                 {option}
-//               </option>
-//             ))}
-//           </Dropdown>
-//         ) : (
-//           <InputBox>
-//             <input
-//               type={currentQuestion.type}
-//               value={inputValue}
-//               placeholder="Type your answer..."
-//               onChange={(e) => setInputValue(e.target.value)}
-//             />
-//             <SendButton onClick={handleNext}>
-//               <FiSend />
-//             </SendButton>
-//           </InputBox>
-//         )}
-//       </ChatBox>
-//     </ChatContainer>
-//   );
-// };
-
-// export default ChatBot;
-
-// // Styled Components
-
-// const bubbleAnimation = keyframes`
-//   0% {
-//     transform: translateY(0) scale(0.5);
-//     opacity: 1;
-//   }
-//   100% {
-//     transform: translateY(-100vh) scale(1.2);
-//     opacity: 0;
-//   }
-// `;
-
-// const ChatContainer = styled.div`
-//   height: 100vh;
-//   overflow: hidden;
-//   background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   position: relative;
-//   font-family: "Poppins", sans-serif;
-// `;
-
-// const AnimatedBackground = styled.div`
-//   position: absolute;
-//   width: 100%;
-//   height: 100%;
-//   top: 0;
-//   left: 0;
-//   overflow: hidden;
-// `;
-
-// const Bubble = styled.div`
-//   position: absolute;
-//   bottom: -50px;
-//   width: 20px;
-//   height: 20px;
-//   background: rgba(255, 255, 255, 0.3);
-//   border-radius: 50%;
-//   animation: ${bubbleAnimation} infinite ease-in-out;
-// `;
-
-// const ChatBox = styled.div`
-//   z-index: 2;
-//   width: 500px;
-//   background: rgba(255, 255, 255, 0.15);
-//   backdrop-filter: blur(10px);
-//   border-radius: 20px;
-//   padding: 20px;
-//   color: #fff;
-//   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
-//   text-align: center;
-
-//   h2 {
-//     color: #fcbf49;
-//     margin-bottom: 20px;
-//     font-size: 1.8rem;
-//   }
-// `;
-
-// const ChatBubble = styled.div`
-//   background: rgba(255, 255, 255, 0.2);
-//   padding: 15px;
-//   border-radius: 10px;
-//   margin-bottom: 20px;
-//   font-weight: bold;
-// `;
-
-// const InputBox = styled.div`
-//   display: flex;
-//   gap: 10px;
-
-//   input {
-//     flex: 1;
-//     padding: 10px;
-//     border: none;
-//     border-radius: 5px;
-//     outline: none;
-//     font-size: 1rem;
-//   }
-// `;
-
-// const SendButton = styled.button`
-//   background-color: #06d6a0;
-//   color: white;
-//   border: none;
-//   border-radius: 5px;
-//   padding: 10px;
-//   cursor: pointer;
-
-//   &:hover {
-//     background-color: #05c096;
-//   }
-// `;
-
-// const Dropdown = styled.select`
-//   width: 100%;
-//   padding: 10px;
-//   margin-top: 10px;
-//   border-radius: 5px;
-//   border: none;
-//   font-size: 1rem;
-// `;
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import React, { useState, useEffect, useRef } from "react";
+import styled, { keyframes } from "styled-components";
 import { FiSend } from "react-icons/fi";
 import { auth, db } from "../firebase-config";
-import { doc, collection, setDoc, addDoc, getDoc, serverTimestamp } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
-const questions = [
-  { id: 1, question: "What is your age?", type: "number" },
-  { id: 2, question: "What is your current occupation?", type: "text" },
-  { id: 3, question: "What are your career goals?", type: "text" },
-  { id: 4, question: "What skills would you like to improve?", type: "text" },
-  { id: 5, question: "What motivates you in your career?", type: "text" },
+/*
+  FIELDS ARRAY:
+  Each object defines:
+    - label: the question shown to the user
+    - name: key in the responses object
+    - type: 'text' | 'date' | 'dropdown' | 'checkbox' | 'radio' | 'number' | 'yearPicker' | 'textarea'
+    - options: for dropdown, checkbox, or radio
+    - placeholder: placeholder text for inputs
+    - validate: function(value) => returns an error message if invalid, else an empty string
+*/
+const fields = [
+  {
+    label: "Full Name",
+    name: "fullName",
+    type: "text",
+    placeholder: "Enter your full name",
+    validate: (value) => (!value ? "Full Name is required" : ""),
+  },
+  {
+    label: "Date of Birth",
+    name: "dob",
+    type: "date",
+    placeholder: "Select your date of birth",
+    validate: (value) => (!value ? "Date of Birth is required" : ""),
+  },
+  {
+    label: "Educational Background",
+    name: "education",
+    type: "dropdown",
+    placeholder: "Select your highest degree",
+    options: ["High School", "Associate", "Bachelor's", "Master's", "PhD"],
+    validate: (value) => (!value ? "Please select an education level" : ""),
+  },
+  {
+    label: "Year of Graduation",
+    name: "graduationYear",
+    type: "yearPicker",
+    placeholder: "Select your graduation year",
+    validate: (value) => {
+      if (!value) return "Graduation Year is required";
+      const year = parseInt(value, 10);
+      const currentYear = new Date().getFullYear();
+      if (year < 1900 || year > currentYear + 10) {
+        return "Please enter a valid graduation year";
+      }
+      return "";
+    },
+  },
+  {
+    label: "Occupation",
+    name: "occupation",
+    type: "text",
+    placeholder: "Enter your current job title",
+    validate: (value) => (!value ? "Occupation is required" : ""),
+  },
+  {
+    label: "Salary",
+    name: "salary",
+    type: "number",
+    placeholder: "Enter your salary (e.g., 50000)",
+    validate: (value) => {
+      if (!value) return "Salary is required";
+      const numeric = Number(value);
+      return numeric < 0 ? "Salary cannot be negative" : "";
+    },
+  },
+  {
+    label: "Industry (Select one or more)",
+    name: "industry",
+    type: "checkbox",
+    options: ["IT", "Healthcare", "Finance", "Marketing", "Engineering", "Education"],
+    validate: (value) =>
+      value.length === 0 ? "Please select at least one industry" : "",
+  },
+  {
+    label: "Job Scope (Select one or more)",
+    name: "jobScope",
+    type: "checkbox",
+    options: ["Management", "Engineering", "Design", "Research", "Sales"],
+    validate: (value) =>
+      value.length === 0 ? "Please select at least one job scope" : "",
+  },
+  {
+    label: "Additional Job Functions (Select any)",
+    name: "additionalJobFunctions",
+    type: "checkbox",
+    options: ["Programming", "Database", "Customer Support", "Analysis"],
+    validate: () => "",
+  },
+  {
+    label: "Career Goal",
+    name: "careerGoal",
+    type: "text",
+    placeholder: "Briefly describe your career goal",
+    validate: (value) => (!value ? "Please enter a career goal" : ""),
+  },
+  {
+    label: "Age",
+    name: "age",
+    type: "number",
+    placeholder: "Enter your age",
+    validate: (value) => {
+      if (!value) return "Age is required";
+      const numeric = Number(value);
+      if (numeric < 1 || numeric > 120) {
+        return "Please enter a valid age";
+      }
+      return "";
+    },
+  },
+  {
+    label: "Gender",
+    name: "gender",
+    type: "radio",
+    options: ["Male", "Female", "Other"],
+    validate: (value) => (!value ? "Please select a gender" : ""),
+  },
+  {
+    label: "Current Geographic Location",
+    name: "location",
+    type: "text",
+    placeholder: "Where are you located?",
+    validate: (value) => (!value ? "Location is required" : ""),
+  },
+  {
+    label: "What skills would you like to learn and what areas do you wish to improve in?",
+    name: "skillsAndImprovements",
+    type: "textarea",
+    placeholder: "For example: I want to learn advanced JavaScript and improve my public speaking skills.",
+    validate: (value) => (!value ? "This field is required" : ""),
+  },
 ];
 
 const ChatBot = () => {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [currentFieldIndex, setCurrentFieldIndex] = useState(0);
   const [responses, setResponses] = useState({});
   const [inputValue, setInputValue] = useState("");
-  const [sessionId, setSessionId] = useState(null);
   const [userName, setUserName] = useState("");
-  const [isCompleted, setIsCompleted] = useState(false); // Flag to indicate completion
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [messages, setMessages] = useState([]); // Each message: { sender: 'bot'|'user', text: string }
   const navigate = useNavigate();
+  const messagesEndRef = useRef(null);
 
-  // Function to map the chatbot responses to the structure expected by `Guideline.js`
-  const mapResponsesToUserInput = (responses) => {
-    return {
-      occupation: responses["What is your current occupation?"] || "",
-      careerGoal: responses["What are your career goals?"] || "",
-      industry: responses["What skills would you like to improve?"] || "",
-    };
-  };
-
-  // Fetch user name and create a new session
+  // Auto-scroll to the bottom when messages change
   useEffect(() => {
-    const fetchUserDataAndCreateSession = async () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  // 1. Fetch user data
+  useEffect(() => {
+    const fetchUserData = async () => {
       try {
         const user = auth.currentUser;
-
         if (!user) {
           alert("User not authenticated. Please log in.");
           navigate("/login");
           return;
         }
-
         const userDoc = await getDoc(doc(db, "users", user.uid));
         if (userDoc.exists()) {
           setUserName(userDoc.data().firstName || "there");
         } else {
           console.error("User document does not exist.");
         }
-
-        const sessionsRef = collection(db, "users", user.uid, "sessions");
-        const sessionDoc = await addDoc(sessionsRef, {
-          startedAt: serverTimestamp(),
-        });
-
-        setSessionId(sessionDoc.id);
       } catch (error) {
-        console.error("Error fetching user or creating session:", error.message);
+        console.error("Error fetching user:", error.message);
         alert("Failed to initialize. Please try again.");
       }
     };
-
-    fetchUserDataAndCreateSession();
+    fetchUserData();
   }, [navigate]);
 
+  // 2. Greet the user and ask the FIRST question once userName is loaded (only if no messages yet)
+  useEffect(() => {
+    if (userName && messages.length === 0) {
+      const greetingMsg = {
+        sender: "bot",
+        text: `Hi ${userName}, let's gather some information to personalize your experience!`,
+      };
+      const firstField = fields[0];
+      const firstQuestion = {
+        sender: "bot",
+        text: firstField.label,
+      };
+      setInputValue(
+        firstField.type === "checkbox"
+          ? responses[firstField.name] || []
+          : responses[firstField.name] || ""
+      );
+      setMessages([greetingMsg, firstQuestion]);
+    }
+  }, [userName, messages, responses]);
+
+  const currentField = fields[currentFieldIndex];
+
+  // 3. Handle going to the next question or finishing
   const handleNext = async () => {
-    if (isCompleted) return; // Prevent further actions after completion
+    if (!currentField) return;
 
-    const currentQuestion = questions[currentQuestionIndex];
-
-    if (inputValue.trim() === "") {
-      alert("Please provide an answer before proceeding.");
+    let valueToValidate = inputValue;
+    if (currentField.type === "checkbox") {
+      valueToValidate = responses[currentField.name] || [];
+    }
+    const validationError = currentField.validate(valueToValidate);
+    if (validationError) {
+      setErrorMessage(validationError);
       return;
     }
+    setErrorMessage("");
 
-    setResponses((prev) => ({ ...prev, [currentQuestion.question]: inputValue }));
+    let userResponseText =
+      currentField.type === "checkbox"
+        ? (responses[currentField.name] || []).join(", ")
+        : inputValue;
+    setMessages((prev) => [...prev, { sender: "user", text: userResponseText }]);
 
-    if (currentQuestionIndex < questions.length - 1) {
-      setInputValue("");
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    setResponses((prev) => ({
+      ...prev,
+      [currentField.name]:
+        currentField.type === "checkbox"
+          ? responses[currentField.name] || []
+          : inputValue,
+    }));
+
+    if (currentFieldIndex < fields.length - 1) {
+      const nextIndex = currentFieldIndex + 1;
+      setCurrentFieldIndex(nextIndex);
+      const nextField = fields[nextIndex];
+      const preloadValue =
+        nextField.type === "checkbox"
+          ? responses[nextField.name] || []
+          : responses[nextField.name] || "";
+      setInputValue(preloadValue);
+      setMessages((prev) => [...prev, { sender: "bot", text: nextField.label }]);
     } else {
-      setIsCompleted(true); // Mark as completed
-      await saveResponsesToFirebase(); // Save responses and navigate to guideline
+      setIsCompleted(true);
+      const finalResponses = {
+        ...responses,
+        [currentField.name]:
+          currentField.type === "checkbox"
+            ? responses[currentField.name] || []
+            : inputValue,
+      };
+      await saveResponsesToFirebase(finalResponses);
     }
   };
 
-  const saveResponsesToFirebase = async () => {
+  // 4. Save final responses to Firestore (using a regular Date)
+  const saveResponsesToFirebase = async (finalResponses) => {
     try {
       const user = auth.currentUser;
-
       if (!user) {
         alert("User not authenticated. Please log in.");
         navigate("/login");
         return;
       }
-
-      if (!sessionId) {
-        alert("Session not initialized. Please try again.");
+      const userDocRef = doc(db, "users", user.uid);
+      const docSnapshot = await getDoc(userDocRef);
+      if (!docSnapshot.exists()) {
+        console.error("User document does not exist.");
+        alert("User data not found. Please try again.");
         return;
       }
-
-      const sessionRef = doc(db, "users", user.uid, "sessions", sessionId);
-      const mappedUserInput = mapResponsesToUserInput(responses);
-
-      await setDoc(sessionRef, {
-        responses,
-        completedAt: serverTimestamp(),
-        mappedUserInput,
+      const userData = docSnapshot.data();
+      const existingInteractions = userData.chatbotInteractions || [];
+      const newInteraction = {
+        responses: finalResponses,
+        completedAt: new Date(),
+      };
+      await updateDoc(userDocRef, {
+        chatbotInteractions: [...existingInteractions, newInteraction],
       });
-
-      navigate("/dashboard", { state: { userInput: mappedUserInput } });
+      setMessages((prev) => [
+        ...prev,
+        { sender: "bot", text: "Thanks! Redirecting you to the dashboard..." },
+      ]);
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 1500);
     } catch (error) {
       console.error("Error saving responses:", error.message);
       alert(`Failed to save responses: ${error.message}`);
     }
   };
 
-  const currentQuestion = questions[currentQuestionIndex];
+  // 5. Handle checkbox changes
+  const handleCheckboxChange = (option) => {
+    const fieldName = currentField.name;
+    const prevSelected = responses[fieldName] || [];
+    let updated;
+    if (prevSelected.includes(option)) {
+      updated = prevSelected.filter((item) => item !== option);
+    } else {
+      updated = [...prevSelected, option];
+    }
+    setResponses((prev) => ({ ...prev, [fieldName]: updated }));
+    setInputValue(updated);
+  };
+
+  // 6. Handle radio changes
+  const handleRadioChange = (option) => {
+    setInputValue(option);
+  };
+
+  // 7. Render a year picker (1900 to currentYear+5)
+  const renderYearPicker = () => {
+    const currentYear = new Date().getFullYear();
+    const years = [];
+    for (let y = currentYear + 5; y >= 1900; y--) {
+      years.push(y);
+    }
+    return (
+      <select
+        value={typeof inputValue === "string" ? inputValue : ""}
+        onChange={(e) => setInputValue(e.target.value)}
+      >
+        <option value="">-- Select Year --</option>
+        {years.map((year) => (
+          <option key={year} value={year}>
+            {year}
+          </option>
+        ))}
+      </select>
+    );
+  };
+
+  // 8. Render the appropriate input control for the current field, including textarea support
+  const renderInput = () => {
+    if (!currentField) return null;
+    switch (currentField.type) {
+      case "text":
+        return (
+          <input
+            type="text"
+            placeholder={currentField.placeholder}
+            value={typeof inputValue === "string" ? inputValue : ""}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
+        );
+      case "date":
+        return (
+          <input
+            type="date"
+            placeholder={currentField.placeholder}
+            value={typeof inputValue === "string" ? inputValue : ""}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
+        );
+      case "dropdown":
+        return (
+          <select
+            value={typeof inputValue === "string" ? inputValue : ""}
+            onChange={(e) => setInputValue(e.target.value)}
+          >
+            <option value="">-- {currentField.placeholder} --</option>
+            {currentField.options.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        );
+      case "checkbox":
+        const selectedValues = Array.isArray(inputValue) ? inputValue : [];
+        return (
+          <CheckboxGroup>
+            {currentField.options.map((option) => (
+              <label key={option}>
+                <input
+                  type="checkbox"
+                  checked={selectedValues.includes(option)}
+                  onChange={() => handleCheckboxChange(option)}
+                />
+                {option}
+              </label>
+            ))}
+          </CheckboxGroup>
+        );
+      case "radio":
+        return (
+          <RadioGroup>
+            {currentField.options.map((option) => (
+              <label key={option}>
+                <input
+                  type="radio"
+                  checked={inputValue === option}
+                  onChange={() => handleRadioChange(option)}
+                />
+                {option}
+              </label>
+            ))}
+          </RadioGroup>
+        );
+      case "number":
+        return (
+          <input
+            type="number"
+            placeholder={currentField.placeholder}
+            value={typeof inputValue === "string" ? inputValue : ""}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
+        );
+      case "yearPicker":
+        return renderYearPicker();
+      case "textarea":
+        return (
+          <textarea
+            placeholder={currentField.placeholder}
+            value={typeof inputValue === "string" ? inputValue : ""}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
+        );
+      default:
+        return (
+          <input
+            type="text"
+            placeholder={currentField.placeholder}
+            value={typeof inputValue === "string" ? inputValue : ""}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
+        );
+    }
+  };
 
   return (
-    <ChatContainer>
+    <PageContainer>
+      {/* Floating Shapes */}
       <BackgroundShapes>
         <div className="floating-shape shape-blue"></div>
         <div className="floating-shape shape-orange"></div>
       </BackgroundShapes>
 
-      <ChatBox>
-        <ChatHeader>Smart ChatBot</ChatHeader>
-        <ChatContent>
-          {userName && currentQuestionIndex === 0 && (
-            <ChatBubble>
-              <p>Hi {userName}, how are you today? Let's answer a few questions to get started!</p>
-            </ChatBubble>
-          )}
-          {Object.keys(responses).map((key, index) => (
-            <ChatBubble key={index}>
-              <p>{key}</p>
-              <Response>{responses[key]}</Response>
-            </ChatBubble>
-          ))}
-          {!isCompleted && currentQuestion && (
-            <ChatBubble>
-              <p>{currentQuestion.question}</p>
-            </ChatBubble>
+      <ChatContainer>
+        <Header>Smart ChatBot</Header>
+        <MessagesContainer>
+          {messages.map((msg, idx) =>
+            msg.sender === "bot" ? (
+              <BotBubble key={idx}>{msg.text}</BotBubble>
+            ) : (
+              <UserBubble key={idx}>{msg.text}</UserBubble>
+            )
           )}
           {isCompleted && (
-            <ChatBubble>
-              <p>Thank you for your responses! Redirecting to your personalized recommendations...</p>
-            </ChatBubble>
+            <BotBubble>
+              Thank you for providing all the information! Redirecting to your dashboard...
+            </BotBubble>
           )}
-        </ChatContent>
-        {!isCompleted && (
-          <InputBox>
-            <input
-              type={currentQuestion?.type || "text"}
-              value={inputValue}
-              placeholder="Type your answer..."
-              onChange={(e) => setInputValue(e.target.value)}
-            />
+          {/* Dummy element for auto-scroll */}
+          <div ref={messagesEndRef} />
+        </MessagesContainer>
+        {!isCompleted && currentField && (
+          <InputArea>
+            <InputWrapper>
+              {renderInput()}
+              {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
+            </InputWrapper>
             <SendButton onClick={handleNext}>
               <FiSend />
             </SendButton>
-          </InputBox>
+          </InputArea>
         )}
-      </ChatBox>
-    </ChatContainer>
+      </ChatContainer>
+    </PageContainer>
   );
 };
 
 export default ChatBot;
 
-// Styled Components
-const ChatContainer = styled.div`
-  height: 100vh;
+/* ---------------------------
+   Styled Components
+--------------------------- */
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  } 
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const PageContainer = styled.div`
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #111;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "Poppins", sans-serif;
-  position: relative;
+  overflow: hidden;
 `;
 
 const BackgroundShapes = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
   .floating-shape {
     position: absolute;
     width: 200px;
@@ -481,6 +515,7 @@ const BackgroundShapes = styled.div`
     filter: blur(100px);
     opacity: 0.7;
     z-index: -1;
+    pointer-events: none;
   }
 
   .shape-blue {
@@ -496,69 +531,169 @@ const BackgroundShapes = styled.div`
   }
 `;
 
-const ChatBox = styled.div`
-  z-index: 2;
+const ChatContainer = styled.div`
+  z-index: 1;
+  background-color: #1e1e1e;
   width: 600px;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 20px;
-  color: white;
+  max-width: 95%;
+  height: 85vh;
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
-  max-height: 80vh;
-`;
-
-const ChatHeader = styled.h2`
-  text-align: center;
-  font-size: 1.8rem;
-  margin-bottom: 20px;
-  color: #ffffff;
-`;
-
-const ChatContent = styled.div`
-  flex: 1;
-  overflow-y: auto;
-  margin-bottom: 10px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
-
-const ChatBubble = styled.div`
-  background: rgba(255, 255, 255, 0.1);
-  padding: 10px;
   border-radius: 10px;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    width: 90%;
+    height: 80vh;
+  }
 `;
 
-const Response = styled.div`
-  margin-top: 5px;
-  color: #00d4ff;
+const Header = styled.div`
+  text-align: center;
+  padding: 1rem;
+  background-color: #2b2b2b;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 600;
 `;
 
-const InputBox = styled.div`
+const MessagesContainer = styled.div`
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  gap: 0.75rem;
+  animation: ${fadeIn} 0.5s ease-out;
 
-  input {
-    flex: 1;
-    padding: 10px;
+  /* Custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #00d4ff transparent;
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #00d4ff;
+    border-radius: 3px;
+  }
+`;
+
+const Bubble = styled.div`
+  max-width: 70%;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  line-height: 1.4;
+  font-size: 0.95rem;
+  animation: ${fadeIn} 0.5s ease-out;
+`;
+
+const BotBubble = styled(Bubble)`
+  align-self: flex-start;
+  background-color: #333;
+  color: #fff;
+  border-top-left-radius: 0;
+`;
+
+const UserBubble = styled(Bubble)`
+  align-self: flex-end;
+  background-color: #00d4ff;
+  color: #000;
+  border-top-right-radius: 0;
+`;
+
+const InputArea = styled.div`
+  display: flex;
+  align-items: center;
+  background-color: #2b2b2b;
+  padding: 0.75rem;
+  gap: 0.5rem;
+`;
+
+const InputWrapper = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  select,
+  input[type="text"],
+  input[type="date"],
+  input[type="number"],
+  textarea {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #444;
     border: none;
     border-radius: 5px;
-    font-size: 1rem;
+    color: #fff;
+    font-size: 0.95rem;
+    outline: none;
+    margin-bottom: 4px;
+    resize: vertical;
   }
+`;
+
+const ErrorText = styled.span`
+  color: #ff4e4e;
+  font-size: 0.85rem;
 `;
 
 const SendButton = styled.button`
   background-color: #00d4ff;
-  color: white;
+  color: #000;
   border: none;
   border-radius: 5px;
-  padding: 10px;
+  padding: 0.65rem;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
 
   &:hover {
-    background-color: #008fcc;
+    background-color: #00b2dd;
+  }
+`;
+
+const CheckboxGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  input[type="checkbox"] {
+    accent-color: #00d4ff;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+`;
+
+const RadioGroup = styled.div`
+  display: flex;
+  gap: 10px;
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  input[type="radio"] {
+    accent-color: #00d4ff;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
   }
 `;

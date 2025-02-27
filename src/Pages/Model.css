@@ -31,7 +31,7 @@
   margin-bottom: 2rem;
 }
 
-.model-recommendation-card {
+.recommendation-card {
   background: var(--model-background-light);
   border-radius: var(--model-card-radius);
   box-shadow: var(--model-box-shadow-light);
@@ -42,16 +42,17 @@
   transition: transform var(--model-transition-speed), box-shadow var(--model-transition-speed);
 }
 
-.model-recommendation-card:hover {
+.recommendation-card:hover, .recommendation-card:focus {
   transform: translateY(-3px);
   box-shadow: var(--model-box-shadow-dark);
+  outline: none; /* Removes default focus outline */
 }
 
-.model-recommendation-card h2, .model-recommendation-card p {
+.recommendation-card h2, .recommendation-card p {
   margin-bottom: 0.75rem;
 }
 
-.model-recommendation-card p {
+.recommendation-card p {
   font-size: 1rem;
   color: var(--model-subtext-color);
 }
@@ -67,7 +68,7 @@
       font-size: 1.8rem;
   }
 
-  .model-recommendation-card {
+  .recommendation-card {
       width: 95%;
   }
 }
