@@ -1,74 +1,199 @@
-/* Root Variables for Model Component Styling */
+/* Import Google Font (Poppins) directly in CSS */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* Root Variables for Theming */
 :root {
-  --model-primary-color: #4caf50; /* Primary theme color for vibrant elements */
-  --model-text-color: #333; /* Primary text color for high readability */
-  --model-subtext-color: #666; /* Secondary text color for less important text */
-  --model-background-light: #ffffff; /* Pure white background for a clean and modern look */
-  --model-hover-green: #388e3c; /* Darker green for interactive hover effects */
-  --model-box-shadow-light: rgba(0, 0, 0, 0.12); /* Soft shadow for light depth effect */
-  --model-box-shadow-dark: rgba(0, 0, 0, 0.2); /* Darker shadow for pronounced interactive effects */
-  --model-padding-standard: 24px; /* Standard padding for consistent spacing */
-  --model-card-padding: 24px; /* Padding within cards for content separation */
-  --model-card-radius: 10px; /* Slightly rounded corners for a modern touch */
-  --model-transition-speed: 0.25s; /* Quick transition for smooth hover effects */
+  --model-primary-color: #4caf50; /* Vibrant green for key elements */
+  --model-primary-color-dark: #388e3c; /* Darker shade for hover states */
+  --model-text-color: #333; /* Primary text color */
+  --model-subtext-color: #666; /* Secondary text color */
+  --model-background-light: #ffffff; /* White background for cards */
+  --model-box-shadow-light: rgba(0, 0, 0, 0.12);
+  --model-box-shadow-dark: rgba(0, 0, 0, 0.2);
+  --model-radius: 12px; /* Rounded corners for cards/pills */
+  --model-transition-speed: 0.25s;
+  --model-padding-standard: 24px;
+  --model-font-family: 'Poppins', sans-serif; /* Modern, clean font */
 }
 
-/* Main Container Styling specific to Model component */
+/* Apply a soft gradient background to the entire page */
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: var(--model-font-family);
+  color: var(--model-text-color);
+  background: linear-gradient(
+    120deg, 
+    #f0fff4 0%,  /* Very light mint green */
+    #f0f4ff 100% /* Very light bluish tone */
+  );
+  /* Fallback if gradient not supported: */
+  background-color: #f0fff4;
+}
+
+/* Main Container */
 .model-container {
-  padding: var(--model-padding-standard);
-  max-width: 1000px;
-  margin: 40px auto;
+  max-width: 900px;
+  margin: 3rem auto;
   background-color: var(--model-background-light);
   box-shadow: 0 6px 20px var(--model-box-shadow-light);
-  border-radius: var(--model-card-radius);
+  border-radius: var(--model-radius);
   text-align: center;
+  padding: var(--model-padding-standard);
 }
 
+/* Header Style */
 .model-header {
-  color: var(--model-primary-color);
-  font-size: 2.2rem;
+  font-size: 2rem;
   font-weight: 600;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+  /* Gradient text effect */
+  background: linear-gradient(
+    45deg,
+    var(--model-primary-color) 0%, 
+    var(--model-primary-color-dark) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
+/* Recommendation Card */
 .recommendation-card {
   background: var(--model-background-light);
-  border-radius: var(--model-card-radius);
-  box-shadow: var(--model-box-shadow-light);
-  padding: var(--model-card-padding);
+  border-radius: var(--model-radius);
+  box-shadow: 0 3px 8px var(--model-box-shadow-light);
+  padding: var(--model-padding-standard);
   margin: 0 auto 2rem;
-  width: 90%;
+  width: 100%;
   max-width: 600px;
-  transition: transform var(--model-transition-speed), box-shadow var(--model-transition-speed);
+  transition: transform var(--model-transition-speed), 
+              box-shadow var(--model-transition-speed);
 }
 
-.recommendation-card:hover, .recommendation-card:focus {
-  transform: translateY(-3px);
-  box-shadow: var(--model-box-shadow-dark);
-  outline: none; /* Removes default focus outline */
+.recommendation-card:hover,
+.recommendation-card:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px var(--model-box-shadow-dark);
+  outline: none;
 }
 
-.recommendation-card h2, .recommendation-card p {
-  margin-bottom: 0.75rem;
+.recommendation-card h2 {
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
 .recommendation-card p {
-  font-size: 1rem;
+  margin-bottom: 0.75rem;
   color: var(--model-subtext-color);
+  font-size: 1rem;
 }
 
-/* Responsive Design for Smaller Screens */
+/* Skills Section */
+.skills-container {
+  margin-top: 1rem;
+}
+
+.skills-container h3 {
+  margin-bottom: 0.5rem;
+  color: var(--model-text-color);
+  font-weight: 500;
+}
+
+.skills-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+/* Pill-shaped skill card */
+.skill-card {
+  background: var(--model-primary-color);
+  color: #fff;
+  border-radius: 999px; /* Pill shape */
+  padding: 8px 16px;
+  box-shadow: 0 2px 5px var(--model-box-shadow-light);
+  transition: background-color var(--model-transition-speed);
+}
+
+.skill-card:hover {
+  background-color: var(--model-primary-color-dark);
+}
+
+/* Certification Links */
+.certification-links {
+  margin-top: 1.5rem;
+}
+
+.certification-links h3 {
+  margin-bottom: 0.5rem;
+  color: var(--model-text-color);
+  font-weight: 500;
+}
+
+/* Container for certification link "cards" */
+.certification-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+/* Each certification card as a clickable pill/button style */
+.certification-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 999px;
+  padding: 8px 16px;
+  box-shadow: 0 2px 5px var(--model-box-shadow-light);
+  transition: transform var(--model-transition-speed), 
+              box-shadow var(--model-transition-speed);
+}
+
+.certification-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--model-box-shadow-dark);
+}
+
+.certification-card a {
+  text-decoration: none;
+  color: var(--model-primary-color-dark);
+  font-weight: 500;
+}
+
+/* Debug Info Section */
+.debug-info {
+  margin-top: 2rem;
+  background: #fafafa;
+  padding: 1rem;
+  border: 1px solid #eee;
+  border-radius: var(--model-radius);
+  font-size: 0.9em;
+  color: var(--model-text-color);
+  word-wrap: break-word; /* In case debug text is long */
+}
+
+/* Error Text */
+.error {
+  color: red;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
   .model-container {
-      margin: 20px auto;
-      padding: var(--model-padding-standard);
+    margin: 1rem auto;
+    padding: 1rem;
   }
-
+  
   .model-header {
-      font-size: 1.8rem;
+    font-size: 1.6rem;
   }
 
   .recommendation-card {
-      width: 95%;
+    width: 95%;
+    margin: 0 auto 1.5rem;
   }
 }
