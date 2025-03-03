@@ -548,10 +548,10 @@ const Dashboard = () => {
   // Helper function to extract name from email if displayName is unavailable
   const getUserName = () => {
     if (user?.displayName) {
-      return user.displayName; // If displayName is available, use it
+      return user.displayName;
     } else if (user?.email) {
-      const username = user.email.split("@")[0]; // Extract name from email before "@"
-      return username.charAt(0).toUpperCase() + username.slice(1); // Capitalize the first letter
+      const username = user.email.split("@")[0];
+      return username.charAt(0).toUpperCase() + username.slice(1);
     }
     return "User";
   };
@@ -583,6 +583,9 @@ const Dashboard = () => {
                 <Link to="/certifications">Certifications</Link>
               </li>
               <li>
+                <Link to="/profile">👤 Profile</Link>
+              </li>
+              <li>
                 <Link to="/skills">Skills</Link>
               </li>
               <li>
@@ -595,9 +598,12 @@ const Dashboard = () => {
         </aside>
 
         <main className="main-content">
+          {/* ORIGINAL TOP SECTION */}
           <div className="welcome-header">
             <h1 className="welcome-title">Welcome, {getUserName()}!</h1>
-            <p className="welcome-subtitle">Let’s dive into your journey. Click below to get started.</p>
+            <p className="welcome-subtitle">
+              Let’s dive into your journey. Click below to get started.
+            </p>
             <div className="start-now">
               <Link to="/chatbot">
                 <button className="start-now-button">Start Now</button>
@@ -608,8 +614,10 @@ const Dashboard = () => {
           <div className="dashboard-cards">
             <div className="card">
               <h3>Your Progress</h3>
-              <p>0% of your courses completed.
-                Update your progresss now!
+              <p>
+                0% of your courses completed.
+                <br />
+                Update your progress now!
               </p>
               <Link to="/topics">
                 <button className="card-button">Update now!</button>
@@ -630,6 +638,40 @@ const Dashboard = () => {
               </Link>
             </div>
           </div>
+
+          {/* HELP & FAQ SECTION */}
+          <section className="faq-section">
+            <h2>Help & FAQ</h2>
+            <div className="faq-item">
+              <h4>How do I update my profile?</h4>
+              <p>
+                Click on the <strong>Profile</strong> link in the sidebar and use
+                the <strong>Edit Profile</strong> button to update your details.
+              </p>
+            </div>
+            <div className="faq-item">
+              <h4>How do I track my progress?</h4>
+              <p>
+                The <strong>Your Progress</strong> card on this dashboard shows
+                your completion percentage. Click the button to update or review
+                your progress.
+              </p>
+            </div>
+            <div className="faq-item">
+              <h4>Where can I find new topics?</h4>
+              <p>
+                Check out the <strong>Topics</strong> page to explore our latest
+                additions.
+              </p>
+            </div>
+            <div className="faq-item">
+              <h4>How do I sign out?</h4>
+              <p>
+                Use the <strong>Sign Out</strong> button in the sidebar to log
+                out of your account.
+              </p>
+            </div>
+          </section>
         </main>
       </div>
     </div>

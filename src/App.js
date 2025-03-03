@@ -174,6 +174,7 @@ import Model from "./Pages/Model"; // Topics Page
 import CertificationsPage from "./Pages/CertificationsPage"; // Certifications Page
 import PrivateRoute from "./Pages/PrivateRoute"; // PrivateRoute for protected routes
 import { AuthProvider } from "./Pages/AuthProvider"; // AuthProvider for user context
+import Profile from "./Pages/Profile"; // Profile Page
 
 function App() {
   return (
@@ -232,6 +233,14 @@ function App() {
             element={
               <PrivateRoute>
                 <ChatBot />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/Profile"
+            element={
+              <PrivateRoute>
+                <Profile />
               </PrivateRoute>
             }
           />
