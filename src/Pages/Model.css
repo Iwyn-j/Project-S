@@ -1,106 +1,88 @@
-/* Import Google Font (Poppins) directly in CSS */
+/* Import Google Font (Poppins) directly in this file */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-/* Root Variables for Theming */
-:root {
-  --model-primary-color: #4caf50; /* Vibrant green for key elements */
-  --model-primary-color-dark: #388e3c; /* Darker shade for hover states */
-  --model-text-color: #333; /* Primary text color */
-  --model-subtext-color: #666; /* Secondary text color */
-  --model-background-light: #ffffff; /* White background for cards */
-  --model-box-shadow-light: rgba(0, 0, 0, 0.12);
-  --model-box-shadow-dark: rgba(0, 0, 0, 0.2);
-  --model-radius: 12px; /* Rounded corners for cards/pills */
-  --model-transition-speed: 0.25s;
-  --model-padding-standard: 24px;
-  --model-font-family: 'Poppins', sans-serif; /* Modern, clean font */
-}
-
-/* Apply a soft gradient background to the entire page */
-body {
+/* 1) Dark Theme Container */
+.model-page {
   margin: 0;
   padding: 0;
-  min-height: 100vh;
-  font-family: var(--model-font-family);
-  color: var(--model-text-color);
+  min-height: 100vh; 
+  font-family: 'Poppins', sans-serif;
+  /* Dark gradient background */
   background: linear-gradient(
-    120deg, 
-    #f0fff4 0%,  /* Very light mint green */
-    #f0f4ff 100% /* Very light bluish tone */
+    120deg,
+    #0f2027 0%,    /* Dark teal/blue */
+    #203a43 50%,   /* Mid range */
+    #2c5364 100%   /* Lighter but still dark teal */
   );
-  /* Fallback if gradient not supported: */
-  background-color: #f0fff4;
+  /* Fallback if gradient not supported */
+  background-color: #0f2027;
+  color: #eee; /* Light text on dark background */
+  position: relative;
 }
 
-/* Main Container */
-.model-container {
+/* 2) Main Container Card */
+.model-page .model-container {
+  position: relative;
   max-width: 900px;
-  margin: 3rem auto;
-  background-color: var(--model-background-light);
-  box-shadow: 0 6px 20px var(--model-box-shadow-light);
-  border-radius: var(--model-radius);
+  margin: 4rem auto 3rem; /* spacing from top so progress bar is clearly visible */
+  background-color: #1e1e1e; /* Dark card background */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  border-radius: 16px;
   text-align: center;
-  padding: var(--model-padding-standard);
+  padding: 2rem;
 }
 
-/* Header Style */
-.model-header {
+/* 3) Header / Title */
+.model-page .model-header {
   font-size: 2rem;
   font-weight: 600;
   margin-bottom: 1.5rem;
-  /* Gradient text effect */
-  background: linear-gradient(
-    45deg,
-    var(--model-primary-color) 0%, 
-    var(--model-primary-color-dark) 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #fff; /* White text for the heading */
 }
 
-/* Recommendation Card */
-.recommendation-card {
-  background: var(--model-background-light);
-  border-radius: var(--model-radius);
-  box-shadow: 0 3px 8px var(--model-box-shadow-light);
-  padding: var(--model-padding-standard);
+/* 4) Recommendation Card */
+.model-page .recommendation-card {
+  background: #2a2a2a; /* Slightly lighter than container, still dark */
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+  padding: 1.5rem;
   margin: 0 auto 2rem;
   width: 100%;
   max-width: 600px;
-  transition: transform var(--model-transition-speed), 
-              box-shadow var(--model-transition-speed);
+  transition: transform 0.25s, box-shadow 0.25s;
 }
 
-.recommendation-card:hover,
-.recommendation-card:focus {
+.model-page .recommendation-card:hover,
+.model-page .recommendation-card:focus {
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px var(--model-box-shadow-dark);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.5);
   outline: none;
 }
 
-.recommendation-card h2 {
+.model-page .recommendation-card h2 {
   font-weight: 600;
   margin-bottom: 1rem;
+  color: #fff;
 }
 
-.recommendation-card p {
+.model-page .recommendation-card p {
   margin-bottom: 0.75rem;
-  color: var(--model-subtext-color);
+  color: #ccc; /* Slightly lighter than background */
   font-size: 1rem;
 }
 
-/* Skills Section */
-.skills-container {
+/* 5) Skills Section */
+.model-page .skills-container {
   margin-top: 1rem;
 }
 
-.skills-container h3 {
+.model-page .skills-container h3 {
   margin-bottom: 0.5rem;
-  color: var(--model-text-color);
+  color: #fff;
   font-weight: 500;
 }
 
-.skills-cards {
+.model-page .skills-cards {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -108,33 +90,32 @@ body {
   margin-bottom: 1rem;
 }
 
-/* Pill-shaped skill card */
-.skill-card {
-  background: var(--model-primary-color);
+/* Pill-shaped skill card (bright green) */
+.model-page .skill-card {
+  background: #4caf50; 
   color: #fff;
-  border-radius: 999px; /* Pill shape */
+  border-radius: 999px;
   padding: 8px 16px;
-  box-shadow: 0 2px 5px var(--model-box-shadow-light);
-  transition: background-color var(--model-transition-speed);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+  transition: background-color 0.25s;
 }
 
-.skill-card:hover {
-  background-color: var(--model-primary-color-dark);
+.model-page .skill-card:hover {
+  background-color: #43a047; /* Darker green on hover */
 }
 
-/* Certification Links */
-.certification-links {
+/* 6) Certification Links */
+.model-page .certification-links {
   margin-top: 1.5rem;
 }
 
-.certification-links h3 {
+.model-page .certification-links h3 {
   margin-bottom: 0.5rem;
-  color: var(--model-text-color);
+  color: #fff;
   font-weight: 500;
 }
 
-/* Container for certification link "cards" */
-.certification-cards {
+.model-page .certification-cards {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -142,57 +123,77 @@ body {
   margin-bottom: 1rem;
 }
 
-/* Each certification card as a clickable pill/button style */
-.certification-card {
-  background: #fff;
-  border: 1px solid #e0e0e0;
+/* Each certification link as a pill (orange) */
+.model-page .certification-card {
+  background: #ff9800;
   border-radius: 999px;
   padding: 8px 16px;
-  box-shadow: 0 2px 5px var(--model-box-shadow-light);
-  transition: transform var(--model-transition-speed), 
-              box-shadow var(--model-transition-speed);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+  transition: transform 0.25s, box-shadow 0.25s;
 }
 
-.certification-card:hover {
+.model-page .certification-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px var(--model-box-shadow-dark);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5);
 }
 
-.certification-card a {
+.model-page .certification-card a {
   text-decoration: none;
-  color: var(--model-primary-color-dark);
+  color: #fff; 
   font-weight: 500;
 }
 
-/* Debug Info Section */
-.debug-info {
+/* 7) Debug Info Section */
+.model-page .debug-info {
   margin-top: 2rem;
-  background: #fafafa;
+  background: #2a2a2a;
   padding: 1rem;
-  border: 1px solid #eee;
-  border-radius: var(--model-radius);
+  border: 1px solid #333;
+  border-radius: 8px;
   font-size: 0.9em;
-  color: var(--model-text-color);
-  word-wrap: break-word; /* In case debug text is long */
+  color: #ccc;
+  word-wrap: break-word;
 }
 
-/* Error Text */
-.error {
-  color: red;
+/* 8) Error */
+.model-page .error {
+  color: #ff4444;
 }
 
-/* Responsive Design */
+/* 9) Progress Bar Container & Bar */
+.model-page .progress-bar-container {
+  background-color: #333;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 80%;
+  max-width: 400px;
+  margin: 2rem auto; /* space from top so it's clearly visible */
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.4);
+}
+
+.model-page .progress-bar {
+  height: 24px;
+  background: linear-gradient(90deg, #4caf50 0%, #388e3c 100%);
+  color: #fff;
+  text-align: center;
+  line-height: 24px;
+  font-weight: 600;
+  transition: width 0.4s ease;
+  border-radius: 8px 0 0 8px;
+}
+
+/* 10) Responsive Adjustments */
 @media (max-width: 768px) {
-  .model-container {
-    margin: 1rem auto;
+  .model-page .model-container {
+    margin: 2rem auto;
     padding: 1rem;
   }
   
-  .model-header {
+  .model-page .model-header {
     font-size: 1.6rem;
   }
 
-  .recommendation-card {
+  .model-page .recommendation-card {
     width: 95%;
     margin: 0 auto 1.5rem;
   }
