@@ -1194,7 +1194,7 @@
 
 // export default Model;
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, db, rtdb } from '../firebase-config';
 import { doc, getDoc } from 'firebase/firestore';
@@ -1202,6 +1202,8 @@ import { ref as databaseRef, get as getFromRTDB } from 'firebase/database';
 import * as useModel from '@tensorflow-models/universal-sentence-encoder';
 import '@tensorflow/tfjs';
 import './Model.css';
+import { RecommendationContext } from '../context/RecommendationContext';
+
 
 const Model = () => {
   const navigate = useNavigate();
@@ -1220,8 +1222,8 @@ const Model = () => {
   const [error, setError] = useState('');
   const [debugInfo, setDebugInfo] = useState('');
 
-  // Final recommendation
-  const [bestRecommendation, setBestRecommendation] = useState(null);
+  // Final recommendation from context instead of local state
+  const { bestRecommendation, setBestRecommendation } = useContext(RecommendationContext);
 
   // Additional states for controlling the final UI
   const [matchingComplete, setMatchingComplete] = useState(false);
@@ -1383,6 +1385,7 @@ const Model = () => {
         });
       });
 
+      // Use the context setter to store the best recommendation
       setBestRecommendation(bestMatch);
 
       if (!bestMatch) {
@@ -1405,7 +1408,8 @@ const Model = () => {
     careerDataLoaded,
     userInput,
     careerData,
-    model
+    model,
+    setBestRecommendation
   ]);
 
   //-------------------------------------------------------------------
@@ -1422,7 +1426,7 @@ const Model = () => {
     if (progress === 100 && matchingComplete) {
       // Show the 100% progress bar for 2 seconds
       const timer = setTimeout(() => {
-        setShowResults(true); 
+        setShowResults(true);
       }, 2000);
 
       return () => clearTimeout(timer);

@@ -175,118 +175,119 @@ import CertificationsPage from "./Pages/CertificationsPage"; // Certifications P
 import PrivateRoute from "./Pages/PrivateRoute"; // PrivateRoute for protected routes
 import { AuthProvider } from "./Pages/AuthProvider"; // AuthProvider for user context
 import Profile from "./Pages/Profile"; // Profile Page
-
+import { RecommendationProvider } from './context/RecommendationContext';
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <Routes>
-          {/* Public Landing Page */}
-          <Route
-            path="/"
-            element={
-              <div className="landing-page">
-                <nav className="navbar">
-                  <div className="logo">Project S</div>
-                  <ul className="nav-links">
-                    <li>
-                      <Link to="/login">Login</Link>
-                    </li>
-                    <li>
-                      <Link to="/register">Register</Link>
-                    </li>
-                  </ul>
-                </nav>
-                <main className="main-section">
-                  <div className="content">
-                    <h1>Welcome.</h1>
-                    <p>
-                      Explore Project S: crafted to bring intuitive and seamless
-                      experiences. Let Yash and Iwyn guide you through this journey.
-                    </p>
-                    <div className="buttons">
-                      <Link to="/register">
-                        <button className="get-started-btn">Get Started</button>
-                      </Link>
+      <RecommendationProvider>
+        <Router>
+          <Routes>
+            {/* Public Landing Page */}
+            <Route
+              path="/"
+              element={
+                <div className="landing-page">
+                  <nav className="navbar">
+                    <div className="logo">Project S</div>
+                    <ul className="nav-links">
+                      <li>
+                        <Link to="/login">Login</Link>
+                      </li>
+                      <li>
+                        <Link to="/register">Register</Link>
+                      </li>
+                    </ul>
+                  </nav>
+                  <main className="main-section">
+                    <div className="content">
+                      <h1>Welcome.</h1>
+                      <p>
+                        Explore Project S: crafted to bring intuitive and seamless
+                        experiences. Let Yash and Iwyn guide you through this journey.
+                      </p>
+                      <div className="buttons">
+                        <Link to="/register">
+                          <button className="get-started-btn">Get Started</button>
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                </main>
-              </div>
-            }
-          />
+                  </main>
+                </div>
+              }
+            />
 
-          {/* Public Pages */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+            {/* Public Pages */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
-          {/* Protected Routes - Require Login */}
-          <Route
-            path="/dashboard"
-            element={
-              <PrivateRoute>
-                <Dashboard />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/chatbot"
-            element={
-              <PrivateRoute>
-                <ChatBot />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/Profile"
-            element={
-              <PrivateRoute>
-                <Profile />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/skills"
-            element={
-              <PrivateRoute>
-                <SkillsPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/topics"
-            element={
-              <PrivateRoute>
-                <TopicsPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/certifications"
-            element={
-              <PrivateRoute>
-                <CertificationsPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/Model"
-            element={
-              <PrivateRoute>
-                <Model />
-           </PrivateRoute>
-           }
-          />
-
-          <Route
-            path="/guideline"
-            element={
-              <PrivateRoute>
-                <Guideline />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-      </Router>
+            {/* Protected Routes - Require Login */}
+            <Route
+              path="/dashboard"
+              element={
+                <PrivateRoute>
+                  <Dashboard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/chatbot"
+              element={
+                <PrivateRoute>
+                  <ChatBot />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/Profile"
+              element={
+                <PrivateRoute>
+                  <Profile />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/skills"
+              element={
+                <PrivateRoute>
+                  <SkillsPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/topics"
+              element={
+                <PrivateRoute>
+                  <TopicsPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/certifications"
+              element={
+                <PrivateRoute>
+                  <CertificationsPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/Model"
+              element={
+                <PrivateRoute>
+                  <Model />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/guideline"
+              element={
+                <PrivateRoute>
+                  <Guideline />
+                </PrivateRoute>
+              }
+            />
+          </Routes>
+        </Router>
+      </RecommendationProvider>
     </AuthProvider>
   );
 }
