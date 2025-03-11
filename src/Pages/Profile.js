@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, db } from "../firebase-config"; // Adjust path if needed
+import { auth, db } from "../firebase-config";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import Logo from "./Logo.png"; // Import your logo
 
@@ -13,20 +13,34 @@ const avatarOptions = [
   "https://images.app.goo.gl/At8jSrwGfpjNLWQq9",
 ];
 
+// Example color palette for a dark/navy theme
+const colors = {
+  backgroundTop: "#0e153a",      // top of gradient
+  backgroundBottom: "#161d4f",  // bottom of gradient
+  cardBg: "#1f2a53",            // card background
+  textColor: "#ffffff",         // main text color
+  buttonPrimary: "#a95df0",     // for the main call-to-action
+  buttonHover: "#8f4de0",       // hover color for main button
+  buttonSecondary: "#252f53",   // secondary button color
+  accent: "#00bcd4",            // accent color if needed
+};
+
+const commonShadow = "0 4px 12px rgba(0, 0, 0, 0.2)";
+
 const styles = {
   container: {
     minHeight: "100vh",
     display: "flex",
-    // Dark blue gradient background
-    background: "linear-gradient(135deg, #141E30, #243B55)",
+    // Dark navy gradient background
+    background: `linear-gradient(to bottom right, ${colors.backgroundTop}, ${colors.backgroundBottom})`,
+    color: colors.textColor,
     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
   },
   sidebar: {
     width: "16rem",
-    backgroundColor: "#fff",
-    borderRight: "1px solid #e2e8f0",
+    backgroundColor: "#131a3d", // a slightly darker navy for the sidebar
     padding: "1.5rem",
-    boxShadow: "0 2px 6px rgba(0, 0, 0, 0.05)",
+    boxShadow: commonShadow,
   },
   logoContainer: {
     display: "flex",
@@ -34,51 +48,52 @@ const styles = {
     marginBottom: "2rem",
   },
   logoImage: {
-    width: "50px",
-    height: "50px",
+    width: "45px",
+    height: "45px",
     objectFit: "cover",
     marginRight: "0.75rem",
   },
   brandName: {
     fontSize: "1.25rem",
     fontWeight: "bold",
-    color: "#1f2937",
+    color: colors.textColor,
   },
   nav: {
     marginTop: "1rem",
   },
   navItem: {
     cursor: "pointer",
-    padding: "0.5rem 1rem",
+    padding: "0.6rem 1rem",
     borderRadius: "0.375rem",
     marginBottom: "0.5rem",
-    color: "#374151",
-    transition: "background-color 0.2s",
+    color: colors.textColor,
+    transition: "all 0.3s",
   },
   navItemActive: {
-    backgroundColor: "#e5e7eb",
+    backgroundColor: "#252f53",
+    transform: "scale(1.05)",
   },
   main: {
     flex: 1,
     padding: "2rem",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   card: {
-    position: "relative",
     width: "100%",
-    height: "100%",
-    minHeight: "calc(100vh - 4rem)", // fill vertical space
-    backgroundColor: "rgba(255, 255, 255, 0.9)", // semi-transparent white
-    boxShadow: "0 8px 16px rgba(0, 0, 0, 0.15)",
+    maxWidth: "800px",
+    backgroundColor: colors.cardBg,
+    boxShadow: commonShadow,
     borderRadius: "1rem",
     padding: "2rem",
-    overflow: "auto",
   },
   cardTitle: {
     fontSize: "2rem",
     fontWeight: "bold",
     marginBottom: "1.5rem",
-    color: "#2D3748",
     textAlign: "center",
+    color: colors.textColor,
   },
   avatarContainer: {
     display: "flex",
@@ -91,12 +106,13 @@ const styles = {
     borderRadius: "50%",
     objectFit: "cover",
     display: "block",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+    boxShadow: commonShadow,
+    transition: "transform 0.3s",
   },
   profileField: {
-    marginBottom: "1.25rem", // increased spacing
+    marginBottom: "1.25rem",
     fontSize: "1rem",
-    color: "#4B5563",
+    color: colors.textColor,
   },
   label: {
     fontWeight: "bold",
@@ -113,7 +129,7 @@ const styles = {
     borderRadius: "0.375rem",
     padding: "0.5rem",
     width: "100%",
-    color: "#000",
+    color: "#000", // black text inside the input
   },
   buttonRow: {
     marginTop: "1.5rem",
@@ -122,36 +138,28 @@ const styles = {
     gridColumn: "1 / -1", // span both columns
     justifyContent: "center",
   },
-  buttonEdit: {
-    backgroundColor: "#f87171", // fun coral color
+  buttonPrimary: {
+    backgroundColor: colors.buttonPrimary,
     color: "#fff",
     padding: "0.6rem 1.2rem",
     borderRadius: "0.375rem",
     border: "none",
     cursor: "pointer",
-    transition: "all 0.2s ease-in-out",
-  },
-  button: {
-    backgroundColor: "#34d399", // green color
-    color: "#fff",
-    padding: "0.6rem 1.2rem",
-    borderRadius: "0.375rem",
-    border: "none",
-    cursor: "pointer",
-    transition: "all 0.2s ease-in-out",
+    transition: "all 0.2s",
+    boxShadow: commonShadow,
   },
   buttonSecondary: {
-    backgroundColor: "#e5e7eb",
-    color: "#374151",
+    backgroundColor: colors.buttonSecondary,
+    color: "#fff",
     padding: "0.6rem 1.2rem",
     borderRadius: "0.375rem",
     border: "none",
     cursor: "pointer",
-    transition: "all 0.2s ease-in-out",
+    transition: "all 0.2s",
+    boxShadow: commonShadow,
   },
-  // New styles for avatar options
   avatarOptionsContainer: {
-    gridColumn: "1 / -1", // span both columns
+    gridColumn: "1 / -1",
     marginTop: "1rem",
     display: "flex",
     flexWrap: "wrap",
@@ -163,8 +171,8 @@ const styles = {
     height: "80px",
     borderRadius: "50%",
     cursor: "pointer",
-    boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
-    transition: "transform 0.2s ease",
+    boxShadow: commonShadow,
+    transition: "transform 0.2s",
   },
 };
 
@@ -179,7 +187,7 @@ const ProfileSidebar = () => {
     email: "",
     occupation: "",
     location: "",
-    avatarUrl: "", // store the selected avatar here
+    avatarUrl: "",
   });
 
   useEffect(() => {
@@ -262,9 +270,25 @@ const ProfileSidebar = () => {
 
   // Button hover effect
   const handleMouseEnter = (e) => {
+    if (e.currentTarget === null) return;
     e.currentTarget.style.transform = "scale(1.05)";
+    if (e.currentTarget.style.backgroundColor === colors.buttonPrimary) {
+      e.currentTarget.style.backgroundColor = colors.buttonHover;
+    }
   };
   const handleMouseLeave = (e) => {
+    if (e.currentTarget === null) return;
+    e.currentTarget.style.transform = "scale(1)";
+    if (e.currentTarget.style.backgroundColor === colors.buttonHover) {
+      e.currentTarget.style.backgroundColor = colors.buttonPrimary;
+    }
+  };
+
+  // Avatar hover effect
+  const handleAvatarMouseEnter = (e) => {
+    e.currentTarget.style.transform = "scale(1.08)";
+  };
+  const handleAvatarMouseLeave = (e) => {
     e.currentTarget.style.transform = "scale(1)";
   };
 
@@ -305,6 +329,8 @@ const ProfileSidebar = () => {
               src={currentAvatar}
               alt="User Avatar"
               style={styles.avatar}
+              onMouseEnter={handleAvatarMouseEnter}
+              onMouseLeave={handleAvatarMouseLeave}
             />
           </div>
 
@@ -335,7 +361,7 @@ const ProfileSidebar = () => {
               </div>
               <div style={styles.buttonRow}>
                 <button
-                  style={styles.buttonEdit}
+                  style={styles.buttonPrimary}
                   onClick={handleEditClick}
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
@@ -414,7 +440,7 @@ const ProfileSidebar = () => {
                       ...styles.avatarOption,
                       border:
                         profile.avatarUrl === avatarSrc
-                          ? "3px solid #34d399"
+                          ? `3px solid ${colors.buttonPrimary}`
                           : "3px solid transparent",
                     }}
                     onClick={() => handleAvatarSelect(avatarSrc)}
@@ -431,7 +457,7 @@ const ProfileSidebar = () => {
               <div style={styles.buttonRow}>
                 <button
                   type="submit"
-                  style={styles.button}
+                  style={styles.buttonPrimary}
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
                 >

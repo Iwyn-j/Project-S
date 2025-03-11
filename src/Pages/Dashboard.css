@@ -1,213 +1,329 @@
-/* Overall Dashboard Page */
-.dashboard-page {
-  /* Reverted to a gradient background */
-  background: linear-gradient(to right, #f8fbfd, #ffffff);
-  min-height: 100vh;
-  display: flex;
+/**************************************************************
+ * (Optional) Color Variables - merge or remove if defined globally
+ **************************************************************/
+ :root {
+  --color-primary: #bb86fc;
+  --color-primary-variant: #3700b3;
+  --color-secondary: #03dac6;
+  --color-error: #cf6679;
+
+  --color-bg-start: #0b0e13;
+  --color-bg-end: #1a2738;
+
+  --color-surface: #121212;
+
+  --color-on-primary: #ffffff;
+  --color-on-secondary: #000000;
+  --color-on-background: #ffffff;
+  --color-on-surface: #ffffff;
+  --color-on-error: #000000;
 }
 
-.dashboard-container {
+/**************************************************************
+ * Keyframe Animations
+ **************************************************************/
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/**************************************************************
+ * Dashboard Page Layout & Defaults
+ **************************************************************/
+.dashboard-page {
+  background: linear-gradient(135deg, var(--color-bg-start), var(--color-bg-end));
+  min-height: 100vh;
+  display: flex;
+  font-family: "Poppins", sans-serif;
+  color: #ffffff; /* default text color */
+}
+
+.dashboard-page .dashboard-container {
   display: flex;
   width: 100%;
 }
 
-/* Sidebar Styles */
-.sidebar {
+/**************************************************************
+ * SIDEBAR
+ **************************************************************/
+.dashboard-page .sidebar {
   width: 250px;
-  background-color: #f7f7f7; /* Subtle gray for contrast */
+  background-color: var(--color-surface);
   padding: 40px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-right: 1px solid #e0e0e0;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.6);
+
+  /* Animation: fade in from left */
+  opacity: 0;
+  animation: fadeInLeft 1s ease forwards;
+  animation-delay: 0.2s; /* Wait 0.2s before starting */
 }
 
-.logo-container {
+.dashboard-page .logo-container {
   margin-bottom: 30px;
 }
 
-.logo {
+.dashboard-page .logo {
   width: 100px;
   height: auto;
   margin-bottom: 20px;
 }
 
-.sidebar-links {
+.dashboard-page .sidebar-links {
   list-style: none;
   padding: 0;
   width: 100%;
 }
 
-.sidebar-links li {
+.dashboard-page .sidebar-links li {
   margin: 20px 0;
   text-align: center;
 }
 
-.sidebar-links a {
+.dashboard-page .sidebar-links a {
   text-decoration: none;
   font-size: 18px;
   font-weight: 600;
-  color: #333333;
-  display: block;
+  color: #ffffff;
+  transition: color 0.3s ease;
 }
 
-.sidebar-links a:hover {
-  color: #007bff; /* Subtle blue hover effect */
+.dashboard-page .sidebar-links a:hover {
+  color: var(--color-secondary);
 }
 
-.signout-button {
-  background-color: #fff;
-  border: 1px solid #333333;
+/* Sign Out button */
+.dashboard-page .signout-button {
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid #ffffff;
   border-radius: 8px;
   padding: 10px 20px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.signout-button:hover {
-  background-color: #e0e0e0;
+.dashboard-page .signout-button:hover {
+  background-color: #ffffff;
+  color: var(--color-surface);
 }
 
-/* Main Content */
-.main-content {
+/**************************************************************
+ * MAIN CONTENT
+ **************************************************************/
+.dashboard-page .main-content {
   flex: 1;
   padding: 60px;
+
+  /* Animation: fade in from below */
+  opacity: 0;
+  animation: fadeInUp 1s ease forwards;
+  animation-delay: 0.4s; /* Wait 0.4s before starting */
 }
 
 /* Welcome Header */
-.welcome-header {
+.dashboard-page .welcome-header {
   text-align: center;
   margin-bottom: 60px;
 }
 
-.welcome-title {
-  font-size: 28px; /* Slightly smaller for better readability */
+.dashboard-page .welcome-title {
+  font-size: 2rem;
   font-weight: bold;
-  color: #333333;
   margin-bottom: 15px;
 }
 
-.welcome-subtitle {
-  font-size: 20px;
-  color: #666666;
+.dashboard-page .welcome-subtitle {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.7);
   margin-bottom: 40px;
 }
 
-/* Start Now Button */
-.start-now {
+/* "Start Now" button */
+.dashboard-page .start-now {
   margin-top: 20px;
 }
 
-.start-now-button {
-  background-color: #007bff;
-  color: #fff;
+.dashboard-page .start-now-button {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
   border: none;
   border-radius: 8px;
   padding: 12px 20px;
   font-size: 18px;
   font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.start-now-button:hover {
-  background-color: #0056b3;
+.dashboard-page .start-now-button:hover {
+  background-color: var(--color-primary-variant);
+  transform: scale(1.03);
 }
 
-/* Dashboard Cards */
-.dashboard-cards {
+/**************************************************************
+ * DASHBOARD CARDS
+ **************************************************************/
+.dashboard-page .dashboard-cards {
   display: flex;
-  justify-content: center; /* Center the cards horizontally */
+  justify-content: center;
   gap: 30px;
-  margin-bottom: 40px; /* Add space before the FAQ section */
+  margin-bottom: 40px;
+  flex-wrap: wrap;
 }
 
-.card {
-  /* Reverted to white background for cards */
-  background-color: #fff;
+.dashboard-page .card {
+  background-color: #1e1e24;
   border-radius: 10px;
   padding: 40px 30px;
-  width: 30%;
+  width: 300px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: #ffffff !important;
+
+  /* Staggered fade-in from below */
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease forwards;
 }
 
-.card h3 {
-  font-size: 22px;
-  color: #333333;
+/* 
+  Stagger each card with increasing delay. 
+  Adjust the times if you want them slower/faster.
+*/
+.dashboard-page .card:nth-child(1) {
+  animation-delay: 0.6s;
+}
+.dashboard-page .card:nth-child(2) {
+  animation-delay: 0.8s;
+}
+.dashboard-page .card:nth-child(3) {
+  animation-delay: 1s;
+}
+
+.dashboard-page .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+}
+
+/* Force all child text to be white */
+.dashboard-page .card * {
+  color: #ffffff !important;
+}
+
+.dashboard-page .card h3 {
+  font-size: 1.2rem;
   margin-bottom: 15px;
 }
 
-.card p {
-  font-size: 16px;
-  color: #666666;
+.dashboard-page .card p {
+  font-size: 1rem;
   margin-bottom: 20px;
+  line-height: 1.5;
 }
 
-.card-button {
-  background-color: #007bff;
-  color: #fff;
+/* Card button */
+.dashboard-page .card-button {
+  background-color: var(--color-primary);
   border: none;
   border-radius: 8px;
   padding: 10px 16px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  color: #ffffff !important;
 }
 
-.card-button:hover {
-  background-color: #0056b3;
+.dashboard-page .card-button:hover {
+  background-color: var(--color-primary-variant);
+  transform: scale(1.05);
 }
 
-/* FAQ Section */
-.faq-section {
-  margin-top: 60px;         /* Space above the FAQ */
-  background-color: #e0f3ff;  /* Light blue block for FAQ */
+/**************************************************************
+ * FAQ SECTION
+ **************************************************************/
+.dashboard-page .faq-section {
+  margin-top: 60px;
+  background-color: #232e40; 
   padding: 30px;
   border-radius: 10px;
+  color: #ffffff;
+  /* fade in from below with a delay */
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease forwards;
+  animation-delay: 1.2s;
 }
 
-.faq-section h2 {
+.dashboard-page .faq-section h2 {
   text-align: center;
-  font-size: 24px;
-  color: #333;
+  font-size: 1.5rem;
   margin-bottom: 20px;
 }
 
-.faq-item {
+.dashboard-page .faq-item {
   margin-bottom: 20px;
 }
 
-.faq-item h4 {
-  font-size: 18px;
+.dashboard-page .faq-item h4 {
+  font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 10px;
-  color: #333;
 }
 
-.faq-item p {
-  font-size: 16px;
-  color: #555;
+.dashboard-page .faq-item p {
+  font-size: 1rem;
   line-height: 1.5;
   margin: 0;
+  color: rgba(255, 255, 255, 0.8);
 }
 
-/* Responsive Design */
+/**************************************************************
+ * RESPONSIVE DESIGN
+ **************************************************************/
 @media (max-width: 768px) {
-  .dashboard-cards {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .card {
-    width: 100%;
-  }
-
-  .sidebar {
+  .dashboard-page .sidebar {
     width: 200px;
   }
 
-  .start-now-button {
-    width: 100%;
+  .dashboard-page .welcome-title {
+    font-size: 1.8rem;
+  }
+
+  .dashboard-page .welcome-subtitle {
+    font-size: 1rem;
+  }
+
+  .dashboard-page .dashboard-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .dashboard-page .card {
+    width: 90%;
+    max-width: 400px;
   }
 }

@@ -184,37 +184,70 @@ function App() {
           <Routes>
             {/* Public Landing Page */}
             <Route
-              path="/"
-              element={
-                <div className="landing-page">
-                  <nav className="navbar">
-                    <div className="logo">Project S</div>
-                    <ul className="nav-links">
-                      <li>
-                        <Link to="/login">Login</Link>
-                      </li>
-                      <li>
-                        <Link to="/register">Register</Link>
-                      </li>
-                    </ul>
-                  </nav>
-                  <main className="main-section">
-                    <div className="content">
-                      <h1>Welcome.</h1>
-                      <p>
-                        Explore Project S: crafted to bring intuitive and seamless
-                        experiences. Let Yash and Iwyn guide you through this journey.
-                      </p>
-                      <div className="buttons">
-                        <Link to="/register">
-                          <button className="get-started-btn">Get Started</button>
-                        </Link>
+            path="/"
+            element={
+              <div className="landing-page">
+                {/* Navigation Bar */}
+                <nav className="navbar">
+                  <div className="logo">Project S</div>
+                  <ul className="nav-links">
+                    <li>
+                      <Link to="/login">Login</Link>
+                    </li>
+                    <li>
+                      <Link to="/register">Register</Link>
+                    </li>
+                  </ul>
+                </nav>
+
+                <main className="main-section">
+                  <div className="intro-container">
+                    <h1>Welcome to Project S</h1>
+                    <p className="intro-description">
+                      Project S is your personalized platform for career
+                      guidance, skill development, and goal tracking. Experience
+                      curated recommendations, interactive learning paths, and
+                      real-time support to help you thrive in your professional
+                      journey.
+                    </p>
+
+                    <div className="features-grid">
+                      <div className="feature-card">
+                        <h3>Curated Paths</h3>
+                        <p>
+                          Discover tailored learning tracks based on your goals
+                          and industry trends.
+                        </p>
+                      </div>
+
+                      <div className="feature-card">
+                        <h3>Real-time ChatBot</h3>
+                        <p>
+                          Get instant help and career tips from our built-in AI
+                          assistant anytime.
+                        </p>
+                      </div>
+
+                      <div className="feature-card">
+                        <h3>Certifications</h3>
+                        <p>
+                          Explore free and paid certification pathways to elevate
+                          your credentials.
+                        </p>
                       </div>
                     </div>
-                  </main>
-                </div>
-              }
-            />
+
+                    <div className="buttons">
+                      <Link to="/register">
+                        <button className="get-started-btn">Get Started</button>
+                      </Link>
+                    </div>
+                  </div>
+                </main>
+              </div>
+            }
+          />
+
 
             {/* Public Pages */}
             <Route path="/login" element={<Login />} />
