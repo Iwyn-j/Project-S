@@ -732,10 +732,13 @@ const Dashboard = () => {
                 <Link to="/certifications">Certifications</Link>
               </li>
               <li>
+                <Link to="/skills">Skills</Link>
+              </li>
+              <li>
                 <Link to="/profile">👤 Profile</Link>
               </li>
               <li>
-                <Link to="/skills">Skills</Link>
+                <Link to="/bookmarkspage">Saved</Link>
               </li>
               <li>
                 <button onClick={handleSignOut} className="signout-button">

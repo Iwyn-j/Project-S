@@ -1,41 +1,100 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { RecommendationContext } from '../context/RecommendationContext';
+
+// --- Firebase imports (adjust path to your config) ---
+import { auth, db, rtdb } from '../firebase-config';
+
+import {
+  doc,
+  setDoc,
+  deleteDoc,
+  getDoc,
+  collection,
+  getDocs
+} from 'firebase/firestore';
 
 const SkillsPage = () => {
   const { bestRecommendation } = useContext(RecommendationContext);
 
-  // Local state to keep track of bookmarked skills
+  // Local state for the skills array from bestRecommendation
+  const [skillsArray, setSkillsArray] = useState([]);
+  // Local state for bookmarked skills (loaded from Firebase)
   const [bookmarkedSkills, setBookmarkedSkills] = useState([]);
 
-  if (!bestRecommendation) {
-    return <p>No recommendation available yet.</p>;
-  }
+  // Current user (assuming user is signed in). Adjust if you get user from context.
+  const user = auth.currentUser;
 
-  // Convert bestRecommendation.Skills into an array
-  let skillsArray = [];
-  if (Array.isArray(bestRecommendation.Skills)) {
-    skillsArray = bestRecommendation.Skills;
-  } else if (typeof bestRecommendation.Skills === 'string') {
-    skillsArray = bestRecommendation.Skills
-      .split(',')
-      .map((skill) => skill.trim());
-  }
+  // On component mount, parse bestRecommendation.Skills into an array
+  useEffect(() => {
+    if (!bestRecommendation) return;
 
-  // Toggle bookmark for a specific skill
-  const toggleBookmark = (skill) => {
-    setBookmarkedSkills((prev) => {
-      if (prev.includes(skill)) {
-        return prev.filter((item) => item !== skill);
-      } else {
-        return [...prev, skill];
+    if (Array.isArray(bestRecommendation.Skills)) {
+      setSkillsArray(bestRecommendation.Skills);
+    } else if (typeof bestRecommendation.Skills === 'string') {
+      const splitSkills = bestRecommendation.Skills
+        .split(',')
+        .map((skill) => skill.trim());
+      setSkillsArray(splitSkills);
+    }
+  }, [bestRecommendation]);
+
+  // On component mount (or when user changes), load the user's bookmarked skills from Firestore
+  useEffect(() => {
+    const fetchBookmarkedSkills = async () => {
+      if (!user) return;
+
+      try {
+        const skillsCollectionRef = collection(db, 'users', user.uid, 'bookmarks', 'skills');
+        const querySnapshot = await getDocs(skillsCollectionRef);
+
+        const skillList = [];
+        querySnapshot.forEach((docSnap) => {
+          // docSnap.data() might look like { name: 'Java' }
+          const data = docSnap.data();
+          if (data.name) {
+            skillList.push(data.name);
+          }
+        });
+
+        setBookmarkedSkills(skillList);
+      } catch (error) {
+        console.error('Error fetching bookmarked skills:', error);
       }
-    });
+    };
+
+    fetchBookmarkedSkills();
+  }, [user]);
+
+  // Toggle bookmark for a specific skill in Firestore
+  const toggleBookmark = async (skill) => {
+    if (!user) {
+      alert('You must be logged in to bookmark.');
+      return;
+    }
+
+    try {
+      const skillDocRef = doc(db, 'users', user.uid, 'bookmarks', 'skills', skill);
+      // Check if this skill is already bookmarked
+      const docSnap = await getDoc(skillDocRef);
+
+      if (docSnap.exists()) {
+        // If exists, remove bookmark
+        await deleteDoc(skillDocRef);
+        setBookmarkedSkills((prev) => prev.filter((item) => item !== skill));
+      } else {
+        // If not exists, add bookmark
+        await setDoc(skillDocRef, { name: skill });
+        setBookmarkedSkills((prev) => [...prev, skill]);
+      }
+    } catch (error) {
+      console.error('Error toggling bookmark:', error);
+    }
   };
 
   // Check if a skill is bookmarked
   const isBookmarked = (skill) => bookmarkedSkills.includes(skill);
 
-  // Styles
+  // --- Inline styles ---
   const containerStyle = {
     background: 'linear-gradient(to bottom right, #F3F4F6, #E5E7EB)',
     minHeight: '100vh',
@@ -103,6 +162,7 @@ const SkillsPage = () => {
     e.currentTarget.style.transform = 'scale(1)';
   };
 
+  // --- JSX ---
   return (
     <div style={containerStyle}>
       <h1 style={headingStyle}>Skills</h1>

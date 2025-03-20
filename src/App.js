@@ -172,6 +172,7 @@ import SkillsPage from "./Pages/SkillsPage"; // Skills Page
 import TopicsPage from "./Pages/TopicsPage"; // Topics Page
 import Model from "./Pages/Model"; // Topics Page
 import CertificationsPage from "./Pages/CertificationsPage"; // Certifications Page
+import BookmarksPage from "./Pages/BookmarksPage";  // Bookmarks Page
 import PrivateRoute from "./Pages/PrivateRoute"; // PrivateRoute for protected routes
 import { AuthProvider } from "./Pages/AuthProvider"; // AuthProvider for user context
 import Profile from "./Pages/Profile"; // Profile Page
@@ -315,6 +316,14 @@ function App() {
               element={
                 <PrivateRoute>
                   <Guideline />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/BookmarksPage"
+              element={
+                <PrivateRoute>
+                  <BookmarksPage />
                 </PrivateRoute>
               }
             />
