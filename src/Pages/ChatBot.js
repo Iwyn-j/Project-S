@@ -283,7 +283,7 @@ const ChatBot = () => {
         { sender: "bot", text: "Thanks! Redirecting you to the dashboard..." },
       ]);
       setTimeout(() => {
-        navigate("/dashboard");
+        navigate("/model");
       }, 1500);
     } catch (error) {
       console.error("Error saving responses:", error.message);
