@@ -1,186 +1,36 @@
+/**
+ * This code is a simplified version of the Profile page.
+ * You can expand it by adding more fields (e.g., phone number, DOB),
+ * form validation (e.g., required fields, regex checks),
+ * and error handling (e.g., displaying messages if Firestore updates fail).
+ */
+
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import Logo from "./Logo.png"; // Import your logo
+import { signOut } from "firebase/auth";
+import Logo from "./Logo.png"; // Your logo
 
 // Sample avatar options (replace with your own URLs)
 const avatarOptions = [
   "https://via.placeholder.com/120?text=Avatar1",
   "https://via.placeholder.com/120?text=Avatar2",
   "https://via.placeholder.com/120?text=Avatar3",
-  "https://images.app.goo.gl/SJCe5Tc6Rn1sQgLaA",
-  "https://images.app.goo.gl/At8jSrwGfpjNLWQq9",
 ];
 
-// Example color palette for a dark/navy theme
-const colors = {
-  backgroundTop: "#0e153a",      // top of gradient
-  backgroundBottom: "#161d4f",  // bottom of gradient
-  cardBg: "#1f2a53",            // card background
-  textColor: "#ffffff",         // main text color
-  buttonPrimary: "#a95df0",     // for the main call-to-action
-  buttonHover: "#8f4de0",       // hover color for main button
-  buttonSecondary: "#252f53",   // secondary button color
-  accent: "#00bcd4",            // accent color if needed
-};
+// For brand consistency, we’ll reuse some color constants from the Dashboard style
+const primaryColor = "#4285f4";
+const textColor = "#202124";
+const cardShadow = "0 2px 4px rgba(0,0,0,0.1)";
 
-const commonShadow = "0 4px 12px rgba(0, 0, 0, 0.2)";
-
-const styles = {
-  container: {
-    minHeight: "100vh",
-    display: "flex",
-    // Dark navy gradient background
-    background: `linear-gradient(to bottom right, ${colors.backgroundTop}, ${colors.backgroundBottom})`,
-    color: colors.textColor,
-    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-  },
-  sidebar: {
-    width: "16rem",
-    backgroundColor: "#131a3d", // a slightly darker navy for the sidebar
-    padding: "1.5rem",
-    boxShadow: commonShadow,
-  },
-  logoContainer: {
-    display: "flex",
-    alignItems: "center",
-    marginBottom: "2rem",
-  },
-  logoImage: {
-    width: "45px",
-    height: "45px",
-    objectFit: "cover",
-    marginRight: "0.75rem",
-  },
-  brandName: {
-    fontSize: "1.25rem",
-    fontWeight: "bold",
-    color: colors.textColor,
-  },
-  nav: {
-    marginTop: "1rem",
-  },
-  navItem: {
-    cursor: "pointer",
-    padding: "0.6rem 1rem",
-    borderRadius: "0.375rem",
-    marginBottom: "0.5rem",
-    color: colors.textColor,
-    transition: "all 0.3s",
-  },
-  navItemActive: {
-    backgroundColor: "#252f53",
-    transform: "scale(1.05)",
-  },
-  main: {
-    flex: 1,
-    padding: "2rem",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  card: {
-    width: "100%",
-    maxWidth: "800px",
-    backgroundColor: colors.cardBg,
-    boxShadow: commonShadow,
-    borderRadius: "1rem",
-    padding: "2rem",
-  },
-  cardTitle: {
-    fontSize: "2rem",
-    fontWeight: "bold",
-    marginBottom: "1.5rem",
-    textAlign: "center",
-    color: colors.textColor,
-  },
-  avatarContainer: {
-    display: "flex",
-    justifyContent: "center",
-    marginBottom: "2rem",
-  },
-  avatar: {
-    width: "120px",
-    height: "120px",
-    borderRadius: "50%",
-    objectFit: "cover",
-    display: "block",
-    boxShadow: commonShadow,
-    transition: "transform 0.3s",
-  },
-  profileField: {
-    marginBottom: "1.25rem",
-    fontSize: "1rem",
-    color: colors.textColor,
-  },
-  label: {
-    fontWeight: "bold",
-    marginRight: "0.25rem",
-  },
-  formGrid: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: "1rem",
-    marginTop: "1rem",
-  },
-  input: {
-    border: "1px solid #d1d5db",
-    borderRadius: "0.375rem",
-    padding: "0.5rem",
-    width: "100%",
-    color: "#000", // black text inside the input
-  },
-  buttonRow: {
-    marginTop: "1.5rem",
-    display: "flex",
-    gap: "0.5rem",
-    gridColumn: "1 / -1", // span both columns
-    justifyContent: "center",
-  },
-  buttonPrimary: {
-    backgroundColor: colors.buttonPrimary,
-    color: "#fff",
-    padding: "0.6rem 1.2rem",
-    borderRadius: "0.375rem",
-    border: "none",
-    cursor: "pointer",
-    transition: "all 0.2s",
-    boxShadow: commonShadow,
-  },
-  buttonSecondary: {
-    backgroundColor: colors.buttonSecondary,
-    color: "#fff",
-    padding: "0.6rem 1.2rem",
-    borderRadius: "0.375rem",
-    border: "none",
-    cursor: "pointer",
-    transition: "all 0.2s",
-    boxShadow: commonShadow,
-  },
-  avatarOptionsContainer: {
-    gridColumn: "1 / -1",
-    marginTop: "1rem",
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "1rem",
-    justifyContent: "center",
-  },
-  avatarOption: {
-    width: "80px",
-    height: "80px",
-    borderRadius: "50%",
-    cursor: "pointer",
-    boxShadow: commonShadow,
-    transition: "transform 0.2s",
-  },
-};
-
-const ProfileSidebar = () => {
+const Profile = () => {
   const navigate = useNavigate();
-  const [selectedTab, setSelectedTab] = useState("profile");
-  const [editMode, setEditMode] = useState(false);
 
+  // For fade-in animation
+  const [fadeIn, setFadeIn] = useState(false);
+
+  // Local state for profile data
   const [profile, setProfile] = useState({
     firstName: "",
     lastName: "",
@@ -190,7 +40,12 @@ const ProfileSidebar = () => {
     avatarUrl: "",
   });
 
+  const [editMode, setEditMode] = useState(false);
+
   useEffect(() => {
+    setFadeIn(true); // Trigger fade-in on mount
+
+    // Fetch user data from Firestore
     const fetchUserData = async () => {
       if (!auth.currentUser) {
         navigate("/login");
@@ -220,6 +75,13 @@ const ProfileSidebar = () => {
     fetchUserData();
   }, [navigate]);
 
+  // Sign out logic (same as Dashboard)
+  const handleSignOut = async () => {
+    await signOut(auth);
+    navigate("/login");
+  };
+
+  // Toggle edit mode
   const handleEditClick = () => {
     setEditMode(true);
   };
@@ -228,7 +90,7 @@ const ProfileSidebar = () => {
     setEditMode(false);
   };
 
-  // Save changes (including avatarUrl) to Firestore
+  // Save to Firestore
   const handleSave = async (event) => {
     event.preventDefault();
     if (!auth.currentUser) return;
@@ -253,6 +115,7 @@ const ProfileSidebar = () => {
     }
   };
 
+  // Handle changes in form inputs
   const handleChange = (event) => {
     setProfile({
       ...profile,
@@ -268,104 +131,103 @@ const ProfileSidebar = () => {
     }));
   };
 
-  // Button hover effect
-  const handleMouseEnter = (e) => {
-    if (e.currentTarget === null) return;
-    e.currentTarget.style.transform = "scale(1.05)";
-    if (e.currentTarget.style.backgroundColor === colors.buttonPrimary) {
-      e.currentTarget.style.backgroundColor = colors.buttonHover;
-    }
-  };
-  const handleMouseLeave = (e) => {
-    if (e.currentTarget === null) return;
-    e.currentTarget.style.transform = "scale(1)";
-    if (e.currentTarget.style.backgroundColor === colors.buttonHover) {
-      e.currentTarget.style.backgroundColor = colors.buttonPrimary;
-    }
-  };
-
-  // Avatar hover effect
-  const handleAvatarMouseEnter = (e) => {
-    e.currentTarget.style.transform = "scale(1.08)";
-  };
-  const handleAvatarMouseLeave = (e) => {
-    e.currentTarget.style.transform = "scale(1)";
-  };
-
-  // If no avatar selected, use placeholder
+  // Fallback avatar
   const currentAvatar = profile.avatarUrl
     ? profile.avatarUrl
     : "https://via.placeholder.com/120?text=Avatar";
 
   return (
-    <div style={styles.container}>
-      {/* Sidebar */}
-      <aside style={styles.sidebar}>
-        <div style={styles.logoContainer}>
-          <img src={Logo} alt="Project S Logo" style={styles.logoImage} />
-          <div style={styles.brandName}>Project S</div>
+    <div
+      style={{
+        ...styles.pageContainer,
+        opacity: fadeIn ? 1 : 0,
+        transform: fadeIn ? "translateY(0)" : "translateY(10px)",
+        transition: "opacity 0.7s ease-in-out, transform 0.7s ease-in-out",
+      }}
+    >
+      {/* TOP NAVIGATION BAR */}
+      <header style={styles.navbar}>
+        <div style={styles.navLeft}>
+          <img src={Logo} alt="Project S Logo" style={styles.logo} />
+          <ul style={styles.navLinks}>
+            <li>
+              <Link to="/dashboard" style={styles.navLink}>
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/Model" style={styles.navLink}>
+                Model
+              </Link>
+            </li>
+            <li>
+              <Link to="/topics" style={styles.navLink}>
+                Topics
+              </Link>
+            </li>
+            <li>
+              <Link to="/certifications" style={styles.navLink}>
+                Certifications
+              </Link>
+            </li>
+            <li>
+              <Link to="/skills" style={styles.navLink}>
+                Skills
+              </Link>
+            </li>
+            <li>
+              <Link to="/bookmarkspage" style={styles.navLink}>
+                Saved
+              </Link>
+            </li>
+          </ul>
         </div>
-        <nav style={styles.nav}>
-          <div
-            style={{
-              ...styles.navItem,
-              ...(selectedTab === "profile" ? styles.navItemActive : {}),
-            }}
-            onClick={() => setSelectedTab("profile")}
-          >
+        <div style={styles.navRight}>
+          <Link to="/profile" style={styles.navLinkRight}>
             Profile
-          </div>
-        </nav>
-      </aside>
+          </Link>
+          <button onClick={handleSignOut} style={styles.signOutButton}>
+            Sign Out
+          </button>
+        </div>
+      </header>
 
-      {/* Main Content */}
+      {/* MAIN CONTENT */}
       <main style={styles.main}>
-        <div style={styles.card}>
-          <h2 style={styles.cardTitle}>Profile</h2>
+        <div style={styles.profileCard}>
+          <h2 style={styles.profileCardTitle}>Profile</h2>
 
-          {/* Avatar Display */}
+          {/* AVATAR */}
           <div style={styles.avatarContainer}>
             <img
               src={currentAvatar}
               alt="User Avatar"
               style={styles.avatar}
-              onMouseEnter={handleAvatarMouseEnter}
-              onMouseLeave={handleAvatarMouseLeave}
             />
           </div>
 
           {/* READ-ONLY VIEW */}
           {!editMode ? (
             <>
-              <div style={{ marginBottom: "1.5rem" }}>
+              <div style={styles.profileDetails}>
                 <p style={styles.profileField}>
-                  <span style={styles.label}>First Name:</span>
-                  {profile.firstName || "Not set"}
+                  <strong>First Name:</strong> {profile.firstName || "Not set"}
                 </p>
                 <p style={styles.profileField}>
-                  <span style={styles.label}>Last Name:</span>
-                  {profile.lastName || "Not set"}
+                  <strong>Last Name:</strong> {profile.lastName || "Not set"}
                 </p>
                 <p style={styles.profileField}>
-                  <span style={styles.label}>Email:</span>
-                  {profile.email || "Not set"}
+                  <strong>Email:</strong> {profile.email || "Not set"}
                 </p>
                 <p style={styles.profileField}>
-                  <span style={styles.label}>Occupation:</span>
-                  {profile.occupation || "Not set"}
+                  <strong>Occupation:</strong> {profile.occupation || "Not set"}
                 </p>
                 <p style={styles.profileField}>
-                  <span style={styles.label}>Location:</span>
-                  {profile.location || "Not set"}
+                  <strong>Location:</strong> {profile.location || "Not set"}
                 </p>
               </div>
               <div style={styles.buttonRow}>
-                <button
-                  style={styles.buttonPrimary}
-                  onClick={handleEditClick}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                >
+                <button style={styles.buttonPrimary} onClick={handleEditClick}>
                   Edit Profile
                 </button>
               </div>
@@ -373,7 +235,6 @@ const ProfileSidebar = () => {
           ) : (
             // EDIT MODE
             <form onSubmit={handleSave} style={styles.formGrid}>
-              {/* FIRST NAME */}
               <div>
                 <label style={styles.label}>First Name</label>
                 <input
@@ -384,7 +245,6 @@ const ProfileSidebar = () => {
                   style={styles.input}
                 />
               </div>
-              {/* LAST NAME */}
               <div>
                 <label style={styles.label}>Last Name</label>
                 <input
@@ -395,7 +255,6 @@ const ProfileSidebar = () => {
                   style={styles.input}
                 />
               </div>
-              {/* EMAIL */}
               <div>
                 <label style={styles.label}>Email</label>
                 <input
@@ -406,7 +265,6 @@ const ProfileSidebar = () => {
                   style={styles.input}
                 />
               </div>
-              {/* OCCUPATION */}
               <div>
                 <label style={styles.label}>Occupation</label>
                 <input
@@ -417,7 +275,6 @@ const ProfileSidebar = () => {
                   style={styles.input}
                 />
               </div>
-              {/* LOCATION */}
               <div>
                 <label style={styles.label}>Location</label>
                 <input
@@ -429,7 +286,7 @@ const ProfileSidebar = () => {
                 />
               </div>
 
-              {/* AVATAR SELECTION */}
+              {/* AVATAR OPTIONS */}
               <div style={styles.avatarOptionsContainer}>
                 {avatarOptions.map((avatarSrc, idx) => (
                   <img
@@ -440,35 +297,22 @@ const ProfileSidebar = () => {
                       ...styles.avatarOption,
                       border:
                         profile.avatarUrl === avatarSrc
-                          ? `3px solid ${colors.buttonPrimary}`
+                          ? `3px solid ${primaryColor}`
                           : "3px solid transparent",
                     }}
                     onClick={() => handleAvatarSelect(avatarSrc)}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = "scale(1.1)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = "scale(1)";
-                    }}
                   />
                 ))}
               </div>
 
               <div style={styles.buttonRow}>
-                <button
-                  type="submit"
-                  style={styles.buttonPrimary}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                >
+                <button type="submit" style={styles.buttonPrimary}>
                   Save
                 </button>
                 <button
                   type="button"
                   style={styles.buttonSecondary}
                   onClick={handleCancel}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
                 >
                   Cancel
                 </button>
@@ -481,4 +325,172 @@ const ProfileSidebar = () => {
   );
 };
 
-export default ProfileSidebar;
+export default Profile;
+
+const styles = {
+  pageContainer: {
+    fontFamily: "Arial, sans-serif",
+    color: textColor,
+    backgroundColor: "#fff",
+    minHeight: "100vh",
+    margin: 0,
+    padding: 0,
+  },
+  /* NAVIGATION BAR */
+  navbar: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: "1rem 2rem",
+    borderBottom: "1px solid #ddd",
+    backgroundColor: "#fff",
+  },
+  navLeft: {
+    display: "flex",
+    alignItems: "center",
+    gap: "2rem",
+  },
+  logo: {
+    height: "50px",
+    width: "auto",
+  },
+  navLinks: {
+    listStyle: "none",
+    display: "flex",
+    gap: "1.5rem",
+    margin: 0,
+    padding: 0,
+  },
+  navLink: {
+    textDecoration: "none",
+    color: textColor,
+    fontWeight: "bold",
+    fontSize: "1rem",
+  },
+  navRight: {
+    display: "flex",
+    alignItems: "center",
+    gap: "1.5rem",
+  },
+  navLinkRight: {
+    textDecoration: "none",
+    color: textColor,
+    fontWeight: "bold",
+    fontSize: "1rem",
+  },
+  signOutButton: {
+    backgroundColor: primaryColor,
+    color: "#fff",
+    padding: "0.5rem 1rem",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+    fontSize: "1rem",
+  },
+  /* MAIN */
+  main: {
+    maxWidth: "1200px",
+    margin: "0 auto",
+    padding: "2rem",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  profileCard: {
+    backgroundColor: "#fff",
+    boxShadow: cardShadow,
+    borderRadius: "8px",
+    padding: "2rem",
+    width: "100%",
+    maxWidth: "700px",
+    textAlign: "center",
+  },
+  profileCardTitle: {
+    fontSize: "2rem",
+    fontWeight: "bold",
+    marginBottom: "1.5rem",
+    color: textColor,
+  },
+  avatarContainer: {
+    marginBottom: "2rem",
+    display: "flex",
+    justifyContent: "center",
+  },
+  avatar: {
+    width: "120px",
+    height: "120px",
+    borderRadius: "50%",
+    objectFit: "cover",
+    boxShadow: cardShadow,
+  },
+  profileDetails: {
+    marginBottom: "1.5rem",
+    textAlign: "left",
+  },
+  profileField: {
+    marginBottom: "1rem",
+    fontSize: "1rem",
+    color: textColor,
+  },
+  buttonRow: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "1rem",
+  },
+  buttonPrimary: {
+    backgroundColor: primaryColor,
+    color: "#fff",
+    padding: "0.6rem 1.2rem",
+    borderRadius: "4px",
+    border: "none",
+    cursor: "pointer",
+    fontSize: "1rem",
+  },
+  buttonSecondary: {
+    backgroundColor: "#ccc",
+    color: "#000",
+    padding: "0.6rem 1.2rem",
+    borderRadius: "4px",
+    border: "none",
+    cursor: "pointer",
+    fontSize: "1rem",
+  },
+  formGrid: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: "1rem",
+    marginTop: "1rem",
+    textAlign: "left",
+  },
+  label: {
+    display: "block",
+    fontWeight: "bold",
+    marginBottom: "0.25rem",
+    color: textColor,
+  },
+  input: {
+    border: "1px solid #d1d5db",
+    borderRadius: "4px",
+    padding: "0.5rem",
+    width: "100%",
+    fontSize: "1rem",
+    color: "#000",
+  },
+  avatarOptionsContainer: {
+    gridColumn: "1 / -1",
+    marginTop: "1rem",
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "1rem",
+    justifyContent: "center",
+  },
+  avatarOption: {
+    width: "80px",
+    height: "80px",
+    borderRadius: "50%",
+    cursor: "pointer",
+    boxShadow: cardShadow,
+    transition: "transform 0.2s",
+    objectFit: "cover",
+  },
+};
