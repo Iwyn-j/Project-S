@@ -1,363 +1,525 @@
-// import React, { useContext, useState } from 'react';
-// import { RecommendationContext } from '../context/RecommendationContext';
-
-// const TopicsPage = () => {
-//   const { bestRecommendation } = useContext(RecommendationContext);
-
-//   // Local state for bookmarked topics
-//   const [bookmarkedTopics, setBookmarkedTopics] = useState([]);
-
-//   if (!bestRecommendation) {
-//     return <p>No recommendation available yet.</p>;
-//   }
-
-//   // Convert the "Topics To Learn" field into an array
-//   let topicsArray = [];
-//   if (Array.isArray(bestRecommendation["Topics To Learn"])) {
-//     topicsArray = bestRecommendation["Topics To Learn"];
-//   } else if (typeof bestRecommendation["Topics To Learn"] === 'string') {
-//     topicsArray = bestRecommendation["Topics To Learn"]
-//       .split(',')
-//       .map((topic) => topic.trim());
-//   }
-
-//   // Toggle bookmark for a specific topic
-//   const toggleBookmark = (topic) => {
-//     setBookmarkedTopics((prev) => {
-//       if (prev.includes(topic)) {
-//         return prev.filter((item) => item !== topic);
-//       } else {
-//         return [...prev, topic];
-//       }
-//     });
-//   };
-
-//   // Check if a topic is bookmarked
-//   const isBookmarked = (topic) => bookmarkedTopics.includes(topic);
-
-//   // Styles
-//   const containerStyle = {
-//     background: 'linear-gradient(to bottom right, #F3F4F6, #E5E7EB)',
-//     minHeight: '100vh',
-//     padding: '3rem',
-//     fontFamily: 'sans-serif'
-//   };
-
-//   const headingStyle = {
-//     textAlign: 'center',
-//     color: '#1F2937',
-//     fontSize: '2.5rem',
-//     marginBottom: '1.5rem',
-//     fontWeight: 'bold'
-//   };
-
-//   const subHeadingStyle = {
-//     textAlign: 'center',
-//     color: '#6B7280',
-//     fontSize: '1.1rem',
-//     marginBottom: '2rem',
-//     maxWidth: '600px',
-//     margin: '0 auto'
-//   };
-
-//   const gridStyle = {
-//     display: 'grid',
-//     gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-//     gap: '2rem',
-//     maxWidth: '1200px',
-//     margin: '0 auto'
-//   };
-
-//   const cardStyle = {
-//     position: 'relative',
-//     backgroundColor: '#FFFFFF',
-//     borderRadius: '10px',
-//     boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-//     padding: '2rem',
-//     transition: 'transform 0.3s ease',
-//     textAlign: 'center'
-//   };
-
-//   const cardTitleStyle = {
-//     fontSize: '1.2rem',
-//     fontWeight: '600',
-//     marginBottom: '0.5rem',
-//     color: '#374151'
-//   };
-
-//   const bookmarkStyle = {
-//     position: 'absolute',
-//     top: '1rem',
-//     right: '1rem',
-//     fontSize: '1.5rem',
-//     cursor: 'pointer',
-//     transition: 'color 0.2s ease'
-//   };
-
-//   // Hover effect
-//   const handleMouseEnter = (e) => {
-//     e.currentTarget.style.transform = 'scale(1.02)';
-//   };
-
-//   const handleMouseLeave = (e) => {
-//     e.currentTarget.style.transform = 'scale(1)';
-//   };
-
-//   return (
-//     <div style={containerStyle}>
-//       <h1 style={headingStyle}>Topics to Learn</h1>
-//       <p style={subHeadingStyle}>
-//         Explore these recommended topics to further develop your skills and achieve your career goals.
-//       </p>
-
-//       {topicsArray.length > 0 ? (
-//         <div style={gridStyle}>
-//           {topicsArray.map((topic, idx) => (
-//             <div
-//               key={idx}
-//               style={cardStyle}
-//               onMouseEnter={handleMouseEnter}
-//               onMouseLeave={handleMouseLeave}
-//             >
-//               {/* Bookmark Icon (★) */}
-//               <span
-//                 style={{
-//                   ...bookmarkStyle,
-//                   color: isBookmarked(topic) ? '#f59e0b' : '#9CA3AF'
-//                 }}
-//                 onClick={() => toggleBookmark(topic)}
-//               >
-//                 ★
-//               </span>
-
-//               <div style={cardTitleStyle}>{topic}</div>
-//             </div>
-//           ))}
-//         </div>
-//       ) : (
-//         <p style={{ textAlign: 'center' }}>No topics found.</p>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default TopicsPage;
-
-
-import React, { useContext, useState, useEffect } from 'react';
-import { RecommendationContext } from '../context/RecommendationContext';
-
-// Firebase imports
-import { auth, db } from '../firebase-config';
+import React, { useContext, useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { RecommendationContext } from "../context/RecommendationContext";
+import { auth, db } from "../firebase-config";
 import {
   collection,
   doc,
   onSnapshot,
   getDoc,
   setDoc,
-  deleteDoc
-} from 'firebase/firestore';
+  deleteDoc,
+} from "firebase/firestore";
+import Logo from "./Logo.png"; // Path to your logo
 
 const TopicsPage = () => {
+  const navigate = useNavigate();
   const { bestRecommendation } = useContext(RecommendationContext);
   const [topicsArray, setTopicsArray] = useState([]);
   const [bookmarkedTopics, setBookmarkedTopics] = useState([]);
   const user = auth.currentUser;
 
-  // 1) Parse bestRecommendation["Topics To Learn"] into an array
+  // Parse bestRecommendation["Topics To Learn"] into an array on mount
   useEffect(() => {
     if (!bestRecommendation) return;
-
     let tempTopics = [];
-    if (Array.isArray(bestRecommendation['Topics To Learn'])) {
-      tempTopics = bestRecommendation['Topics To Learn'];
-    } else if (typeof bestRecommendation['Topics To Learn'] === 'string') {
-      tempTopics = bestRecommendation['Topics To Learn']
-        .split(',')
+    if (Array.isArray(bestRecommendation["Topics To Learn"])) {
+      tempTopics = bestRecommendation["Topics To Learn"];
+    } else if (typeof bestRecommendation["Topics To Learn"] === "string") {
+      tempTopics = bestRecommendation["Topics To Learn"]
+        .split(",")
         .map((topic) => topic.trim());
     }
     setTopicsArray(tempTopics);
   }, [bestRecommendation]);
 
-  // 2) Listen for real-time updates to the user's "topic" bookmarks
+  // Listen for real-time updates to the user's "topic" bookmarks
   useEffect(() => {
     if (!user) {
-      console.log('No user found; must be logged in to load topic bookmarks.');
+      console.log("No user found; must be logged in to load topic bookmarks.");
       return;
     }
-
-    console.log('Current user (TopicsPage):', user.uid);
-
     const unsub = onSnapshot(
-      collection(db, 'users', user.uid, 'bookmarks'),
+      collection(db, "users", user.uid, "bookmarks"),
       (snapshot) => {
-        console.log('onSnapshot (Topics) triggered. Docs count:', snapshot.size);
-
         const topicBookmarks = [];
         snapshot.forEach((docSnap) => {
           const data = docSnap.data();
-          // Only include items where type === 'topic'
-          if (data.type === 'topic') {
+          if (data.type === "topic") {
             topicBookmarks.push(data.value);
           }
         });
-
-        console.log('Topics in Firestore =>', topicBookmarks);
         setBookmarkedTopics(topicBookmarks);
       },
       (error) => {
-        console.error('Error in onSnapshot (Topics) =>', error);
+        console.error("Error in onSnapshot (Topics):", error);
       }
     );
-
-    // Cleanup listener on unmount
     return () => unsub();
   }, [user]);
 
-  // 3) Check if a topic is bookmarked
+  // Helper: Check if a topic is bookmarked
   const isBookmarked = (topic) => bookmarkedTopics.includes(topic);
 
-  // 4) Toggle bookmark (add/remove in Firestore)
+  // Toggle bookmark (add/remove in Firestore)
   const toggleBookmark = async (topic) => {
     if (!user) {
-      alert('You must be logged in to bookmark.');
+      alert("You must be logged in to bookmark.");
       return;
     }
-
-    console.log('Toggling bookmark for topic:', topic);
-
-    // Document path
     const docRef = doc(
       db,
-      'users',
+      "users",
       user.uid,
-      'bookmarks',
+      "bookmarks",
       `topic_${encodeURIComponent(topic)}`
     );
-
     try {
       const docSnap = await getDoc(docRef);
-      console.log('Doc exists?', docSnap.exists());
-
       if (docSnap.exists()) {
-        // Remove bookmark
         await deleteDoc(docRef);
-        console.log('Bookmark removed from Firestore');
       } else {
-        // Add bookmark
         await setDoc(docRef, {
-          type: 'topic',
-          value: topic
+          type: "topic",
+          value: topic,
         });
-        console.log('Bookmark added to Firestore');
       }
     } catch (error) {
-      console.error('Error toggling bookmark (Topics):', error);
+      console.error("Error toggling bookmark (Topics):", error);
     }
   };
 
-  // 5) Inline styles
+  // Sign out logic (same as Dashboard)
+  const handleSignOut = async () => {
+    await auth.signOut();
+    navigate("/login");
+  };
+
+  // ---------- Group topics into Free and Paid ----------
+  const freeTopics = [];
+  const paidTopics = [];
+  topicsArray.forEach((topic) => {
+    if (typeof topic === "object" && topic.cost) {
+      if (topic.cost.toLowerCase().includes("free")) {
+        freeTopics.push(topic);
+      } else {
+        paidTopics.push(topic);
+      }
+    } else {
+      freeTopics.push(topic);
+    }
+  });
+
+  // ---------- Inline Styles (matching Dashboard) ----------
   const containerStyle = {
-    background: 'linear-gradient(to bottom right, #F3F4F6, #E5E7EB)',
-    minHeight: '100vh',
-    padding: '3rem',
-    fontFamily: 'sans-serif'
+    fontFamily: "Arial, sans-serif",
+    backgroundColor: "#fff",
+    minHeight: "100vh",
+    margin: 0,
+    padding: 0,
+  };
+
+  // TOP NAVIGATION BAR
+  const navbarStyle = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: "1rem 2rem",
+    borderBottom: "1px solid #ddd",
+    backgroundColor: "#fff",
+  };
+
+  const navLeftStyle = {
+    display: "flex",
+    alignItems: "center",
+    gap: "2rem",
+  };
+
+  const logoStyle = {
+    height: "50px",
+    width: "auto",
+  };
+
+  const navLinksStyle = {
+    listStyle: "none",
+    display: "flex",
+    gap: "1.5rem",
+    margin: 0,
+    padding: 0,
+  };
+
+  const navLinkStyle = {
+    textDecoration: "none",
+    color: "#202124",
+    fontWeight: "bold",
+    fontSize: "1rem",
+  };
+
+  const navRightStyle = {
+    display: "flex",
+    alignItems: "center",
+    gap: "1.5rem",
+  };
+
+  const navLinkRightStyle = {
+    textDecoration: "none",
+    color: "#202124",
+    fontWeight: "bold",
+    fontSize: "1rem",
+  };
+
+  const signOutButtonStyle = {
+    backgroundColor: "#4285f4",
+    color: "#fff",
+    padding: "0.5rem 1rem",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+    fontSize: "1rem",
+  };
+
+  // MAIN CONTENT
+  const mainStyle = {
+    maxWidth: "1200px",
+    margin: "0 auto",
+    padding: "2rem",
   };
 
   const headingStyle = {
-    textAlign: 'center',
-    color: '#1F2937',
-    fontSize: '2.5rem',
-    marginBottom: '1.5rem',
-    fontWeight: 'bold'
+    textAlign: "center",
+    color: "#1F2937",
+    fontSize: "2.5rem",
+    marginBottom: "1.5rem",
+    fontWeight: "bold",
   };
 
   const subHeadingStyle = {
-    textAlign: 'center',
-    color: '#6B7280',
-    fontSize: '1.1rem',
-    marginBottom: '2rem',
-    maxWidth: '600px',
-    margin: '0 auto'
+    textAlign: "center",
+    color: "#6B7280",
+    fontSize: "1.1rem",
+    marginBottom: "2rem",
+    maxWidth: "600px",
+    margin: "0 auto",
+    lineHeight: "1.6",
   };
 
+  // A smaller, left-aligned heading for the sections
+  const subSectionHeadingStyle = {
+    textAlign: "left",
+    fontSize: "1.3rem", // smaller than main heading
+    fontWeight: "600",
+    marginBottom: "1rem",
+    color: "#1F2937",
+    marginTop: "2rem",
+  };
+
+  // Grid for cards
   const gridStyle = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-    gap: '2rem',
-    maxWidth: '1200px',
-    margin: '0 auto'
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+    gap: "2rem",
+    maxWidth: "1200px",
+    margin: "0 auto",
   };
 
+  // Card styling with extra fields for future data
   const cardStyle = {
-    position: 'relative',
-    backgroundColor: '#FFFFFF',
-    borderRadius: '10px',
-    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-    padding: '2rem',
-    transition: 'transform 0.3s ease',
-    textAlign: 'center'
+    position: "relative",
+    backgroundColor: "#FFFFFF",
+    borderRadius: "10px",
+    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+    padding: "1.5rem",
+    transition: "transform 0.3s ease",
+    textAlign: "left",
   };
 
-  const cardTitleStyle = {
-    fontSize: '1.2rem',
-    fontWeight: '600',
-    marginBottom: '0.5rem',
-    color: '#374151'
+  const titleStyle = {
+    fontSize: "1.3rem",
+    fontWeight: "bold",
+    marginBottom: "0.5rem",
+    color: "#374151",
+    wordWrap: "break-word",
   };
 
+  const descriptionStyle = {
+    fontSize: "0.95rem",
+    color: "#5f6368",
+    marginBottom: "1rem",
+    lineHeight: "1.4",
+  };
+
+  const ifYouLikeStyle = {
+    fontSize: "0.9rem",
+    color: "#202124",
+    marginBottom: "0.5rem",
+  };
+
+  const certificateTypeStyle = {
+    fontSize: "0.9rem",
+    color: "#202124",
+    marginBottom: "0.5rem",
+  };
+
+  const costStyle = {
+    fontSize: "0.9rem",
+    color: "#202124",
+    marginBottom: "1rem",
+  };
+
+  // Bookmark icon style
   const bookmarkStyle = {
-    position: 'absolute',
-    top: '1rem',
-    right: '1rem',
-    fontSize: '1.5rem',
-    cursor: 'pointer',
-    transition: 'color 0.2s ease'
+    position: "absolute",
+    top: "1rem",
+    right: "1rem",
+    fontSize: "1.5rem",
+    cursor: "pointer",
+    transition: "color 0.2s ease",
   };
 
+  // Hover effect for cards
   const handleMouseEnter = (e) => {
-    e.currentTarget.style.transform = 'scale(1.02)';
+    e.currentTarget.style.transform = "scale(1.02)";
   };
 
   const handleMouseLeave = (e) => {
-    e.currentTarget.style.transform = 'scale(1)';
+    e.currentTarget.style.transform = "scale(1)";
   };
 
-  // 6) Render
   return (
     <div style={containerStyle}>
-      <h1 style={headingStyle}>Topics to Learn</h1>
-      <p style={subHeadingStyle}>
-        Explore these recommended topics to further develop your skills and achieve
-        your career goals.
-      </p>
-
-      {topicsArray.length > 0 ? (
-        <div style={gridStyle}>
-          {topicsArray.map((topic, idx) => (
-            <div
-              key={idx}
-              style={cardStyle}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              <span
-                style={{
-                  ...bookmarkStyle,
-                  color: isBookmarked(topic) ? '#f59e0b' : '#9CA3AF'
-                }}
-                onClick={() => toggleBookmark(topic)}
-              >
-                ★
-              </span>
-
-              <div style={cardTitleStyle}>{topic}</div>
-            </div>
-          ))}
+      {/* Top Navigation Bar */}
+      <header style={navbarStyle}>
+        <div style={navLeftStyle}>
+          <img src={Logo} alt="Project S Logo" style={logoStyle} />
+          <ul style={navLinksStyle}>
+            <li>
+              <Link to="/dashboard" style={navLinkStyle}>
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/Model" style={navLinkStyle}>
+                Model
+              </Link>
+            </li>
+            <li>
+              <Link to="/topics" style={navLinkStyle}>
+                Topics
+              </Link>
+            </li>
+            <li>
+              <Link to="/certifications" style={navLinkStyle}>
+                Certifications
+              </Link>
+            </li>
+            <li>
+              <Link to="/skills" style={navLinkStyle}>
+                Skills
+              </Link>
+            </li>
+            <li>
+              <Link to="/bookmarkspage" style={navLinkStyle}>
+                Saved
+              </Link>
+            </li>
+          </ul>
         </div>
-      ) : (
-        <p style={{ textAlign: 'center' }}>No topics found.</p>
-      )}
+        <div style={navRightStyle}>
+          <Link to="/profile" style={navLinkRightStyle}>
+            Profile
+          </Link>
+          <button onClick={handleSignOut} style={signOutButtonStyle}>
+            Sign Out
+          </button>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main style={mainStyle}>
+        <h1 style={headingStyle}>Topics to Learn</h1>
+        <p style={subHeadingStyle}>
+          Explore these recommended topics to further develop your skills and achieve your career goals.
+        </p>
+
+        {topicsArray.length > 0 ? (
+          <>
+            {freeTopics.length > 0 && (
+              <>
+                <h2 style={subSectionHeadingStyle}>Free Topics</h2>
+                <div style={gridStyle}>
+                  {freeTopics.map((topicObj, idx) => {
+                    let title = "";
+                    let description = "";
+                    let ifYouLike = "";
+                    let certificateType = "";
+                    let cost = "";
+                    let link = "";
+
+                    if (typeof topicObj === "string") {
+                      title = topicObj;
+                    } else if (typeof topicObj === "object") {
+                      title = topicObj.title || "";
+                      description = topicObj.description || "";
+                      ifYouLike = topicObj.ifYouLike || "";
+                      certificateType = topicObj.certificateType || "";
+                      cost = topicObj.cost || "";
+                      link = topicObj.link || "";
+                    }
+
+                    return (
+                      <div
+                        key={idx}
+                        style={cardStyle}
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                      >
+                        <span
+                          style={{
+                            ...bookmarkStyle,
+                            color: isBookmarked(title) ? "#f59e0b" : "#9CA3AF",
+                          }}
+                          onClick={() => toggleBookmark(title)}
+                        >
+                          ★
+                        </span>
+                        {title && <h2 style={titleStyle}>{title}</h2>}
+                        {description && <p style={descriptionStyle}>{description}</p>}
+                        {ifYouLike && (
+                          <p style={ifYouLikeStyle}>
+                            <strong>If you like: </strong>
+                            {ifYouLike}
+                          </p>
+                        )}
+                        {certificateType && (
+                          <p style={certificateTypeStyle}>
+                            <strong>Certificate type: </strong>
+                            {certificateType}
+                          </p>
+                        )}
+                        {cost && (
+                          <p style={costStyle}>
+                            <strong>Cost: </strong>
+                            {cost}
+                          </p>
+                        )}
+                        {link && (
+                          <a
+                            href={link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              ...titleStyle,
+                              fontSize: "1rem",
+                              color: "#2563eb",
+                              textDecoration: "none",
+                              marginBottom: "1rem",
+                              display: "block",
+                            }}
+                          >
+                            Learn more
+                          </a>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+
+            {paidTopics.length > 0 && (
+              <>
+                <h2
+                  style={{
+                    ...subSectionHeadingStyle,
+                    marginTop: "2.5rem",
+                  }}
+                >
+                  Paid Topics
+                </h2>
+                <div style={gridStyle}>
+                  {paidTopics.map((topicObj, idx) => {
+                    let title = "";
+                    let description = "";
+                    let ifYouLike = "";
+                    let certificateType = "";
+                    let cost = "";
+                    let link = "";
+
+                    if (typeof topicObj === "string") {
+                      title = topicObj;
+                    } else if (typeof topicObj === "object") {
+                      title = topicObj.title || "";
+                      description = topicObj.description || "";
+                      ifYouLike = topicObj.ifYouLike || "";
+                      certificateType = topicObj.certificateType || "";
+                      cost = topicObj.cost || "";
+                      link = topicObj.link || "";
+                    }
+
+                    return (
+                      <div
+                        key={idx}
+                        style={cardStyle}
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                      >
+                        <span
+                          style={{
+                            ...bookmarkStyle,
+                            color: isBookmarked(title) ? "#f59e0b" : "#9CA3AF",
+                          }}
+                          onClick={() => toggleBookmark(title)}
+                        >
+                          ★
+                        </span>
+                        {title && <h2 style={titleStyle}>{title}</h2>}
+                        {description && <p style={descriptionStyle}>{description}</p>}
+                        {ifYouLike && (
+                          <p style={ifYouLikeStyle}>
+                            <strong>If you like: </strong>
+                            {ifYouLike}
+                          </p>
+                        )}
+                        {certificateType && (
+                          <p style={certificateTypeStyle}>
+                            <strong>Certificate type: </strong>
+                            {certificateType}
+                          </p>
+                        )}
+                        {cost && (
+                          <p style={costStyle}>
+                            <strong>Cost: </strong>
+                            {cost}
+                          </p>
+                        )}
+                        {link && (
+                          <a
+                            href={link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              ...titleStyle,
+                              fontSize: "1rem",
+                              color: "#2563eb",
+                              textDecoration: "none",
+                              marginBottom: "1rem",
+                              display: "block",
+                            }}
+                          >
+                            Learn more
+                          </a>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+          </>
+        ) : (
+          <p style={{ textAlign: "center" }}>No topics found.</p>
+        )}
+      </main>
     </div>
   );
 };

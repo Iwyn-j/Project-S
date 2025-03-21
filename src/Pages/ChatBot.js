@@ -3,7 +3,8 @@ import styled, { keyframes } from "styled-components";
 import { FiSend } from "react-icons/fi";
 import { auth, db } from "../firebase-config";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Logo from "./Logo.png"; // Path to your logo
 
 /*
   FIELDS ARRAY:
@@ -318,17 +319,12 @@ const ChatBot = () => {
       years.push(y);
     }
     return (
-      <select
+      <input
+        list="yearsList"
         value={typeof inputValue === "string" ? inputValue : ""}
         onChange={(e) => setInputValue(e.target.value)}
-      >
-        <option value="">-- Select Year --</option>
-        {years.map((year) => (
-          <option key={year} value={year}>
-            {year}
-          </option>
-        ))}
-      </select>
+        placeholder="Select your graduation year"
+      />
     );
   };
 
@@ -409,7 +405,23 @@ const ChatBot = () => {
           />
         );
       case "yearPicker":
-        return renderYearPicker();
+        return (
+          <>
+            {renderYearPicker()}
+            <datalist id="yearsList">
+              {(() => {
+                const yearOptions = [];
+                const currentYear = new Date().getFullYear();
+                for (let y = currentYear + 5; y >= 1900; y--) {
+                  yearOptions.push(y);
+                }
+                return yearOptions.map((year) => (
+                  <option key={year} value={year} />
+                ));
+              })()}
+            </datalist>
+          </>
+        );
       case "textarea":
         return (
           <textarea
@@ -432,14 +444,61 @@ const ChatBot = () => {
 
   return (
     <PageContainer>
-      {/* Floating Shapes */}
-      <BackgroundShapes>
-        <div className="floating-shape shape-blue"></div>
-        <div className="floating-shape shape-orange"></div>
-      </BackgroundShapes>
+      {/* TOP NAV BAR */}
+      <header style={navStyles.navbar}>
+        <div style={navStyles.navLeft}>
+          <img src={Logo} alt="Project S Logo" style={navStyles.logo} />
+          <ul style={navStyles.navLinks}>
+            <li>
+              <Link to="/dashboard" style={navStyles.navLink}>
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/Model" style={navStyles.navLink}>
+                Model
+              </Link>
+            </li>
+            <li>
+              <Link to="/topics" style={navStyles.navLink}>
+                Topics
+              </Link>
+            </li>
+            <li>
+              <Link to="/certifications" style={navStyles.navLink}>
+                Certifications
+              </Link>
+            </li>
+            <li>
+              <Link to="/skills" style={navStyles.navLink}>
+                Skills
+              </Link>
+            </li>
+            <li>
+              <Link to="/bookmarkspage" style={navStyles.navLink}>
+                Saved
+              </Link>
+            </li>
+          </ul>
+        </div>
+        <div style={navStyles.navRight}>
+          <Link to="/profile" style={navStyles.navLinkRight}>
+            Profile
+          </Link>
+          <button
+            onClick={() => {
+              auth.signOut();
+              navigate("/login");
+            }}
+            style={navStyles.signOutButton}
+          >
+            Sign Out
+          </button>
+        </div>
+      </header>
 
       <ChatContainer>
-        <Header>Smart ChatBot</Header>
+        <HeaderBar>Smart ChatBot</HeaderBar>
         <MessagesContainer>
           {messages.map((msg, idx) =>
             msg.sender === "bot" ? (
@@ -450,7 +509,8 @@ const ChatBot = () => {
           )}
           {isCompleted && (
             <BotBubble>
-              Thank you for providing all the information! Redirecting to your dashboard...
+              Thank you for providing all the information! Redirecting to your
+              dashboard...
             </BotBubble>
           )}
           {/* Dummy element for auto-scroll */}
@@ -475,8 +535,101 @@ const ChatBot = () => {
 export default ChatBot;
 
 /* ---------------------------
-   Styled Components
+   Navigation Bar Styles
 --------------------------- */
+const navStyles = {
+  navbar: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: "1rem 2rem",
+    borderBottom: "1px solid #ddd",
+    backgroundColor: "#fff",
+  },
+  navLeft: {
+    display: "flex",
+    alignItems: "center",
+    gap: "2rem",
+  },
+  logo: {
+    height: "50px",
+    width: "auto",
+  },
+  navLinks: {
+    listStyle: "none",
+    display: "flex",
+    gap: "1.5rem",
+    margin: 0,
+    padding: 0,
+  },
+  navLink: {
+    textDecoration: "none",
+    color: "#202124",
+    fontWeight: "bold",
+    fontSize: "1rem",
+  },
+  navRight: {
+    display: "flex",
+    alignItems: "center",
+    gap: "1.5rem",
+  },
+  navLinkRight: {
+    textDecoration: "none",
+    color: "#202124",
+    fontWeight: "bold",
+    fontSize: "1rem",
+  },
+  signOutButton: {
+    backgroundColor: "#4285f4",
+    color: "#fff",
+    padding: "0.5rem 1rem",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+    fontSize: "1rem",
+  },
+};
+
+/* ---------------------------
+   Chatbot Layout
+--------------------------- */
+const PageContainer = styled.div`
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #fff; /* Make entire page white */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ChatContainer = styled.div`
+  background-color: #fff; /* White background for chat container */
+  width: 600px;
+  max-width: 95%;
+  height: 85vh;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+  margin-top: 2rem;
+
+  @media (max-width: 768px) {
+    width: 90%;
+    height: 80vh;
+  }
+`;
+
+const HeaderBar = styled.div`
+  text-align: center;
+  padding: 1rem;
+  background-color: #f5f5f5; /* Slightly gray top bar */
+  color: #202124;
+  font-size: 1.2rem;
+  font-weight: 600;
+`;
 
 const fadeIn = keyframes`
   from {
@@ -487,75 +640,6 @@ const fadeIn = keyframes`
     opacity: 1;
     transform: translateY(0);
   }
-`;
-
-const PageContainer = styled.div`
-  position: relative;
-  min-height: 100vh;
-  width: 100%;
-  background-color: #111;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-`;
-
-const BackgroundShapes = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  .floating-shape {
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    filter: blur(100px);
-    opacity: 0.7;
-    z-index: -1;
-    pointer-events: none;
-  }
-
-  .shape-blue {
-    background: linear-gradient(to bottom right, #00d4ff, #0066ff);
-    top: 10%;
-    left: 10%;
-  }
-
-  .shape-orange {
-    background: linear-gradient(to bottom right, #ff7b00, #ff4e00);
-    bottom: 10%;
-    right: 10%;
-  }
-`;
-
-const ChatContainer = styled.div`
-  z-index: 1;
-  background-color: #1e1e1e;
-  width: 600px;
-  max-width: 95%;
-  height: 85vh;
-  max-height: 90vh;
-  display: flex;
-  flex-direction: column;
-  border-radius: 10px;
-  overflow: hidden;
-
-  @media (max-width: 768px) {
-    width: 90%;
-    height: 80vh;
-  }
-`;
-
-const Header = styled.div`
-  text-align: center;
-  padding: 1rem;
-  background-color: #2b2b2b;
-  color: #fff;
-  font-size: 1.2rem;
-  font-weight: 600;
 `;
 
 const MessagesContainer = styled.div`
@@ -569,7 +653,7 @@ const MessagesContainer = styled.div`
 
   /* Custom scrollbar */
   scrollbar-width: thin;
-  scrollbar-color: #00d4ff transparent;
+  scrollbar-color: #4285f4 transparent;
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -577,7 +661,7 @@ const MessagesContainer = styled.div`
     background: transparent;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: #00d4ff;
+    background-color: #4285f4;
     border-radius: 3px;
   }
 `;
@@ -593,22 +677,22 @@ const Bubble = styled.div`
 
 const BotBubble = styled(Bubble)`
   align-self: flex-start;
-  background-color: #333;
-  color: #fff;
+  background-color: #f1f3f4;
+  color: #202124;
   border-top-left-radius: 0;
 `;
 
 const UserBubble = styled(Bubble)`
   align-self: flex-end;
-  background-color: #00d4ff;
-  color: #000;
+  background-color: #4285f4;
+  color: #fff;
   border-top-right-radius: 0;
 `;
 
 const InputArea = styled.div`
   display: flex;
   align-items: center;
-  background-color: #2b2b2b;
+  background-color: #f5f5f5;
   padding: 0.75rem;
   gap: 0.5rem;
 `;
@@ -625,10 +709,10 @@ const InputWrapper = styled.div`
   textarea {
     width: 100%;
     padding: 0.5rem;
-    background-color: #444;
-    border: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    color: #fff;
+    color: #202124;
     font-size: 0.95rem;
     outline: none;
     margin-bottom: 4px;
@@ -642,8 +726,8 @@ const ErrorText = styled.span`
 `;
 
 const SendButton = styled.button`
-  background-color: #00d4ff;
-  color: #000;
+  background-color: #4285f4;
+  color: #fff;
   border: none;
   border-radius: 5px;
   padding: 0.65rem;
@@ -653,7 +737,7 @@ const SendButton = styled.button`
   font-size: 1.1rem;
 
   &:hover {
-    background-color: #00b2dd;
+    background-color: #3076d2;
   }
 `;
 
@@ -666,12 +750,12 @@ const CheckboxGroup = styled.div`
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: #fff;
+    color: #202124;
     cursor: pointer;
   }
 
   input[type="checkbox"] {
-    accent-color: #00d4ff;
+    accent-color: #4285f4;
     width: 16px;
     height: 16px;
     cursor: pointer;
@@ -686,12 +770,12 @@ const RadioGroup = styled.div`
     display: flex;
     align-items: center;
     gap: 0.3rem;
-    color: #fff;
+    color: #202124;
     cursor: pointer;
   }
 
   input[type="radio"] {
-    accent-color: #00d4ff;
+    accent-color: #4285f4;
     width: 16px;
     height: 16px;
     cursor: pointer;
