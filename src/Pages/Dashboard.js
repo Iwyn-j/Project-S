@@ -171,7 +171,7 @@ const Dashboard = () => {
           <div style={styles.overviewContainer}>
             <p style={styles.overviewText}>
               Welcome to your personalized SkillPath. Below is a quick snapshot 
-              of your **recommended** topics, skills, and certifications progress:
+              of your recommended topics, skills, and certifications progress:
             </p>
 
             <button style={styles.editStatsButton} onClick={toggleEditStats}>
