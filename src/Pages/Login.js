@@ -11,6 +11,11 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate(); // Initialize useNavigate
 
+  // NEW: Back button handler to navigate to main page ("/")
+  const handleBack = () => {
+    navigate("/");
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -39,6 +44,10 @@ const Login = () => {
 
   return (
     <div className="login-container">
+      {/* Back Button on Top Left */}
+      <button type="button" className="back-button-top" onClick={handleBack}>
+        &larr; Back
+      </button>
       <div className="floating-shape shape-blue"></div>
       <div className="floating-shape shape-orange"></div>
 

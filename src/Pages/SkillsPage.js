@@ -19,16 +19,16 @@ const SkillsPage = () => {
   const [bookmarkedSkills, setBookmarkedSkills] = useState([]);
   const user = auth.currentUser;
 
-  // 1) Parse bestRecommendation.Skills into an array on mount
+  // 1) Parse bestRecommendation.Skills or bestRecommendation["Suggested Skills"] into an array on mount
   useEffect(() => {
     if (!bestRecommendation) return;
 
-    if (Array.isArray(bestRecommendation.Skills)) {
-      setSkillsArray(bestRecommendation.Skills);
-    } else if (typeof bestRecommendation.Skills === "string") {
-      const splitSkills = bestRecommendation.Skills
-        .split(",")
-        .map((skill) => skill.trim());
+    const skillsData =
+      bestRecommendation.Skills || bestRecommendation["Suggested Skills"];
+    if (Array.isArray(skillsData)) {
+      setSkillsArray(skillsData);
+    } else if (typeof skillsData === "string") {
+      const splitSkills = skillsData.split(",").map((skill) => skill.trim());
       setSkillsArray(splitSkills);
     }
   }, [bestRecommendation]);
