@@ -1,233 +1,127 @@
-/**************************************************************
- * Dark background + silhouette behind text
- **************************************************************/
-
-/* CSS Variables */
-:root {
-  --color-primary: #bb86fc;
-  --color-primary-variant: #3700b3;
-  --color-secondary: #03dac6;
-  --color-error: #cf6679;
-
-  --color-bg-start: #0b0e13; 
-  --color-bg-end: #1a2738;
-
-  --color-surface: #121212;
-
-  --color-on-primary: #000000;
-  --color-on-secondary: #000000;
-  --color-on-background: #ffffff;
-  --color-on-surface: #ffffff;
-  --color-on-error: #000000;
-}
-
-/* Keyframes for fade-in animations */
-@keyframes fadeInDown {
-  0% {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* General resets and typography */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f8f9fa;
+  color: #202124;
 }
 
 /* Landing page container */
 .landing-page {
-  position: relative;
-  background: linear-gradient(135deg, var(--color-bg-start), var(--color-bg-end));
   min-height: 100vh;
-  font-family: "Poppins", sans-serif;
-  color: var(--color-on-background);
-  overflow: hidden; /* hide any overflow from background image */
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
 }
-
-/* If you want a silhouette background, ensure studying.svg is in the correct path.
-   Adjust url(...) as needed. Then uncomment this block. */
-
-/*
-.landing-page::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url("./studying.svg") no-repeat center center;
-  background-size: contain;
-  opacity: 0.08; 
-  z-index: 0;
-}
-*/
 
 /* Navbar */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 40px;
-  flex-wrap: nowrap;
-  opacity: 0;
-  animation: fadeInDown 0.8s ease forwards;
-  animation-delay: 0.2s;
-  position: relative;
-  z-index: 10; /* keep it above any background image */
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #ddd;
+  background-color: #fff;
 }
 
 .logo {
-  font-size: 24px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  white-space: nowrap;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #202124;
 }
 
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 20px;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-links li a {
   text-decoration: none;
-  color: var(--color-on-background);
-  font-size: 16px;
-  transition: color 0.3s ease;
+  color: #202124;
+  font-weight: 500;
 }
 
 .nav-links li a:hover {
-  color: var(--color-secondary);
+  color: #4285f4;
 }
 
-/* Main section centered */
+/* Main Section */
 .main-section {
+  flex-grow: 1;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 80px);
-  padding: 40px 20px;
-  position: relative;
-  z-index: 1;
+  padding: 2rem;
 }
 
-/* Intro container */
 .intro-container {
   max-width: 800px;
-  width: 100%;
   text-align: center;
-  opacity: 0;
-  animation: fadeInUp 0.8s ease forwards;
-  animation-delay: 0.4s;
 }
 
 .intro-container h1 {
-  font-size: 3rem;
+  font-size: 2.5rem;
   margin-bottom: 1rem;
-  font-weight: 700;
-  color: var(--color-on-background);
-  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
 }
 
 .intro-description {
   font-size: 1.1rem;
-  line-height: 1.6;
-  max-width: 700px;
-  margin: 0 auto 2rem;
-  color: rgba(255, 255, 255, 0.85);
+  color: #5f6368;
+  margin-bottom: 2rem;
 }
 
-/* Features grid */
+/* Features Grid */
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
   margin-bottom: 2rem;
-  justify-items: center; /* center each card horizontally */
 }
 
 .feature-card {
-  background: var(--color-surface);
+  background: #f8f9fa;
   border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  color: var(--color-on-surface);
-
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 0.8s ease forwards;
-}
-
-.feature-card:nth-child(1) {
-  animation-delay: 0.6s;
-}
-.feature-card:nth-child(2) {
-  animation-delay: 0.8s;
-}
-.feature-card:nth-child(3) {
-  animation-delay: 1s;
-}
-
-.feature-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25);
+  padding: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .feature-card h3 {
-  font-size: 1.2rem;
-  margin-bottom: 0.8rem;
-  font-weight: 600;
+  color: #4285f4;
+  margin-bottom: 0.5rem;
 }
 
 .feature-card p {
+  color: #202124;
   font-size: 0.95rem;
-  line-height: 1.5;
 }
 
 /* Buttons */
-.buttons {
-  margin-top: 20px;
-}
-
 .get-started-btn {
-  padding: 15px 30px;
-  font-size: 18px;
-  font-weight: bold;
+  background-color: #4285f4;
+  color: #fff;
+  padding: 0.75rem 2rem;
   border: none;
-  border-radius: 30px;
-  background: var(--color-primary);
-  color: var(--color-on-primary);
+  border-radius: 5px;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 0.8s ease forwards;
-  animation-delay: 1.2s;
+  font-size: 1rem;
+  transition: background-color 0.3s;
 }
 
 .get-started-btn:hover {
-  background: var(--color-primary-variant);
-  transform: scale(1.05);
+  background-color: #357ae8;
 }
 
-/* Responsive adjustments */
+/* Responsive */
 @media (max-width: 768px) {
   .navbar {
-    padding: 15px 20px;
+    padding: 1rem;
   }
+
   .intro-container h1 {
-    font-size: 2.2rem;
+    font-size: 2rem;
   }
 }
