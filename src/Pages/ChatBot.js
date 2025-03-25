@@ -179,7 +179,7 @@ const ChatBot = () => {
     fetchUserData();
   }, [navigate]);
 
-  // 2. Greet the user and ask the FIRST question once userName is loaded (only if no messages yet)
+  // 2. Greet the user and ask the FIRST question (if no messages yet)
   useEffect(() => {
     if (userName && messages.length === 0) {
       const greetingMsg = {
@@ -202,7 +202,7 @@ const ChatBot = () => {
 
   const currentField = fields[currentFieldIndex];
 
-  // 3. Handle going to the next question or finishing
+  // 3. Handle next question or finish
   const handleNext = async () => {
     if (!currentField) return;
 
@@ -254,7 +254,7 @@ const ChatBot = () => {
     }
   };
 
-  // 4. Save final responses to Firestore (using a regular Date)
+  // 4. Save responses to Firestore
   const saveResponsesToFirebase = async (finalResponses) => {
     try {
       const user = auth.currentUser;
@@ -281,7 +281,10 @@ const ChatBot = () => {
       });
       setMessages((prev) => [
         ...prev,
-        { sender: "bot", text: "Thanks! Redirecting you to the dashboard..." },
+        {
+          sender: "bot",
+          text: "Thanks! Redirecting you to your dashboard...",
+        },
       ]);
       setTimeout(() => {
         navigate("/model");
@@ -328,7 +331,7 @@ const ChatBot = () => {
     );
   };
 
-  // 8. Render the appropriate input control for the current field, including textarea support
+  // 8. Render the appropriate input control
   const renderInput = () => {
     if (!currentField) return null;
     switch (currentField.type) {
@@ -444,7 +447,7 @@ const ChatBot = () => {
 
   return (
     <PageContainer>
-      {/* TOP NAV BAR */}
+      {/* TOP NAVIGATION BAR */}
       <header style={navStyles.navbar}>
         <div style={navStyles.navLeft}>
           <img src={Logo} alt="Project S Logo" style={navStyles.logo} />
@@ -498,7 +501,7 @@ const ChatBot = () => {
       </header>
 
       <ChatContainer>
-        <HeaderBar>Smart ChatBot</HeaderBar>
+        <HeaderBar>Project S Career Assistant</HeaderBar>
         <MessagesContainer>
           {messages.map((msg, idx) =>
             msg.sender === "bot" ? (
@@ -509,11 +512,9 @@ const ChatBot = () => {
           )}
           {isCompleted && (
             <BotBubble>
-              Thank you for providing all the information! Redirecting to your
-              dashboard...
+              Thank you for providing all the information! Redirecting to your dashboard...
             </BotBubble>
           )}
-          {/* Dummy element for auto-scroll */}
           <div ref={messagesEndRef} />
         </MessagesContainer>
         {!isCompleted && currentField && (
@@ -545,6 +546,7 @@ const navStyles = {
     padding: "1rem 2rem",
     borderBottom: "1px solid #ddd",
     backgroundColor: "#fff",
+    width: "100%",
   },
   navLeft: {
     display: "flex",
@@ -594,38 +596,28 @@ const navStyles = {
    Chatbot Layout
 --------------------------- */
 const PageContainer = styled.div`
-  position: relative;
   min-height: 100vh;
   width: 100%;
-  background-color: #fff; /* Make entire page white */
+  background-color: #fff; /* Entire page white */
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 const ChatContainer = styled.div`
-  background-color: #fff; /* White background for chat container */
-  width: 600px;
-  max-width: 95%;
-  height: 85vh;
-  max-height: 90vh;
+  width: 100%;
+  flex: 1; /* Fill remaining vertical space */
   display: flex;
   flex-direction: column;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid #ddd;
-  margin-top: 2rem;
-
-  @media (max-width: 768px) {
-    width: 90%;
-    height: 80vh;
-  }
+  background-color: #fff;
+  border-top: 1px solid #ddd;
 `;
 
 const HeaderBar = styled.div`
-  text-align: center;
+  width: 100%;
+  text-align: left;
   padding: 1rem;
-  background-color: #f5f5f5; /* Slightly gray top bar */
+  background-color: #f1f3f4; /* Light gray top bar */
   color: #202124;
   font-size: 1.2rem;
   font-weight: 600;
@@ -650,8 +642,6 @@ const MessagesContainer = styled.div`
   flex-direction: column;
   gap: 0.75rem;
   animation: ${fadeIn} 0.5s ease-out;
-
-  /* Custom scrollbar */
   scrollbar-width: thin;
   scrollbar-color: #4285f4 transparent;
   &::-webkit-scrollbar {
@@ -692,7 +682,7 @@ const UserBubble = styled(Bubble)`
 const InputArea = styled.div`
   display: flex;
   align-items: center;
-  background-color: #f5f5f5;
+  background-color: #f1f3f4;
   padding: 0.75rem;
   gap: 0.5rem;
 `;
@@ -701,7 +691,6 @@ const InputWrapper = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-
   select,
   input[type="text"],
   input[type="date"],
@@ -735,7 +724,6 @@ const SendButton = styled.button`
   display: flex;
   align-items: center;
   font-size: 1.1rem;
-
   &:hover {
     background-color: #3076d2;
   }
@@ -745,7 +733,6 @@ const CheckboxGroup = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
-
   label {
     display: flex;
     align-items: center;
@@ -753,7 +740,6 @@ const CheckboxGroup = styled.div`
     color: #202124;
     cursor: pointer;
   }
-
   input[type="checkbox"] {
     accent-color: #4285f4;
     width: 16px;
@@ -765,7 +751,6 @@ const CheckboxGroup = styled.div`
 const RadioGroup = styled.div`
   display: flex;
   gap: 10px;
-
   label {
     display: flex;
     align-items: center;
@@ -773,7 +758,6 @@ const RadioGroup = styled.div`
     color: #202124;
     cursor: pointer;
   }
-
   input[type="radio"] {
     accent-color: #4285f4;
     width: 16px;
