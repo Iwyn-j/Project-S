@@ -139,7 +139,7 @@
   /* Animation: fade in from below */
   opacity: 0;
   animation: fadeInUp 1s ease forwards;
-  animation-delay: 0.4s; /* Wait 0.4s before starting */
+  animation-delay: 0.s; /* Wait 0.4s before starting */
 }
 
 /* Welcome Header */
