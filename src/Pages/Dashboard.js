@@ -36,12 +36,11 @@ const Dashboard = () => {
           if (docSnap.exists()) {
             const data = docSnap.data();
             setProfileData({
-              // Attempt both "fullName" and "name" fields, fallback to "User"
-              name: data.fullName || data.name || "User",
-              occupation: data.occupation || "N/A",
-              location: data.location || "N/A",
+                name: data.firstName || "User",
+                occupation: data.occupation || "N/A",
+                location: data.location || "N/A",
             });
-          }
+        }
         } catch (error) {
           console.error("Error fetching profile data:", error);
         }
@@ -126,9 +125,9 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState(TABS[0]);
 
   // Stats: now editable in the Overview tab
-  const [completedTopics, setCompletedTopics] = useState(3);
-  const [completedSkills, setCompletedSkills] = useState(2);
-  const [completedCerts, setCompletedCerts] = useState(1);
+  const [completedTopics, setCompletedTopics] = useState(0);
+  const [completedSkills, setCompletedSkills] = useState(0);
+  const [completedCerts, setCompletedCerts] = useState(0);
 
   const [isEditingStats, setIsEditingStats] = useState(false);
 
