@@ -43,7 +43,7 @@ const Register = () => {
       // Save additional user data to Firestore
       const user = userCredential.user;
       const userDetails = {
-        uid: user.uid, // Unique user ID
+        uid: user.uid,
         firstName: formData.firstName,
         lastName: formData.lastName,
         username: formData.username,
@@ -64,8 +64,17 @@ const Register = () => {
     }
   };
 
+  // NEW: Back button handler to navigate to the main page ("/")
+  const handleBack = () => {
+    navigate("/");
+  };
+
   return (
     <div className="register-container">
+      {/* Back Button at the Top Right */}
+      <button type="button" className="back-button-top" onClick={handleBack}>
+        &larr; Back
+      </button>
       <div className="floating-shape shape-blue"></div>
       <div className="floating-shape shape-orange"></div>
 
@@ -75,22 +84,46 @@ const Register = () => {
         <div className="form-row">
           <div className="form-group">
             <label htmlFor="firstName">First Name</label>
-            <input type="text" id="firstName" placeholder="First Name" onChange={handleChange} required />
+            <input
+              type="text"
+              id="firstName"
+              placeholder="First Name"
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="form-group">
             <label htmlFor="lastName">Last Name</label>
-            <input type="text" id="lastName" placeholder="Last Name" onChange={handleChange} required />
+            <input
+              type="text"
+              id="lastName"
+              placeholder="Last Name"
+              onChange={handleChange}
+              required
+            />
           </div>
         </div>
 
         <div className="form-group">
           <label htmlFor="username">Username</label>
-          <input type="text" id="username" placeholder="Username" onChange={handleChange} required />
+          <input
+            type="text"
+            id="username"
+            placeholder="Username"
+            onChange={handleChange}
+            required
+          />
         </div>
 
         <div className="form-group">
           <label htmlFor="email">Email Address</label>
-          <input type="email" id="email" placeholder="Email Address" onChange={handleChange} required />
+          <input
+            type="email"
+            id="email"
+            placeholder="Email Address"
+            onChange={handleChange}
+            required
+          />
         </div>
 
         <div className="form-group">
@@ -105,7 +138,13 @@ const Register = () => {
 
         <div className="form-group">
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" placeholder="Password" onChange={handleChange} required />
+          <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            onChange={handleChange}
+            required
+          />
         </div>
 
         <div className="form-group">
